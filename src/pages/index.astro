@@ -1,4 +1,7 @@
 ---
+import '../styles/global.css';
+
+const pageTitle = "ホームページ";
 ---
 
 <html lang="en">
@@ -8,14 +11,14 @@
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>{pageTitle}</title>
 	</head>
 	<body>
 <a href="/">ホーム</a>
 <a href="/about/">概要</a>
 <a href="/blog/">ブログ</a>
 
-<h1>セイキンホーム</h1>
+<h1>{pageTitle}</h1>
 <h2>... そして私の新しいAstroサイトについて！</h2>
 	</body>
 </html>
