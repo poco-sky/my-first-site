@@ -1,0 +1,17 @@
+---
+import Social from './Social.astro';
+---
+<style>
+/* 各SNSに飛ぶボタンの配置のみ担当 */
+  footer {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+</style>
+
+<footer>
+  <Social platform="twitter" username="astrodotbuild" />
+  <Social platform="github" username="withastro" />
+  <Social platform="youtube" username="astrodotbuild" />
+</footer>

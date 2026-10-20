@@ -1,0 +1,14 @@
+---
+const { platform, username } = Astro.props;
+---
+<a href={`https://www.${platform}.com/${username}`}>{platform}</a>
+
+<style>
+/* 各SNSに飛ぶリンクのデザインそのものを担当 */
+  a {
+    padding: 0.5rem 2rem;
+    color: white;
+    background-color: #4c1d95;
+    text-decoration: none;
+  }
+</style>
