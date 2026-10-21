@@ -1,0 +1,6 @@
+---
+//これを変更したら全ブログに変更を加えられる
+
+const { title, url } = Astro.props
+---
+<li><a href={url}>{title}</a></li>
