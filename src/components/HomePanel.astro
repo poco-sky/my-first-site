@@ -1,0 +1,28 @@
+---
+const { panel, first = false } = Astro.props;
+---
+
+<a
+    class:list={["photo-panel", panel.kind]}
+    href={panel.href}
+    aria-label={panel.linkLabel}
+>
+    <img
+        src={panel.image}
+        alt={panel.alt}
+        loading={first ? "eager" : "lazy"}
+        fetchpriority={first ? "high" : "auto"}
+        width={panel.kind === "fashion" || panel.kind === "music" ? 1024 : 1536}
+        height={panel.kind === "fashion" || panel.kind === "music"
+            ? 1536
+            : 1024}
+    />
+    <div class="panel-copy">
+        <p class="eyebrow">{panel.eyebrow}</p><h2>{panel.title}</h2><p
+            class="panel-description"
+        >
+            {panel.description}
+        </p><span class="panel-link"
+            >{panel.linkLabel}<span aria-hidden="true">↗</span></span>
+    </div>
+</a>

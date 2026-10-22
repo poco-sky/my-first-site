@@ -1,9 +1,7 @@
 ---
-//画面上のナビゲーションを定義
+const current = Astro.url.pathname;
+const links = [['/', 'Home'], ['/about/', 'Profile'], ['/fashion/', 'Fashion'], ['/music/', 'Music'], ['/blog/', 'Blog']];
 ---
-<div id="main-menu" class="nav-links">
-  <a href="/">ホーム</a>
-  <a href="/about/">概要</a>
-  <a href="/blog/">ブログ</a>
-  <a href="/tags/">タグ</a>
-</div>
+<nav aria-label="メインナビゲーション" id="main-menu">
+ {links.map(([href, label]) => <a href={href} aria-current={(href === '/' ? current === '/' : current.startsWith(href) || (href === '/blog/' && /^\/(posts|tags)\//.test(current))) ? 'page' : undefined}>{label}</a>)}
+</nav>

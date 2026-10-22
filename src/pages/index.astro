@@ -1,9 +1,16 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Greeting from '../components/Greeting';
-const pageTitle = "ホームページ";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomePanel from "../components/HomePanel.astro";
+import { homePanels } from "../data/home";
 ---
-<BaseLayout pageTitle={pageTitle}>
-  <h2>私の素晴らしいブログのサブタイトル</h2>
-  <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari","セイ"]} />
+
+<BaseLayout pageTitle="マイサイト" home>
+    <h1 class="sr-only">マイサイト — 好きなものを、好きなように。</h1>
+    <div class="home-gallery">
+        <HomePanel panel={homePanels[0]} first /><div class="paired-panels">
+            <HomePanel panel={homePanels[1]} /><HomePanel
+                panel={homePanels[2]}
+            />
+        </div><HomePanel panel={homePanels[3]} />
+    </div>
 </BaseLayout>

@@ -1,27 +1,9 @@
 ---
-//全ページの共有部分を書いてる
-//各ページでこの共有部分を使うならそのページの独自パートをBaseLayoutで囲う
-
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-const { pageTitle } = Astro.props;
+const { pageTitle = 'マイサイト', description = '好きなものを、好きなように。ファッション、音楽、そして日々の記録。', home = false } = Astro.props;
 ---
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <Header />
-    <h1>{pageTitle}</h1>
-    <slot />
-    <Footer />
-    <script>
-      import "../scripts/menu.js";
-    </script>
-  </body>
-</html>
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content={description} /><meta name="theme-color" content="#ffffff" /><link rel="icon" type="image/svg+xml" href="/favicon.svg" /><title>{pageTitle === 'マイサイト' ? pageTitle : `${pageTitle} | マイサイト`}</title></head>
+<body id="top"><a class="skip-link" href="#main">本文へ移動</a><Header /><main id="main" class:list={{'page-content': !home}}>{!home && <h1>{pageTitle}</h1>}<slot /></main><Footer /></body></html>
