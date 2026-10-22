@@ -5,7 +5,7 @@ description: "上手くいかないことがありましたが、コミュニテ
 image:
     url: "https://docs.astro.build/assets/rays.webp"
     alt: "虹色の光線が描かれた暗い背景に浮かぶAstroのロゴ。"
-pubDate: 2022-07-15
+pubDate: 2027-07-15
 tags: ["astro", "公開学習", "後退", "コミュニティ"]
 ---
 すべてがスムーズにいくわけではありませんでしたが、Astroで何かを作るのは楽しいです。そして、[Discordコミュニティ](https://astro.build/chat)は本当にフレンドリーで助けになります！
