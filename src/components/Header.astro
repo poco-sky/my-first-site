@@ -1,16 +1,38 @@
 ---
-import Navigation from './Navigation.astro';
+import Navigation from "./Navigation.astro";
 ---
+
 <header class="site-header">
- <a class="wordmark" href="/" aria-label="マイサイト ホーム">MY SITE<span>好きなものを、好きなように。</span></a>
- <button class="menu-toggle" aria-expanded="false" aria-controls="main-menu"><span class="menu-label">MENU</span><span class="menu-lines" aria-hidden="true"></span></button>
- <Navigation />
+    <a class="wordmark" href="/" aria-label="マイサイト ホーム"
+        >MY SITE<span>好きなものを、好きなように。</span></a
+    >
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-menu"
+        ><span class="menu-label">MENU</span><span
+            class="menu-lines"
+            aria-hidden="true"></span></button
+    >
+    <Navigation />
 </header>
 <script>
- const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
- const close = () => button?.setAttribute('aria-expanded', 'false');
- button?.addEventListener('click', () => button.setAttribute('aria-expanded', String(button.getAttribute('aria-expanded') !== 'true')));
- document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && button?.getAttribute('aria-expanded') === 'true') {close();button.focus();} });
- document.querySelectorAll('#main-menu a').forEach(link => link.addEventListener('click', close));
- window.matchMedia('(min-width: 701px)').addEventListener('change', close);
+    const button = document.querySelector<HTMLButtonElement>(".menu-toggle");
+    const close = () => button?.setAttribute("aria-expanded", "false");
+    button?.addEventListener("click", () =>
+        button.setAttribute(
+            "aria-expanded",
+            String(button.getAttribute("aria-expanded") !== "true"),
+        ),
+    );
+    document.addEventListener("keydown", (event) => {
+        if (
+            event.key === "Escape" &&
+            button?.getAttribute("aria-expanded") === "true"
+        ) {
+            close();
+            button.focus();
+        }
+    });
+    document
+        .querySelectorAll("#main-menu a")
+        .forEach((link) => link.addEventListener("click", close));
+    window.matchMedia("(min-width: 701px)").addEventListener("change", close);
 </script>

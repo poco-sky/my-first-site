@@ -1,7 +1,33 @@
 ---
 const current = Astro.url.pathname;
-const links = [['/', 'Home'], ['/about/', 'Profile'], ['/fashion/', 'Fashion'], ['/music/', 'Music'], ['/blog/', 'Blog']];
+const links = [
+    ["/", "Home"],
+    ["/about/", "Profile"],
+    ["/fashion/", "Fashion"],
+    ["/music/", "Music"],
+    ["/blog/", "Blog"],
+];
 ---
+
 <nav aria-label="メインナビゲーション" id="main-menu">
- {links.map(([href, label]) => <a href={href} aria-current={(href === '/' ? current === '/' : current.startsWith(href) || (href === '/blog/' && /^\/(posts|tags)\//.test(current))) ? 'page' : undefined}>{label}</a>)}
+    {
+        links.map(([href, label]) => (
+            <a
+                href={href}
+                aria-current={
+                    (
+                        href === "/"
+                            ? current === "/"
+                            : current.startsWith(href) ||
+                              (href === "/blog/" &&
+                                  /^\/(posts|tags)\//.test(current))
+                    )
+                        ? "page"
+                        : undefined
+                }
+            >
+                {label}
+            </a>
+        ))
+    }
 </nav>

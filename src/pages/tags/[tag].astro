@@ -7,11 +7,13 @@ import BlogPost from "../../components/BlogPost.astro";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
-  const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+  const uniqueTags = [
+    ...new Set(allPosts.map((post) => post.data.tags).flat()),
+  ];
 
   return uniqueTags.map((tag) => {
     const filteredPosts = allPosts.filter((post) =>
-      post.data.tags.includes(tag)
+      post.data.tags.includes(tag),
     );
     return {
       params: { tag },
@@ -27,6 +29,10 @@ const { posts } = Astro.props;
 <BaseLayout pageTitle={tag}>
   <p>{tag}のタグが付いた記事</p>
   <ul>
-    { posts.map((post) => <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />) }
+    {
+      posts.map((post) => (
+        <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
+      ))
+    }
   </ul>
 </BaseLayout>
