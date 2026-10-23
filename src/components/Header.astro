@@ -1,17 +1,19 @@
 ---
+import ThemeToggle from "./ThemeToggle.astro";
 import Navigation from "./Navigation.astro";
 ---
 
 <header class="site-header">
+    <ThemeToggle />
     <a class="wordmark" href="/" aria-label="マイサイト ホーム"
-        >MY SITE<span>好きなものを、好きなように。</span></a
+        >IN THE SKY<span>一般人のただの自己満サイト</span></a
     >
     <button class="menu-toggle" aria-expanded="false" aria-controls="main-menu"
         ><span class="menu-label">MENU</span><span
             class="menu-lines"
             aria-hidden="true"></span></button
     >
-    <Navigation />
+    <div class="navigation-anchor"><Navigation /></div>
 </header>
 <script>
     const button = document.querySelector<HTMLButtonElement>(".menu-toggle");
@@ -35,4 +37,32 @@ import Navigation from "./Navigation.astro";
         .querySelectorAll("#main-menu a")
         .forEach((link) => link.addEventListener("click", close));
     window.matchMedia("(min-width: 701px)").addEventListener("change", close);
+
+    // 元のナビ位置が画面上端に達したら、ナビだけを固定する。
+    // 位置判定は固定されない親要素で行い、切り替え時の揺れを防ぐ。
+    const anchor = document.querySelector<HTMLElement>(".navigation-anchor");
+    const navigation = document.querySelector<HTMLElement>("#main-menu");
+    const updateNavigation = () => {
+        const pinned = !!anchor && anchor.getBoundingClientRect().top <= 0;
+        if (navigation?.classList.contains("is-pinned") !== pinned) {
+            navigation?.classList.toggle("is-pinned", pinned);
+            close();
+        }
+    };
+    let scheduled = false;
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (scheduled) return;
+            scheduled = true;
+            requestAnimationFrame(() => {
+                updateNavigation();
+                scheduled = false;
+            });
+        },
+        { passive: true },
+    );
+    window.addEventListener("resize", updateNavigation);
+    window.addEventListener("pageshow", updateNavigation);
+    updateNavigation();
 </script>

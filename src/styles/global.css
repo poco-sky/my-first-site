@@ -1,3 +1,30 @@
+/* サイト共通の配色。初回はホワイトテーマ。 */
+:root {
+    color-scheme: light;
+    --page-bg: #fff;
+    --text: #182832;
+    --muted: #68716f;
+    --body-text: #53616a;
+    --border: #d8dfdc;
+    --surface: #f2f4f3;
+    --surface-hover: #edf1ef;
+    --link: #00539f;
+    --tag-bg: #f8fcfd
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --page-bg: #101112;
+    --text: #f0efec;
+    --muted: #b1b6b5;
+    --body-text: #c6cbce;
+    --border: #3b4143;
+    --surface: #202426;
+    --surface-hover: #292e30;
+    --link: #a5cbed;
+    --tag-bg: #202426
+}
+
 * {
     box-sizing: border-box
 }
@@ -5,8 +32,8 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 24px;
-    background: #fff;
-    color: #182832
+    background: var(--page-bg);
+    color: var(--text)
 }
 
 body {
@@ -51,7 +78,7 @@ button:focus-visible {
     z-index: 20;
     top: 8px;
     left: 8px;
-    background: white;
+    background: var(--page-bg);
     padding: 12px;
     transform: translateY(-180%)
 }
@@ -67,7 +94,7 @@ button:focus-visible {
     justify-content: center;
     flex-direction: column;
     gap: 23px;
-    background: #fff
+    background: var(--page-bg)
 }
 
 .wordmark {
@@ -85,7 +112,7 @@ button:focus-visible {
     font-size: 10px;
     letter-spacing: .16em;
     margin-top: 9px;
-    color: #68716f
+    color: var(--muted)
 }
 
 .site-header nav {
@@ -269,7 +296,7 @@ button:focus-visible {
 .site-footer p {
     font-size: 10px;
     letter-spacing: .05em;
-    color: #6a7378
+    color: var(--muted)
 }
 
 .back-top {
@@ -300,7 +327,7 @@ button:focus-visible {
 }
 
 .page-content p {
-    color: #53616a
+    color: var(--body-text)
 }
 
 .page-content h2 {
@@ -325,7 +352,7 @@ button:focus-visible {
 }
 
 .empty-state .eyebrow {
-    color: #62716e
+    color: var(--muted)
 }
 
 .empty-state h2 {
@@ -353,14 +380,14 @@ button:focus-visible {
 }
 
 .tag-list a {
-    border: 1px solid #d8dfdc;
+    border: 1px solid var(--border);
     padding: 5px 14px;
     font-size: 12px;
     text-decoration: none
 }
 
 .tag-list a:hover {
-    background: #edf1ef
+    background: var(--surface-hover)
 }
 
 .post-list {
@@ -369,7 +396,7 @@ button:focus-visible {
 }
 
 .post-list li {
-    border-top: 1px solid #dfe4e2;
+    border-top: 1px solid var(--border);
     margin: 0
 }
 
@@ -391,7 +418,7 @@ button:focus-visible {
 
 .post-list time {
     font-size: 11px;
-    color: #68756f;
+    color: var(--muted);
     letter-spacing: .1em
 }
 
@@ -406,7 +433,7 @@ button:focus-visible {
 
 .article-body pre {
     overflow: auto;
-    background: #f2f4f3;
+    background: var(--surface);
     padding: 16px
 }
 
@@ -456,7 +483,7 @@ button:focus-visible {
         background: none;
         border: 0;
         padding: 12px 0 12px 12px;
-        color: #182832
+        color: var(--text)
     }
 
     .menu-label {
@@ -477,7 +504,7 @@ button:focus-visible {
         top: 98px;
         left: 0;
         right: 0;
-        background: #fff;
+        background: var(--page-bg);
         box-shadow: 0 8px 12px #142a3010;
         padding: 18px 24px 25px;
         gap: 0;
@@ -606,5 +633,244 @@ button:focus-visible {
 
     .photo-panel:hover img {
         transform: none
+    }
+}
+
+/* ヘッダー左上のテーマスイッチ */
+.site-header {
+    position: relative
+}
+
+.theme-toggle {
+    position: absolute;
+    left: 28px;
+    top: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px 13px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text);
+    background: var(--page-bg);
+    cursor: pointer
+}
+
+.theme-toggle:hover {
+    background: var(--surface-hover)
+}
+
+.theme-label {
+    font-size: 9px;
+    letter-spacing: .12em
+}
+
+.theme-sun {
+    display: none
+}
+
+[data-theme="dark"] .theme-moon {
+    display: none
+}
+
+[data-theme="dark"] .theme-sun {
+    display: block
+}
+
+@media(max-width:700px) {
+    .site-header {
+        display: grid;
+        grid-template-columns: 44px 1fr 60px;
+        gap: 8px;
+        padding: 0 12px
+    }
+
+    .theme-toggle {
+        position: static;
+        padding: 10px;
+        align-self: start;
+        margin-top: 20px
+    }
+
+    .theme-label {
+        display: none
+    }
+
+    .wordmark {
+        font-size: 24px;
+        text-align: center;
+        justify-self: center
+    }
+
+    .wordmark span {
+        font-size: 7px;
+        letter-spacing: .06em
+    }
+
+    .menu-toggle {
+        justify-self: end;
+        padding-left: 0
+    }
+}
+
+/* ホーム：透明ヘッダーと画面いっぱいのプロフィール写真 */
+.home-page .site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: transparent;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+}
+
+.home-page .wordmark span,
+.home-page .menu-toggle {
+    color: #fff;
+}
+
+.home-page .theme-toggle {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+.home-page .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.home-page .home-gallery {
+    padding: 0;
+    max-width: none;
+}
+
+.home-page .profile {
+    height: 100vh;
+    height: 100svh;
+    min-height: 540px;
+    max-height: none;
+}
+
+/* 写真に淡い陰影を重ねて、白いナビゲーションを読みやすくする */
+.home-page .profile::after {
+    background: linear-gradient(180deg,
+            rgba(9, 21, 25, 0.48) 0%,
+            rgba(9, 21, 25, 0.12) 28%,
+            rgba(9, 21, 25, 0.16) 50%,
+            rgba(9, 21, 25, 0.52) 100%);
+}
+
+/* 下の写真には従来の左右余白を残す */
+.home-page .paired-panels,
+.home-page .blog {
+    width: calc(100% - 56px);
+    max-width: 1904px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 1600px) {
+
+    .home-page .paired-panels,
+    .home-page .blog {
+        width: calc(100% - 96px);
+    }
+}
+
+@media (max-width: 700px) {
+    .home-page .site-header nav {
+        color: var(--text);
+        text-shadow: none;
+    }
+
+    .home-page .paired-panels,
+    .home-page .blog {
+        width: calc(100% - 24px);
+    }
+}
+
+/* スクロール後はナビゲーションだけを画面上部に固定 */
+html {
+    scroll-padding-top: 72px;
+}
+
+.site-header {
+    z-index: 10;
+}
+
+.navigation-anchor {
+    width: 100%;
+    min-height: 32px;
+}
+
+.site-header .navigation-anchor>nav {
+    justify-content: center;
+}
+
+.site-header nav.is-pinned {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    margin: 0;
+    padding: 10px 24px;
+    background: var(--page-bg);
+    color: var(--text);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* ホームのナビは写真に重ねる。固定後も背景は透明。 */
+.home-page .site-header nav.is-pinned {
+    background: transparent;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 700px) {
+    .navigation-anchor {
+        position: absolute;
+        top: 98px;
+        left: 0;
+        right: 0;
+        min-height: 0;
+        height: 0;
+    }
+
+    .site-header .navigation-anchor>nav:not(.is-pinned) {
+        top: 0;
+    }
+
+    .site-header .menu-toggle[aria-expanded="true"]+.navigation-anchor nav {
+        display: flex;
+    }
+
+    .home-page .site-header .navigation-anchor>nav:not(.is-pinned) {
+        background: transparent;
+        color: #fff;
+        box-shadow: none;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    /* 固定時はメニューを開かず、5つのリンクを直接選べる。 */
+    .site-header nav.is-pinned {
+        gap: clamp(10px, 3.5vw, 24px);
+        padding: 8px 10px;
+    }
+
+    .site-header nav.is-pinned a {
+        padding: 12px 0;
+        font-size: 10px;
+        letter-spacing: 0.06em;
     }
 }

@@ -1,0 +1,7 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+const posts = (await getCollection('blog')).sort((a,b) => b.data.pubDate.valueOf()-a.data.pubDate.valueOf());
+const tags = [...new Set(posts.flatMap(p => p.data.tags))];
+---
+<BaseLayout pageTitle="Blog"><p class="blog-intro">何気ない日々を、少しずつ。まずは、Astroを学んだ記録から。</p><nav class="tag-list" aria-label="記事のタグ">{tags.map(tag => <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>)}</nav><ul class="post-list">{posts.map(post => <li><a href={`/posts/${post.id}/`}><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0,10).replaceAll('-','.')}</time><h2>{post.data.title}</h2><p>{post.data.description}</p></a></li>)}</ul></BaseLayout>
