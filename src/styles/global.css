@@ -874,3 +874,79 @@ html {
         letter-spacing: 0.06em;
     }
 }
+
+/* 記事の冒頭画像 */
+.post-cover {
+    display: block;
+    width: 100%;
+    max-width: 740px;
+    height: auto;
+    margin: 24px auto;
+}
+
+/* 記事ページの領域を中央に配置 */
+.page-content.post-page {
+    max-width: 1050px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 本文も、その領域いっぱいに揃える */
+.post-page .article-body {
+    max-width: none;
+}
+
+/* 記事の1枚目と本文中の画像を同じ幅にする */
+.post-cover,
+.article-body img {
+    display: block;
+    width: 100%;
+    max-width: 740px;
+    height: auto;
+    margin: 24px auto;
+}
+
+.post-list .post-row {
+    position: relative;
+}
+
+.post-list .post-row.has-thumbnail {
+    padding-right: 200px;
+    /* 画像160px＋余白20px */
+}
+
+.post-thumbnail {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 180px;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+@media (max-width: 700px) {
+    .post-list .post-row.has-thumbnail {
+        padding-right: 112px;
+    }
+
+    .post-thumbnail {
+        width: 96px;
+        height: 60px;
+    }
+}
+
+/* 選択中のタグ：ライトテーマでは黒背景・白文字 */
+.tag-list a.is-selected {
+    background-color: #111;
+    border-color: #111;
+    color: #fff;
+}
+
+/* ダークテーマでは白背景・黒文字 */
+:root[data-theme="dark"] .tag-list a.is-selected {
+    background-color: #fff;
+    border-color: #fff;
+    color: #111;
+}
