@@ -17,9 +17,8 @@ function getThumbnail(post: (typeof posts)[number]) {
 ---
 
 <BaseLayout pageTitle="Blog"
-    ><p class="blog-intro">
-        サイト完成までの進捗報告や何気ない日々の思い出を、少しずつ。
-    </p><nav class="tag-list" aria-label="記事のタグ">
+    ><nav class="tag-list" aria-label="記事のタグ">
+        <a href="/blog/" class="is-selected" aria-current="page"> ALL </a>
         {
             tags.map((tag) => (
                 <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>
@@ -37,12 +36,24 @@ function getThumbnail(post: (typeof posts)[number]) {
                         }}
                     >
                         <>
-                            <time datetime={post.data.pubDate.toISOString()}>
-                                {post.data.pubDate
-                                    .toISOString()
-                                    .slice(0, 10)
-                                    .replaceAll("-", ".")}
-                            </time>
+                            <div class="post-meta">
+                                <time
+                                    datetime={post.data.pubDate.toISOString()}
+                                >
+                                    {post.data.pubDate
+                                        .toISOString()
+                                        .slice(0, 10)
+                                        .replaceAll("-", ".")}
+                                </time>
+
+                                <span class="post-meta-tags">
+                                    {post.data.tags.map((tag) => (
+                                        <span class="post-meta-tag">
+                                            #{tag}
+                                        </span>
+                                    ))}
+                                </span>
+                            </div>
                             <h2>{post.data.title}</h2>
                             <p>{post.data.description}</p>
                             {getThumbnail(post) && (
@@ -63,3 +74,22 @@ function getThumbnail(post: (typeof posts)[number]) {
     </ul>
     <a class="text-link" href="/">← ホームに戻る</a>
 </BaseLayout>
+<style>
+    .post-meta {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+    }
+
+    .post-meta-tags {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 4px 10px;
+    }
+
+    .post-meta-tag {
+        font-size: 12px;
+        color: var(--link);
+    }
+</style>

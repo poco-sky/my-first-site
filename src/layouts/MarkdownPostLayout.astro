@@ -4,7 +4,9 @@ const { frontmatter, previousPost = null, nextPost = null } = Astro.props;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
+  
   <nav slot="before-title" class="article-navigation" aria-label="前後の記事">
+    
     {
       previousPost && (
         <a class="previous-post" href={`/posts/${previousPost.id}/`} rel="prev">

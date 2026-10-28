@@ -2,7 +2,7 @@
 title: '今年一番かわいい動物が決定する'
 pubDate: 2026-10-26
 description: '愛の神髄に触れる．'
-author: 'sora'
+author: 'Sora'
 image:
     url: '/images/dag.jpg'
     alt: 'アヒル'

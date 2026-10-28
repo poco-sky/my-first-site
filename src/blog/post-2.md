@@ -2,7 +2,7 @@
 title: 'ホーム画面が完成'
 pubDate: 2026-10-24
 description: 'まずまずの達成感を感じました．'
-author: 'sora'
+author: 'Sora'
 image:
     url: '/images/home.png'
     alt: 'ホーム画面のスクショ'
@@ -20,3 +20,5 @@ tags: ["進捗報告"]
 ## 次やること
 
 プロフィールページをぼちぼち作っていく．
+
+追記：実際にはブログページを作ることになる．

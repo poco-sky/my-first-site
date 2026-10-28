@@ -2,7 +2,7 @@
 title: 'サイトの原型が完成'
 pubDate: 2026-10-23
 description: 'これは私のブログの最初の記事です．'
-author: 'sora'
+author: 'Sora'
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
     alt: 'ピンク色に輝く暗い背景に浮かぶAstroのロゴ。'
