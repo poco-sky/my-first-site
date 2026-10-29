@@ -101,7 +101,7 @@ const timeline = [...qualifications].sort((a, b) =>
                         id="favorites-title"
                         class="section-title"
                     >
-                        Favorite
+                        Favorites
                     </h2>
                 </div>
             </div>
@@ -248,106 +248,129 @@ const timeline = [...qualifications].sort((a, b) =>
 
         <p class="dialog-hint">ウィンドウの外側をクリックすると戻れます</p>
     </dialog>
+    <script
+        type="application/json"
+        id="favorite-data"
+        set:html={JSON.stringify(favorites).replace(/</g, "\\u003c")}
+    />
 </BaseLayout>
-<script
-    type="application/json"
-    id="favorite-data"
-    set:html={JSON.stringify(favorites).replace(/</g, "\\u003c")}
-/>
 
 <script>
-    const track = document.querySelector<HTMLElement>("#favorite-track");
-    const prev = document.querySelector<HTMLButtonElement>("#favorite-prev");
-    const next = document.querySelector<HTMLButtonElement>("#favorite-next");
-    const dialog =
-        document.querySelector<HTMLDialogElement>("#favorite-dialog");
-    const data: {
-        title: string;
-        category: string;
-        image: string;
-        alt: string;
-        description: string;
-    }[] = JSON.parse(
-        document.querySelector("#favorite-data")?.textContent || "[]",
-    );
-    if (track && prev && next && dialog) {
-        const sync = () => {
-            prev.disabled = track.scrollLeft <= 2;
-            next.disabled =
-                track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
-        };
-        const scroll = (direction: number) => {
-            const card = track.querySelector<HTMLElement>(".favorite-card");
-            track.scrollBy({
-                left: direction * ((card?.offsetWidth || 260) + 16),
-                behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
-                    .matches
-                    ? "instant"
-                    : "smooth",
-            });
-        };
-        prev.addEventListener("click", () => scroll(-1));
-        next.addEventListener("click", () => scroll(1));
-        track.addEventListener("scroll", sync, { passive: true });
-        new ResizeObserver(sync).observe(track);
-        sync();
-        track.addEventListener("keydown", (event) => {
-            if (
-                event.target === track &&
-                ["ArrowLeft", "ArrowRight"].includes(event.key)
-            ) {
-                event.preventDefault();
-                scroll(event.key === "ArrowLeft" ? -1 : 1);
-            }
-        });
-        let trigger: HTMLButtonElement | null = null;
-        let previousOverflow = "";
-        track
-            .querySelectorAll<HTMLButtonElement>("[data-favorite]")
-            .forEach((button) =>
-                button.addEventListener("click", () => {
-                    const item = data[Number(button.dataset.favorite)];
-                    if (!item) return;
-                    trigger = button;
-                    const image = dialog.querySelector<HTMLImageElement>(
-                        "#favorite-dialog-image",
-                    )!;
-                    image.src = item.image;
-                    image.alt = item.alt;
-                    dialog.querySelector(
-                        "#favorite-dialog-title",
-                    )!.textContent = item.title;
-                    dialog.querySelector(
-                        "#favorite-dialog-category",
-                    )!.textContent = item.category;
-                    dialog.querySelector(
-                        "#favorite-dialog-description",
-                    )!.textContent = item.description;
-                    previousOverflow = document.body.style.overflow;
-                    document.body.style.overflow = "hidden";
-                    dialog.showModal();
-                }),
-            );
-        dialog
-            .querySelector(".dialog-close")
-            ?.addEventListener("click", () => dialog.close());
-        dialog.addEventListener("click", (event) => {
-            if (event.target === dialog) {
-                const r = dialog.getBoundingClientRect();
-                if (
-                    event.clientX < r.left ||
-                    event.clientX > r.right ||
-                    event.clientY < r.top ||
-                    event.clientY > r.bottom
-                )
+    let cleanup: (() => void) | undefined;
+    function setupFavorites() {
+        cleanup?.();
+        cleanup = undefined;
+
+        const track = document.querySelector<HTMLElement>("#favorite-track");
+        const prev =
+            document.querySelector<HTMLButtonElement>("#favorite-prev");
+        const next =
+            document.querySelector<HTMLButtonElement>("#favorite-next");
+        const dialog =
+            document.querySelector<HTMLDialogElement>("#favorite-dialog");
+        const data: {
+            title: string;
+            category: string;
+            image: string;
+            alt: string;
+            description: string;
+        }[] = JSON.parse(
+            document.querySelector("#favorite-data")?.textContent || "[]",
+        );
+        if (track && prev && next && dialog) {
+            const sync = () => {
+                prev.disabled = track.scrollLeft <= 2;
+                next.disabled =
+                    track.scrollLeft + track.clientWidth >=
+                    track.scrollWidth - 2;
+            };
+            const scroll = (direction: number) => {
+                const card = track.querySelector<HTMLElement>(".favorite-card");
+                track.scrollBy({
+                    left: direction * ((card?.offsetWidth || 260) + 16),
+                    behavior: window.matchMedia(
+                        "(prefers-reduced-motion: reduce)",
+                    ).matches
+                        ? "instant"
+                        : "smooth",
+                });
+            };
+            prev.addEventListener("click", () => scroll(-1));
+            next.addEventListener("click", () => scroll(1));
+            track.addEventListener("scroll", sync, { passive: true });
+            const observer = new ResizeObserver(sync);
+            observer.observe(track);
+            cleanup = () => {
+                observer.disconnect();
+                if (dialog.open) {
                     dialog.close();
-            }
-        });
-        dialog.addEventListener("close", () => {
-            document.body.style.overflow = previousOverflow;
-            trigger?.focus({ preventScroll: true });
-        });
+                    document.body.style.overflow = previousOverflow;
+                }
+            };
+            sync();
+            track.addEventListener("keydown", (event) => {
+                if (
+                    event.target === track &&
+                    ["ArrowLeft", "ArrowRight"].includes(event.key)
+                ) {
+                    event.preventDefault();
+                    scroll(event.key === "ArrowLeft" ? -1 : 1);
+                }
+            });
+            let trigger: HTMLButtonElement | null = null;
+            let previousOverflow = "";
+            track
+                .querySelectorAll<HTMLButtonElement>("[data-favorite]")
+                .forEach((button) =>
+                    button.addEventListener("click", () => {
+                        const item = data[Number(button.dataset.favorite)];
+                        if (!item) return;
+                        trigger = button;
+                        const image = dialog.querySelector<HTMLImageElement>(
+                            "#favorite-dialog-image",
+                        )!;
+                        image.src = item.image;
+                        image.alt = item.alt;
+                        dialog.querySelector(
+                            "#favorite-dialog-title",
+                        )!.textContent = item.title;
+                        dialog.querySelector(
+                            "#favorite-dialog-category",
+                        )!.textContent = item.category;
+                        dialog.querySelector(
+                            "#favorite-dialog-description",
+                        )!.textContent = item.description;
+                        previousOverflow = document.body.style.overflow;
+                        document.body.style.overflow = "hidden";
+                        dialog.showModal();
+                    }),
+                );
+            dialog
+                .querySelector(".dialog-close")
+                ?.addEventListener("click", () => dialog.close());
+            dialog.addEventListener("click", (event) => {
+                if (event.target === dialog) {
+                    const r = dialog.getBoundingClientRect();
+                    if (
+                        event.clientX < r.left ||
+                        event.clientX > r.right ||
+                        event.clientY < r.top ||
+                        event.clientY > r.bottom
+                    )
+                        dialog.close();
+                }
+            });
+            dialog.addEventListener("close", () => {
+                document.body.style.overflow = previousOverflow;
+                trigger?.focus({ preventScroll: true });
+            });
+        }
     }
+    document.addEventListener("astro:page-load", setupFavorites);
+    document.addEventListener("astro:before-swap", () => {
+        cleanup?.();
+        cleanup = undefined;
+    });
 </script>
 <style>
     .sora-profile {

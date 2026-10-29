@@ -1,0 +1,30 @@
+---
+const { name, class: className = "" } = Astro.props;
+---
+
+<svg
+    class={className}
+    viewBox="0 0 24 24"
+    width="24"
+    height="24"
+    aria-hidden="true"
+    focusable="false"
+>
+    {name === "play" && <path fill="currentColor" d="M8 4.5v15l12-7.5z" />}
+    {
+        name === "pause" && (
+            <path fill="currentColor" d="M6 5h4v14H6zm8 0h4v14h-4z" />
+        )
+    }
+    {
+        name === "close" && (
+            <path
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                d="m6 6 12 12M18 6 6 18"
+            />
+        )
+    }
+</svg>

@@ -16,37 +16,43 @@ import Navigation from "./Navigation.astro";
     <div class="navigation-anchor"><Navigation /></div>
 </header>
 <script>
-    const button = document.querySelector<HTMLButtonElement>(".menu-toggle");
-    const close = () => button?.setAttribute("aria-expanded", "false");
-    button?.addEventListener("click", () =>
-        button.setAttribute(
-            "aria-expanded",
-            String(button.getAttribute("aria-expanded") !== "true"),
-        ),
-    );
+    // ページ移動でDOMが入れ替わるため、その都度現在のナビを参照する。
+    const closeMenu = () =>
+        document
+            .querySelector(".menu-toggle")
+            ?.setAttribute("aria-expanded", "false");
+    document.addEventListener("click", (event) => {
+        const target = event.target as Element;
+        const button = target.closest(".menu-toggle");
+        if (button)
+            button.setAttribute(
+                "aria-expanded",
+                String(button.getAttribute("aria-expanded") !== "true"),
+            );
+        if (target.closest("#main-menu a")) closeMenu();
+    });
     document.addEventListener("keydown", (event) => {
+        const button =
+            document.querySelector<HTMLButtonElement>(".menu-toggle");
         if (
             event.key === "Escape" &&
             button?.getAttribute("aria-expanded") === "true"
         ) {
-            close();
+            closeMenu();
             button.focus();
         }
     });
-    document
-        .querySelectorAll("#main-menu a")
-        .forEach((link) => link.addEventListener("click", close));
-    window.matchMedia("(min-width: 701px)").addEventListener("change", close);
-
-    // 元のナビ位置が画面上端に達したら、ナビだけを固定する。
-    // 位置判定は固定されない親要素で行い、切り替え時の揺れを防ぐ。
-    const anchor = document.querySelector<HTMLElement>(".navigation-anchor");
-    const navigation = document.querySelector<HTMLElement>("#main-menu");
+    window
+        .matchMedia("(min-width: 701px)")
+        .addEventListener("change", closeMenu);
     const updateNavigation = () => {
+        const anchor =
+            document.querySelector<HTMLElement>(".navigation-anchor");
+        const navigation = document.querySelector<HTMLElement>("#main-menu");
         const pinned = !!anchor && anchor.getBoundingClientRect().top <= 0;
         if (navigation?.classList.contains("is-pinned") !== pinned) {
             navigation?.classList.toggle("is-pinned", pinned);
-            close();
+            closeMenu();
         }
     };
     let scheduled = false;
@@ -64,5 +70,6 @@ import Navigation from "./Navigation.astro";
     );
     window.addEventListener("resize", updateNavigation);
     window.addEventListener("pageshow", updateNavigation);
+    document.addEventListener("astro:page-load", updateNavigation);
     updateNavigation();
 </script>

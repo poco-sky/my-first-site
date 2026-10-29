@@ -32,26 +32,34 @@
   <span class="theme-label">THEME</span>
 </button>
 <script>
-  const toggle = document.querySelector<HTMLButtonElement>(".theme-toggle");
-  const applyTheme = (dark: boolean) => {
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
-    toggle?.setAttribute("aria-pressed", String(dark));
+  let darkTheme = document.documentElement.dataset.theme === "dark";
+  const applyTheme = () => {
+    document.documentElement.dataset.theme = darkTheme ? "dark" : "light";
+    const toggle = document.querySelector(".theme-toggle");
+    toggle?.setAttribute("aria-pressed", String(darkTheme));
+    toggle?.setAttribute(
+      "aria-label",
+      darkTheme ? "ホワイトテーマに切り替える" : "ブラックテーマに切り替える",
+    );
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", dark ? "#101112" : "#ffffff");
+      ?.setAttribute("content", darkTheme ? "#101112" : "#ffffff");
   };
-  applyTheme(document.documentElement.dataset.theme === "dark");
-  toggle?.addEventListener("click", () => {
-    const dark = document.documentElement.dataset.theme !== "dark";
-    applyTheme(dark);
+  document.addEventListener("click", (event) => {
+    if (!(event.target as Element).closest(".theme-toggle")) return;
+    darkTheme = !darkTheme;
+    applyTheme();
     try {
-      localStorage.setItem("my-site-theme", dark ? "dark" : "light");
-    } catch {
-      /* 保存できなくても切り替えは可能 */
+      localStorage.setItem("my-site-theme", darkTheme ? "dark" : "light");
+    } catch {}
+  });
+  document.addEventListener("astro:after-swap", applyTheme);
+  document.addEventListener("astro:page-load", applyTheme);
+  window.addEventListener("storage", (event) => {
+    if (event.key === "my-site-theme" || event.key === null) {
+      darkTheme = event.newValue === "dark";
+      applyTheme();
     }
   });
-  window.addEventListener("storage", (event) => {
-    if (event.key === "my-site-theme" || event.key === null)
-      applyTheme(event.newValue === "dark");
-  });
+  applyTheme();
 </script>

@@ -1,4 +1,7 @@
 ---
+import { ClientRouter } from "astro:transitions";
+import MusicPlayer from "../components/MusicPlayer.astro";
+import "../styles/music.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
@@ -6,11 +9,12 @@ const {
   pageTitle = "マイサイト",
   description = "好きなものを、好きなように。ファッション、音楽、そして日々の記録。",
   home = false,
+  music = false,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang="ja" transition:animate="none">
   <head
     ><meta charset="utf-8" /><meta
       name="viewport"
@@ -21,6 +25,7 @@ const {
     /><link rel="icon" type="image/png" href="/icon.png" /><title>
       {pageTitle === "IN THE SKY" ? pageTitle : `${pageTitle} | IN THE SKY`}
     </title>
+    <ClientRouter />
     <script is:inline>
       // 描画前に保存したテーマを復元して、ページ移動時の白いちらつきを防ぐ。
       try {
@@ -35,15 +40,18 @@ const {
     </script>
   </head>
   <body id="top" class:list={{ "home-page": home }}
-    ><a class="skip-link" href="#main">本文へ移動</a><Header /><main
-      id="main"
-      class:list={{
-        "page-content": !home,
-        "post-page": Astro.url.pathname.startsWith("/posts/"),
-      }}
-    >
-      <slot name="before-title" />
-      {!home && <h1>{pageTitle}</h1>}<slot />
-    </main><Footer /></body
-  >
+    ><div id="site-shell">
+      <a class="skip-link" href="#main">本文へ移動</a><Header /><main
+        id="main"
+        tabindex="-1"
+        class:list={{
+          "page-content": !home,
+          "music-page": music,
+          "post-page": Astro.url.pathname.startsWith("/posts/"),
+        }}
+      >
+        <slot name="before-title" />
+        {!home && <h1>{pageTitle}</h1>}<slot />
+      </main><Footer />
+    </div><MusicPlayer /></body>
 </html>

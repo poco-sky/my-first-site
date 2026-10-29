@@ -20,4 +20,15 @@ const blog = defineCollection({
     })
 });
 // コレクションを登録するため、collections オブジェクトをエクスポートする
-export const collections = { blog };
+const music = defineCollection({
+    loader: glob({ pattern: '**/[^_]*.md', base: './src/music' }),
+    schema: z.object({
+        title: z.string().min(1),
+        artist: z.string().default('Sora'),
+        genre: z.enum(['洋楽', 'Instrumental']),
+        addedAt: z.coerce.date(),
+        audio: z.string().min(1),
+        cover: z.string().min(1),
+    }),
+});
+export const collections = { blog, music };

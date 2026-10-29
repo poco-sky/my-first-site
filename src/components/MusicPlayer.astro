@@ -1,0 +1,119 @@
+---
+import PlayerIcon from "./PlayerIcon.astro";
+import { tracks } from "../data/music";
+---
+
+<sora-music-player
+    transition:persist="sora-music-player"
+    transition:animate="none"
+>
+    <script
+        type="application/json"
+        data-music-catalog
+        set:html={JSON.stringify(tracks).replace(/</g, "\\u003c")}
+    />
+    <audio id="site-audio" preload="metadata"></audio>
+    <section class="music-bar" aria-label="音楽プレイヤー" hidden>
+        <button
+            type="button"
+            class="bar-track"
+            data-player-action="details"
+            aria-label="曲のジャケットと歌詞を開く"
+            aria-controls="music-details"
+            aria-expanded="false"
+        >
+            <img class="bar-cover" alt="" width="48" height="48" />
+            <span class="bar-track-text">
+                <strong class="bar-title"></strong>
+                <small class="bar-artist"></small>
+            </span>
+        </button>
+        <button
+            type="button"
+            class="player-toggle player-icon-button"
+            data-player-action="toggle"
+            aria-label="再生"
+            ><PlayerIcon name="play" class="icon-play" /><PlayerIcon
+                name="pause"
+                class="icon-pause"
+            /></button
+        >
+        <div class="player-progress">
+            <span class="player-elapsed">0:00</span><input
+                class="player-seek"
+                type="range"
+                min="0"
+                max="0"
+                step="0.1"
+                value="0"
+                aria-label="再生位置"
+                disabled
+            /><span class="player-duration">0:00</span>
+        </div>
+        <button
+            type="button"
+            class="player-close"
+            data-player-action="close"
+            aria-label="曲タブを閉じて再生を終了"
+        >
+            再生を終える
+        </button>
+        <p class="player-error" role="status" hidden></p>
+    </section>
+    <aside
+        class="music-details"
+        id="music-details"
+        aria-labelledby="detail-title"
+        tabindex="-1"
+        hidden
+    >
+        <header class="detail-header">
+            <span>NOW PLAYING</span><button
+                type="button"
+                class="player-icon-button"
+                data-player-action="hide-details"
+                aria-label="歌詞パネルを閉じる"
+                ><PlayerIcon name="close" /></button
+            >
+        </header>
+        <div class="detail-scroll">
+            <img class="detail-cover" alt="" width="800" height="800" /><div
+                class="detail-copy"
+            >
+                <p class="detail-genre"></p><h2 id="detail-title"></h2><p
+                    class="detail-artist"
+                >
+                </p>
+                <div class="lyric-tabs" role="tablist" aria-label="歌詞の言語">
+                    <button
+                        type="button"
+                        id="lyric-original-tab"
+                        role="tab"
+                        data-lyric="original"
+                        aria-selected="true"
+                        aria-controls="lyric-content">Lyric</button
+                    ><button
+                        type="button"
+                        id="lyric-translation-tab"
+                        role="tab"
+                        data-lyric="translation"
+                        aria-selected="false"
+                        aria-controls="lyric-content"
+                        tabindex="-1">日本語訳</button
+                    >
+                </div>
+                <div
+                    id="lyric-content"
+                    class="lyric-content"
+                    role="tabpanel"
+                    aria-labelledby="lyric-original-tab"
+                    tabindex="0"
+                >
+                </div>
+            </div>
+        </div>
+    </aside>
+</sora-music-player>
+<script>
+    import "../scripts/music-player";
+</script>

@@ -314,7 +314,7 @@ button:focus-visible {
     max-width: 1050px;
     margin: auto;
     min-height: 65vh;
-    padding: 20px 30px 90px;
+    padding: 11px 30px 90px;
     line-height: 1.9
 }
 
@@ -377,7 +377,7 @@ button:focus-visible {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    margin: 25px 0 40px
+    margin: 25px 0 18px
 }
 
 .tag-list a {
@@ -956,4 +956,8 @@ html {
     background-color: #fff;
     border-color: #fff;
     color: #111;
+}
+
+.page-content:has(.sora-profile)>h1 {
+    margin-bottom: 0px;
 }

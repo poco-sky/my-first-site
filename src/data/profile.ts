@@ -1,7 +1,7 @@
 // プロフィールの文章・画像・資格・SNSはここで編集します。
 export const profile = {
     name: 'Sora', birthYear: '2004', pronoun: 'He, Him', mbti: 'INTJ-A (建築家)',
-    introduction: '好きなものを，好きなように，好きなだけ．\n趣味の一環でAIを用いて服をデザインしたり，音楽を作ったりしています．\nまた，来年からの社会人生活に向けてNISAやふるさと納税などの様々な事柄を勉強しています．\nこのページには、自分らしいものを少しずつ集めていきます．',
+    introduction: '好きなものを，好きなように，好きなだけ．\n趣味の一環でAIを用いて服をデザインしたり，音楽を作ったりしています．\nそれらの作品はこのサイトで閲覧できるのでぜひ見てみてください！\nまた，来年からの社会人生活に向けてNISAやふるさと納税などの様々な事柄を勉強中です．\nこのページには、自分らしいものを少しずつ集めていきます．',
     image: '/images/pro.png', imageAlt: 'フグ',
 };
 // 記入例です。実際の資格と取得日に変更してください。日付順に表示されます。
@@ -22,6 +22,9 @@ export const skills = [
         name: 'Canva', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/canva/canva-original.svg',
     },
     {
+        name: 'ChatGPT', icon: 'https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg',
+    },
+    {
         name: 'C++', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/cplusplus/cplusplus-original.svg',
     },
     {
@@ -32,7 +35,7 @@ export const skills = [
 export const favorites = [ //新しい写真は一番上に追加する
     { title: '堤防の野良猫', category: 'SCENERY', image: '/images/cat.jpg', alt: '猫', description: '釣行中に足元に忍び寄っていた野良猫の1枚．\n野良猫にしては太っている？と感じたあなたの感覚は鋭い．\nこの子のような堤防に住み着く野良猫は，我々釣り人が魚を釣り上げるのをじっと待ち，釣れるとそっと近づいてきてこの眼差しでおねだりするのだ．\n結果，天然のデブ猫が完成する．すごくかわいい．' },
     { title: '釣り上げたクサフグ', category: 'SCENERY', image: '/images/fugu.jpg', alt: 'クサフグ', description: '趣味の釣行にて撮影したクサフグの1枚．。\n釣り人の間では「餌を取られるわ，ハリスは切られるわ，食べられないわ」の三拍子で嫌われがちなこの魚だが，私はぷくぷくしていて「ｷｭｯ，ｷｭｯ」と鳴くのが可愛いので好きである．' },
-    ];
+];
 // 自分のURLを入力するとSNSボタンが有効になります。
 export const socials = [
     { name: 'Instagram', url: 'https://www.instagram.com/in_the_sky.04?obrf=MW16cHRteG41M3hoeQ%3D%3D&utm_source=qr' },

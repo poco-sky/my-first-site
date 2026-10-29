@@ -1,18 +1,115 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PlayerIcon from "../components/PlayerIcon.astro";
+import { tracks } from "../data/music";
+
+// tracksは追加日の古い順。ジャンルごとに01から番号を付ける。
+const genreCounts = { 洋楽: 0, Instrumental: 0 };
+const trackNumbers = new Map<string, number>();
+
+for (const track of tracks) {
+    genreCounts[track.genre]++;
+    trackNumbers.set(track.id, genreCounts[track.genre]);
+}
 ---
 
-<BaseLayout pageTitle="Music"
-    ><section class="empty-state">
-        <img
-            src="/images/music.webp"
-            alt="Musicのイメージ"
-            width="720"
-            height="720"
-        /><div>
-            <p class="eyebrow">COMING SOON</p><h2>ただいま、準備中。</h2><p>
-                自作曲とInstrumental。音楽を聴ける場所を、ここに作っていきます。
-            </p><a class="text-link" href="/">← ホームに戻る</a>
+<BaseLayout pageTitle="Music" music>
+    <section class="music-library" aria-label="自作曲のライブラリ">
+        <div class="music-intro"></div>
+        <div class="music-toolbar">
+            <div class="music-filters" role="group" aria-label="曲のジャンル">
+                {
+                    ["洋楽", "Instrumental"].map((genre) => (
+                        <button
+                            type="button"
+                            data-music-filter={genre}
+                            aria-pressed={genre === "洋楽"}
+                        >
+                            {genre}
+                        </button>
+                    ))
+                }
+            </div>
+            <button
+                type="button"
+                class="music-sort"
+                data-music-sort
+                aria-label="現在は新しい順。古い順に切り替える"
+                >新しい順↓</button
+            >
         </div>
-    </section></BaseLayout
->
+        <ul class="music-grid">
+            {
+                tracks.map((track, index) => (
+                    <li
+                        class="music-card"
+                        data-track-card={track.id}
+                        data-track-genre={track.genre}
+                        data-track-index={index}
+                        hidden={track.genre !== "洋楽"}
+                    >
+                        <button
+                            type="button"
+                            class="record-button"
+                            data-track-play={track.id}
+                            aria-label={`${track.title}を再生`}
+                            aria-pressed="false"
+                        >
+                            <span class="record-image">
+                                <img
+                                    src={track.cover}
+                                    alt={`${track.title}のジャケット`}
+                                    width="600"
+                                    height="600"
+                                    loading={index < 4 ? "eager" : "lazy"}
+                                />
+                            </span>
+                            <span class="record-action">
+                                <>
+                                    <PlayerIcon
+                                        name="play"
+                                        class="record-play"
+                                    />
+                                    <PlayerIcon
+                                        name="pause"
+                                        class="record-pause"
+                                    />
+                                </>
+                            </span>
+                        </button>
+                        <div class="music-card-copy">
+                            <>
+                                <div>
+                                    <>
+                                        <h2>{track.title}</h2>
+                                        <p>
+                                            {track.artist} <span>·</span>{" "}
+                                            {track.genre}
+                                        </p>
+                                    </>
+                                </div>
+                                <span class="record-number">
+                                    {String(
+                                        trackNumbers.get(track.id),
+                                    ).padStart(2, "0")}
+                                </span>
+                            </>
+                        </div>
+                    </li>
+                ))
+            }
+        </ul>
+        <p id="music-empty" hidden>このジャンルの曲は、まだありません。</p>
+        <div class="music-collection-meta">
+            <span>Created by Sora</span><span
+                id="music-count"
+                aria-live="polite"
+            >
+                {genreCounts["洋楽"]} TRACK{
+                    genreCounts["洋楽"] === 1 ? "" : "S"
+                }
+            </span>
+        </div>
+        <a class="text-link" href="/">← ホームに戻る</a>
+    </section>
+</BaseLayout>
