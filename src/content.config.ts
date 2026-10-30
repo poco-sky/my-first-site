@@ -25,7 +25,7 @@ const music = defineCollection({
     schema: z.object({
         title: z.string().min(1),
         artist: z.string().default('Sora'),
-        genre: z.enum(['洋楽', 'Instrumental']),
+        genre: z.string().trim().min(1),
         addedAt: z.coerce.date(),
         audio: z.string().min(1),
         cover: z.string().min(1),

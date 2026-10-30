@@ -2,7 +2,7 @@
 title: 'Tonight'
 artist: 'Sora'
 genre: '洋楽'
-addedAt: '3'
+addedAt: '4'
 audio: '/music/Tonight.mp3'
 cover: '/images/music/Tonight.jpg'
 ---
@@ -42,11 +42,17 @@ The artists living for a push and a shove
 Everyone here is in the zone
 Gathered around the table all alone (or "as one")
 
-[Chorus]
+[Pre-Chorus]
 Tonight, yeah, you're the knight, it's your turn
 I'm just the one that has to learn
 If that's the way it's going to go
 If you say so, then it can't be no
+
+[Chorus]
+If I'm your knight right here tonight
+Then you're the princess shining bright
+Two A.M. is our alibi
+Forget the dating luck, let's just fly
 
 [Bridge]
 A party night is here to stay
@@ -58,7 +64,12 @@ Only holding onto a dreamy thing
 Tonight I'm your knight all by myself
 I don't know why, I'm just your help
 If you're the princess, I must defend you
-But I won't say that, I'm through with you (meaning "My job is done with you" or "I'm not doing that for you")
+But I won't say that, I'm through with you 
+
+If I'm your knight right here tonight
+Then you're the princess shining bright
+Two A.M. is our alibi
+Forget the dating luck, let's just fly
 
 <!-- translation -->
 

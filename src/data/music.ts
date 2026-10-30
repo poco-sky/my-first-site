@@ -1,6 +1,6 @@
 import { getCollection } from "astro:content";
 
-export type MusicGenre = '洋楽' | 'Instrumental';
+export type MusicGenre = string;
 export interface Track {
     id: string;
     title: string;

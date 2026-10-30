@@ -2,7 +2,7 @@
 title: 'wonder of OURS'
 artist: 'Sora'
 genre: '洋楽'
-addedAt: '2'
+addedAt: '3'
 audio: '/music/wonder of OURS.mp3'
 cover: '/images/music/wonder of OURS.jpg'
 ---
@@ -29,9 +29,9 @@ I said, "It's not your looks or your physique,"
 Yet every little part of you is sweet.
 From the first moment you came into sight,
 The world I see was painted with new light.
+Within your eyes that shine so bright and keen,
 
 [Pre-Chorus]
-Within your eyes that shine so bright and keen,
 A glimpse of what sweet Heaven must have been.
 By this uncertain yearning I am driven,
 And keep on searching for the love you've given.
@@ -42,7 +42,6 @@ Hoping that you’ll finally meet my gaze.
 I pray that in your eyes, one distant day,
 The only image staring back will be my way.
 
-[Bridge]
 In nights embraced by perfect quiet air,
 I still recall the profile that you wear.
 My worries turn to hope that is so deep,

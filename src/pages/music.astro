@@ -4,7 +4,12 @@ import PlayerIcon from "../components/PlayerIcon.astro";
 import { tracks } from "../data/music";
 
 // tracksは追加日の古い順。ジャンルごとに01から番号を付ける。
-const genreCounts = { 洋楽: 0, Instrumental: 0 };
+const genres = [
+    ...new Set(["洋楽", "Instrumental", ...tracks.map((track) => track.genre)]),
+];
+const genreCounts: Record<string, number> = Object.fromEntries(
+    genres.map((genre) => [genre, 0]),
+);
 const trackNumbers = new Map<string, number>();
 
 for (const track of tracks) {
@@ -19,7 +24,7 @@ for (const track of tracks) {
         <div class="music-toolbar">
             <div class="music-filters" role="group" aria-label="曲のジャンル">
                 {
-                    ["洋楽", "Instrumental"].map((genre) => (
+                    genres.map((genre) => (
                         <button
                             type="button"
                             data-music-filter={genre}
@@ -29,6 +34,15 @@ for (const track of tracks) {
                         </button>
                     ))
                 }
+                <button
+                    type="button"
+                    class="music-shuffle"
+                    data-music-shuffle
+                    aria-label="洋楽をランダム再生"
+                    title="洋楽をランダム再生"
+                >
+                    <PlayerIcon name="shuffle" />
+                </button>
             </div>
             <button
                 type="button"

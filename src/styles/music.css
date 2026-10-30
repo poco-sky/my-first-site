@@ -489,7 +489,7 @@ sora-music-player[data-playing="true"] .icon-pause {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
     line-height: 2;
-    font-size: 14px;
+    font-size: 16px;
     padding-top: 24px;
 }
 
@@ -783,4 +783,140 @@ sora-music-player[data-playing="true"] .icon-pause {
     border-bottom: 1px solid var(--border);
     padding-bottom: 18px;
     margin-bottom: 20px;
+}
+
+/* ジャンルの直後に置くシャッフルアイコン */
+.music-filters {
+    align-items: center;
+}
+
+.music-filters .music-shuffle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    border: 0;
+    border-radius: 50%;
+    color: var(--text);
+    background: transparent;
+    flex: none;
+}
+
+.music-shuffle:disabled,
+.player-transport button:disabled {
+    opacity: .3;
+    cursor: default;
+}
+
+.player-transport {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+.player-transport .player-icon-button {
+    flex: none;
+    width: 32px;
+    height: 40px;
+    padding: 5px;
+}
+
+.player-transport .player-toggle {
+    width: 40px;
+    padding: 8px;
+}
+
+.player-transport button:disabled:hover {
+    background: transparent;
+}
+
+@media (min-width: 701px) {
+    .music-bar {
+        grid-template-columns: minmax(0, 1fr) 108px minmax(0, 36%) 108px minmax(0, 1fr);
+    }
+
+    .player-transport {
+        grid-column: 2;
+        grid-row: 1;
+    }
+}
+
+/* 狭い画面では操作とシークバーを2段にし、押せる大きさを保つ */
+@media (max-width: 700px) {
+
+    :root,
+    html[data-music-panel="true"] {
+        --music-bar-height: 104px;
+    }
+
+    .music-bar {
+        grid-template-columns: minmax(0, 1fr) 100px auto;
+        gap: 4px 8px;
+    }
+
+    .bar-track {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .player-transport {
+        grid-column: 2;
+        grid-row: 1;
+        gap: 0;
+    }
+
+    .player-transport .player-icon-button {
+        width: 32px;
+        height: 36px;
+    }
+
+    .player-transport .player-toggle {
+        width: 36px;
+    }
+
+    .player-progress {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .player-close {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .player-seek {
+        margin: 10px 0;
+    }
+
+    .player-duration {
+        display: inline;
+    }
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+    html[data-music-panel="true"] {
+        --music-bar-height: 104px;
+    }
+
+    html[data-music-panel="true"] .music-bar {
+        grid-template-columns: minmax(0, 1fr) 108px auto;
+        gap: 4px 8px;
+    }
+
+    html[data-music-panel="true"] .player-close {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    html[data-music-panel="true"] .player-progress {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    html[data-music-panel="true"] .player-seek {
+        margin: 10px 0;
+    }
 }

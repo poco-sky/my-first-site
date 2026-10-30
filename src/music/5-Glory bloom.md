@@ -2,7 +2,7 @@
 title: 'Glory bloom'
 artist: 'Sora'
 genre: '洋楽'
-addedAt: '4'
+addedAt: '5'
 audio: '/music/Glory bloom.mp3'
 cover: '/images/music/Glory bloom.jpg'
 ---
@@ -46,7 +46,7 @@ I know they’ll be reborn when this season is done.
 Every time the seasons come full circle,
 I wonder if my heart will truly miracle.
 
-[Chorus 3]
+[Final Chorus]
 You were too wonderful for me to just forget,
 But this wide sky will keep us connected yet.
 My longing heart will take its flight,
