@@ -961,3 +961,70 @@ html {
 .page-content:has(.sora-profile)>h1 {
     margin-bottom: 0px;
 }
+
+@media (max-width: 700px) {
+
+    /* MENUの文字は読み上げ用にだけ残す */
+    .menu-toggle .menu-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    /* タップ領域を確保 */
+    .menu-toggle {
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+        justify-content: center;
+    }
+
+    /* 上下の線＋中央の線 */
+    .menu-lines {
+        position: relative;
+        width: 24px;
+        height: 16px;
+        border-top: 1px solid currentColor;
+        border-bottom: 1px solid currentColor;
+    }
+
+    .menu-lines::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px;
+        background: currentColor;
+        transform: translateY(-50%);
+    }
+
+    /* ナビゲーションの下線を非表示 */
+    .site-header #main-menu a::after {
+        display: none;
+    }
+
+    /* ●のための場所を確保 */
+    .site-header #main-menu a {
+        padding-left: 14px;
+    }
+
+    .site-header #main-menu a[aria-current="page"]::before {
+        content: "▶";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        background: none;
+        font-size: 8px;
+        line-height: 1;
+        transform: translateY(-50%);
+    }
+}

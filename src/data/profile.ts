@@ -39,5 +39,6 @@ export const favorites = [ //新しい写真は一番上に追加する
 // 自分のURLを入力するとSNSボタンが有効になります。
 export const socials = [
     { name: 'Instagram', url: 'https://www.instagram.com/in_the_sky.04?obrf=MW16cHRteG41M3hoeQ%3D%3D&utm_source=qr' },
-    { name: 'GitHub', url: 'https://github.com/Sora-poco' },
+    { name: 'GitHub', url: 'https://github.com/poco-sky' },
+    { name: 'Suno', url: 'https://suno.com/@in_the_sky' },
 ];
