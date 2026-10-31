@@ -975,3 +975,112 @@ sora-music-player[data-playing="true"] .icon-pause {
         transform: translate(0px, 0px);
     }
 }
+
+/* 表示切替と並び替えを隣に配置 */
+.music-view-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: auto;
+}
+
+.music-view-actions .music-sort {
+    margin-left: 0;
+}
+
+/* 表示切替アイコン */
+.music-view-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.music-view-toggle:hover {
+    opacity: 0.65;
+}
+
+.music-view-toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.music-view-toggle .zoom-plus {
+    display: none;
+}
+
+.music-view-toggle[aria-pressed="true"] .zoom-plus {
+    display: block;
+}
+
+/* PC：標準4列 → 縮小6列 */
+.music-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.music-grid.is-compact {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    column-gap: 20px;
+}
+
+/* 小さなカードでもタイトルが収まるように調整 */
+.music-grid.is-compact .music-card-copy {
+    gap: 6px;
+    padding-top: 14px;
+}
+
+.music-grid.is-compact .music-card-copy>div {
+    min-width: 0;
+}
+
+.music-grid.is-compact .music-card-copy h2 {
+    font-size: 15px;
+}
+
+/* スマホ：標準2列 → 縮小3列 */
+@media (max-width: 700px) {
+    .music-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .music-grid.is-compact {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        column-gap: 12px;
+    }
+
+    .music-grid.is-compact .music-card-copy {
+        padding-left: 0;
+        padding-right: 0;
+        gap: 4px;
+    }
+
+    .music-grid.is-compact .music-card-copy h2 {
+        font-size: 13px;
+    }
+
+    .music-grid.is-compact .music-card-copy p {
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 701px) {
+    html[data-music-panel="true"] .music-bar .player-progress {
+        position: relative;
+        left: 11px;
+        /* 左右の位置 */
+        top: 0px;
+        /* 上下の位置 */
+    }
+    html[data-music-panel="true"] .music-bar .player-transport {
+        position: relative;
+        left: 11px; /* プラスで右、マイナスで左 */
+        top: 0px;  /* プラスで下、マイナスで上 */
+    }
+}

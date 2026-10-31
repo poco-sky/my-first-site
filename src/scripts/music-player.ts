@@ -9,7 +9,7 @@ class SoraMusicPlayer extends HTMLElement {
     private tracks: Track[] = [];
     private queue: string[] = [];
     private queueIndex = -1;
-    private shuffleMode = false;
+    private continuousMode = false;
     private lastShuffles = new Map<string, string[]>();
     private audio!: HTMLAudioElement;
     private active: Track | null = null;
@@ -17,6 +17,7 @@ class SoraMusicPlayer extends HTMLElement {
     private language: 'original' | 'translation' = 'original';
     private genre = '洋楽';
     private sortOrder: 'oldest' | 'newest' = 'newest';
+    private genreSortOrders = new Map<string, 'oldest' | 'newest'>();
     private request = 0;
     private frame = 0;
     private mobile = window.matchMedia('(max-width: 700px)');
@@ -41,18 +42,46 @@ class SoraMusicPlayer extends HTMLElement {
                 case 'previous': this.moveTrack(-1); break;
                 case 'next': this.moveTrack(1); break;
                 case 'close': this.closePlayer(); break;
-                case 'details': this.openPanel(); break;
+                case 'details':
+                    if (this.panelOpen) {
+                        this.closePanel();
+                    } else {
+                        this.openPanel();
+                    }
+                    break;
                 case 'hide-details': this.closePanel(); break;
             }
         });
         document.addEventListener('click', event => {
-            const target = (event.target as Element).closest<HTMLElement>('[data-track-play], [data-music-filter], [data-music-sort], [data-music-shuffle]');
+            const target = (event.target as Element).closest<HTMLElement>(
+                '[data-track-play], [data-music-filter], [data-music-sort], [data-music-shuffle], [data-music-sequence]'
+            );
             if (!target) return;
             if (target.hasAttribute('data-music-shuffle')) this.startShuffle();
+            if (target.hasAttribute('data-music-sequence')) this.startSequence();
             if (target.dataset.trackPlay) this.select(target.dataset.trackPlay);
-            if (target.dataset.musicFilter) { this.genre = target.dataset.musicFilter; this.filter(); }
+            if (target.dataset.musicFilter) {
+                const nextGenre = target.dataset.musicFilter;
+
+                if (nextGenre !== this.genre) {
+                    // 切り替え前のジャンルの並び順を記憶。
+                    this.genreSortOrders.set(this.genre, this.sortOrder);
+
+                    this.genre = nextGenre;
+
+                    // 保存済みの並び順を復元。初めてなら新着順。
+                    this.sortOrder =
+                        this.genreSortOrders.get(nextGenre) ?? 'newest';
+
+                    this.filter();
+                    this.sortCards();
+                }
+            }
             if (target.hasAttribute('data-music-sort')) {
-                this.sortOrder = this.sortOrder === 'oldest' ? 'newest' : 'oldest';
+                this.sortOrder =
+                    this.sortOrder === 'oldest' ? 'newest' : 'oldest';
+
+                this.genreSortOrders.set(this.genre, this.sortOrder);
                 this.sortCards();
             }
         });
@@ -65,7 +94,7 @@ class SoraMusicPlayer extends HTMLElement {
             this.audio.addEventListener(type, () => { this.updatePlayback(); });
         }
         this.audio.addEventListener('ended', () => {
-            if (this.shuffleMode && this.audio.ended) this.moveTrack(1);
+            if (this.continuousMode && this.audio.ended) this.moveTrack(1);
         });
         this.audio.addEventListener('error', () => {
             if (this.active) { this.error = '音声を読み込めませんでした。ファイルの場所を確認してください。'; this.updatePlayback(); }
@@ -81,20 +110,36 @@ class SoraMusicPlayer extends HTMLElement {
         const track = this.tracks.find(item => item.id === id);
         if (!track) return;
         if (this.active?.id === id) { this.toggle(); return; }
-        this.shuffleMode = false;
+        this.continuousMode = false;
         this.queue = this.tracks.filter(item => item.genre === track.genre).map(item => item.id);
         if (this.sortOrder === 'newest') this.queue.reverse();
         this.queueIndex = this.queue.indexOf(id);
         this.startTrack(id);
     }
+    private startSequence() {
+        // 現在表示されているカードを、画面に並んでいる順に取得。
+        const cards = document.querySelectorAll<HTMLElement>(
+            '.music-grid [data-track-card]:not([hidden])',
+        );
 
+        const ids = Array.from(cards)
+            .map(card => card.dataset.trackCard!)
+            .filter(id => this.tracks.some(track => track.id === id));
+
+        if (!ids.length) return;
+
+        this.queue = ids;
+        this.queueIndex = 0;
+        this.continuousMode = true;
+        this.startTrack(this.queue[0]);
+    }
     private startShuffle() {
         const ids = this.tracks.filter(track => track.genre === this.genre).map(track => track.id);
         if (!ids.length) return;
         this.queue = shuffledIds(ids, this.lastShuffles.get(this.genre));
         this.lastShuffles.set(this.genre, [...this.queue]);
         this.queueIndex = 0;
-        this.shuffleMode = true;
+        this.continuousMode = true;
         this.startTrack(this.queue[0]);
     }
 
@@ -150,7 +195,7 @@ class SoraMusicPlayer extends HTMLElement {
         this.active = null;
         this.queue = [];
         this.queueIndex = -1;
-        this.shuffleMode = false;
+        this.continuousMode = false;
         this.error = '';
         this.panelOpen = false;
         this.audio.removeAttribute('src');
@@ -217,6 +262,28 @@ class SoraMusicPlayer extends HTMLElement {
         window.dispatchEvent(new Event('resize'));
     }
     private restorePage() {
+        // お知らせのリンクに指定されたジャンルを取得。
+        const requestedGenre = new URLSearchParams(
+            window.location.search,
+        ).get('genre');
+
+        const isMusicPage = !!document.querySelector('.music-grid');
+
+        if (
+            isMusicPage &&
+            requestedGenre &&
+            requestedGenre !== this.genre &&
+            this.tracks.some(track => track.genre === requestedGenre)
+        ) {
+            // 現在のジャンルの並び順を保存。
+            this.genreSortOrders.set(this.genre, this.sortOrder);
+
+            // リンク先のジャンルと、そのジャンルの並び順を復元。
+            this.genre = requestedGenre;
+            this.sortOrder =
+                this.genreSortOrders.get(requestedGenre) ?? 'newest';
+        }
+
         this.layout();
         this.filter();
         this.sortCards();
@@ -229,8 +296,8 @@ class SoraMusicPlayer extends HTMLElement {
         const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-track-card]'));
         cards.sort((a, b) => (Number(a.dataset.trackIndex) - Number(b.dataset.trackIndex)) * (this.sortOrder === 'oldest' ? 1 : -1));
         grid.append(...cards);
-        const label = this.sortOrder === 'oldest' ? '古い順' : '新しい順';
-        const next = this.sortOrder === 'oldest' ? '新しい順' : '古い順';
+        const label = this.sortOrder === 'oldest' ? '古い順' : '新着順';
+        const next = this.sortOrder === 'oldest' ? '新着順' : '古い順';
         const button = document.querySelector<HTMLButtonElement>('[data-music-sort]');
         if (button) {
             button.textContent = `${label}↓`;
@@ -246,8 +313,8 @@ class SoraMusicPlayer extends HTMLElement {
         const shuffle = document.querySelector<HTMLButtonElement>('[data-music-shuffle]');
         if (shuffle) {
             shuffle.disabled = count === 0;
-            shuffle.setAttribute('aria-label', `${this.genre}をランダム再生`);
-            shuffle.title = `${this.genre}をランダム再生`;
+            shuffle.setAttribute('aria-label', `$ランダム再生`);
+            shuffle.title = `ランダム再生`;
         }
         const empty = document.querySelector<HTMLElement>('#music-empty'); if (empty) empty.hidden = count !== 0;
     }

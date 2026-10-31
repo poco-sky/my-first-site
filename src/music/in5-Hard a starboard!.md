@@ -2,7 +2,7 @@
 title: 'Hard a starboard!'
 artist: 'Sora'
 genre: 'Instrumental'
-addedAt: '5'
+addedAt: '2026-11-06'
 audio: '/music/Hard a starboard!.mp3'
 cover: '/images/music/Hard a starboard!.jpg'
 ---

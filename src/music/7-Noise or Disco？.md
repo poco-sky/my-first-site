@@ -2,7 +2,7 @@
 title: 'Noise or Disco？'
 artist: 'Sora'
 genre: '洋楽'
-addedAt: '7'
+addedAt: '2026-11-07'
 audio: '/music/Noise or Disco？.mp3'
 cover: '/images/music/Noise or Disco？.jpg'
 ---

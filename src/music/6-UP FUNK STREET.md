@@ -2,7 +2,7 @@
 title: 'UP FUNK STREET'
 artist: 'Sora'
 genre: '洋楽'
-addedAt: '6'
+addedAt: '2026-11-06'
 audio: '/music/UP FUNK STREET.mp3'
 cover: '/images/music/UP FUNK STREET.jpg'
 ---

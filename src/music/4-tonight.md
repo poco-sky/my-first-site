@@ -2,7 +2,7 @@
 title: 'Tonight'
 artist: 'Sora'
 genre: '洋楽'
-addedAt: '4'
+addedAt: '2026-11-04'
 audio: '/music/Tonight.mp3'
 cover: '/images/music/Tonight.jpg'
 ---

@@ -2,7 +2,7 @@
 title: 'Glory bloom'
 artist: 'Sora'
 genre: '洋楽'
-addedAt: '5'
+addedAt: '2026-11-05'
 audio: '/music/Glory bloom.mp3'
 cover: '/images/music/Glory bloom.jpg'
 ---

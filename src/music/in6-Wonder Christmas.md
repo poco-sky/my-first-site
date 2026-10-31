@@ -2,7 +2,7 @@
 title: 'Wonder Christmas'
 artist: 'Sora'
 genre: 'Instrumental'
-addedAt: '6'
+addedAt: '2026-11-07'
 audio: '/music/Wonder Christmas.mp3'
 cover: '/images/music/Wonder Christmas.jpg'
 ---

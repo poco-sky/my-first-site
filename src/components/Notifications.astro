@@ -1,0 +1,95 @@
+---
+import { getCollection } from "astro:content";
+import { notifications, type Notice } from "../data/notifications";
+import "../styles/notifications.css";
+
+const [music, blog] = await Promise.all([
+    getCollection("music"),
+    getCollection("blog"),
+]);
+const notices: Notice[] = [
+    ...notifications,
+    ...music.map((entry) => ({
+        text: "MUSICに",
+        emphasis: `"${entry.data.title} (${entry.data.genre})"`,
+        href: `/music/?genre=${encodeURIComponent(entry.data.genre)}`,
+        date: entry.data.addedAt.toISOString().slice(0, 10),
+    })),
+    ...blog.map((entry) => ({
+        text: "BLOGに",
+        emphasis: `「${entry.data.title}」`,
+        href: `/posts/${entry.id}/`,
+        date: entry.data.pubDate.toISOString().slice(0, 10),
+    })),
+].sort((a, b) => b.date.localeCompare(a.date));
+const formatDate = (date: string) => {
+    const [year, month, day] = date.split("-");
+    return `${year}/${month}/${day}`;
+};
+---
+
+<site-notifications>
+    <button
+        type="button"
+        class="notice-toggle"
+        aria-label="お知らせ"
+        title="お知らせを開く"
+        aria-expanded="false"
+        aria-controls="notice-panel"
+    >
+        <svg
+            width="21"
+            height="21"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+        >
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"
+            ></path>
+        </svg>
+    </button>
+    <section
+        id="notice-panel"
+        class="notice-panel"
+        aria-labelledby="notice-heading"
+        hidden
+    >
+        <div class="notice-heading-row">
+            <h2 id="notice-heading">お知らせ</h2><span>UPDATES</span>
+        </div>
+        {
+            notices.length ? (
+                <ul class="notice-list">
+                    {notices.map((notice) => (
+                        <li>
+                            <a href={notice.href}>
+                                <span>
+                                    {notice.text}
+                                    {notice.emphasis && (
+                                        <>
+                                            <strong>{notice.emphasis}</strong>
+                                            {notice.suffix ?? "を追加しました．"}
+                                        </>
+                                    )}
+                                </span>
+                                <time datetime={notice.date}>
+                                    {formatDate(notice.date)}
+                                </time>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p class="notice-empty">お知らせはまだありません。</p>
+            )
+        }
+    </section>
+</site-notifications>
+
+<script>
+    import "../scripts/notifications";
+</script>

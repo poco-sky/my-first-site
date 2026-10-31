@@ -1028,3 +1028,43 @@ html {
         transform: translateY(-50%);
     }
 }
+
+/* ナビ固定中はテーマ切り替えボタンも残す */
+.site-header:has(nav.is-pinned) .theme-toggle {
+    position: fixed;
+    top: 6px;
+    left: 28px;
+    z-index: 31;
+    margin: 0;
+}
+
+/* ボタンとナビが重ならないように左右の空間を確保 */
+.site-header nav.is-pinned {
+    padding-left: 130px;
+    padding-right: 130px;
+}
+
+@media (max-width: 700px) {
+    .site-header:has(nav.is-pinned) .theme-toggle {
+        left: 8px;
+    }
+
+    .site-header nav.is-pinned {
+        padding-left: 60px;
+        padding-right: 8px;
+        gap: 10px;
+    }
+
+    /* 固定中の横並びナビではリンクの余白を小さくする */
+    .site-header #main-menu.is-pinned a {
+        padding-left: 0;
+        padding-right: 0;
+        letter-spacing: 0;
+        font-size: 10px;
+    }
+
+    /* 現在のページを示す▶のスペース */
+    .site-header #main-menu.is-pinned a[aria-current="page"] {
+        padding-left: 10px;
+    }
+}

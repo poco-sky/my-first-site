@@ -2,7 +2,7 @@
 title: 'Palace'
 artist: 'Sora'
 genre: 'Instrumental'
-addedAt: '4'
+addedAt: '2026-11-05'
 audio: '/music/Palace.mp3'
 cover: '/images/music/Palace.jpg'
 ---

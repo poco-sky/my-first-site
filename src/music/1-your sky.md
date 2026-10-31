@@ -2,7 +2,7 @@
 title: 'your sky'
 artist: 'Sora'
 genre: '洋楽'
-addedAt: '1'
+addedAt: '2026-11-01'
 audio: '/music/your sky.mp3'
 cover: '/images/music/your sky.jpg'
 ---

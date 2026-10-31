@@ -1,0 +1,211 @@
+:root {
+    --notice-width: 30vw;
+    /* PCのお知らせ幅 */
+    --notice-max-height: 79dvh;
+    /* 高さの上限 */
+}
+
+site-notifications {
+    display: contents;
+}
+
+.site-header .notice-toggle {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    z-index: 32;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: background .18s, color .18s;
+}
+
+.site-header .notice-toggle:hover {
+    background: var(--surface-hover);
+}
+
+.site-header .notice-toggle[aria-expanded="true"] {
+    background: var(--text);
+    color: var(--page-bg);
+}
+
+.home-page .site-header .notice-toggle {
+    color: white;
+}
+
+.home-page .site-header .notice-toggle:hover {
+    background: #ffffff26;
+}
+
+.home-page .site-header .notice-toggle[aria-expanded="true"] {
+    background: white;
+    color: #182832;
+}
+
+.site-header:has(nav.is-pinned) .notice-toggle {
+    position: fixed;
+    top: 6px;
+    right: calc(var(--music-panel-width, 0px) + 28px);
+}
+
+.site-header nav.is-pinned {
+    padding-right: 80px;
+}
+
+.site-header .notice-panel {
+    position: fixed;
+    z-index: 31;
+    top: var(--notice-top, 80px);
+    right: calc(var(--music-panel-width, 0px) + 12px);
+    width: var(--notice-width);
+    max-width: calc(100vw - 24px);
+    max-height: min(var(--notice-max-height), calc(100dvh - var(--notice-top, 80px) - 12px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--page-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 12px 40px #0002;
+    text-shadow: none;
+    text-align: left;
+    scrollbar-width: thin;
+}
+
+.site-header .notice-panel[hidden] {
+    display: none;
+}
+
+.notice-heading-row {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 22px;
+    background: var(--page-bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.notice-heading-row h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.notice-heading-row>span {
+    font-size: 9px;
+    letter-spacing: .16em;
+    color: var(--muted);
+}
+
+.notice-list {
+    margin: 0;
+    padding: 0 22px;
+    list-style: none;
+}
+
+.notice-list li+li {
+    border-top: 1px solid var(--border);
+}
+
+.notice-list a {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px 0;
+    font-size: 13px;
+    line-height: 1.7;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.notice-list a:hover>span {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.notice-list time {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .06em;
+}
+
+.notice-empty {
+    margin: 0;
+    padding: 24px 22px;
+    font-size: 13px;
+}
+
+@media (max-width: 700px) {
+    .site-header:has(site-notifications) {
+        grid-template-columns: 44px minmax(0, 1fr) 44px 44px;
+        gap: 4px;
+    }
+
+    .site-header:has(site-notifications) .wordmark {
+        min-width: 0;
+        font-size: clamp(16px, 4.6vw, 24px);
+    }
+
+    .site-header:has(site-notifications) .wordmark span {
+        font-size: 6px;
+        letter-spacing: 0;
+    }
+
+    .site-header .notice-toggle {
+        position: static;
+        grid-column: 3;
+        grid-row: 1;
+        align-self: center;
+    }
+
+    .site-header:has(site-notifications) .menu-toggle {
+        grid-column: 4;
+        grid-row: 1;
+    }
+
+    .site-header:has(nav.is-pinned) .notice-toggle {
+        right: 8px;
+    }
+
+    .site-header:has(site-notifications) #main-menu.is-pinned {
+        padding-left: 58px;
+        padding-right: 58px;
+        gap: 6px;
+    }
+
+    .site-header:has(site-notifications) #main-menu.is-pinned a {
+        padding-left: 0;
+        padding-right: 0;
+        font-size: 9px;
+        letter-spacing: 0;
+    }
+
+    .site-header:has(site-notifications) #main-menu.is-pinned a[aria-current="page"] {
+        padding-left: 9px;
+    }
+
+    .site-header .notice-panel {
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: none;
+        border-radius: 0 0 12px 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-header .notice-toggle {
+        transition: none;
+    }
+}
