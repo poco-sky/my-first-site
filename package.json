@@ -16,5 +16,8 @@
     "@astrojs/rss": "^4.0.19",
     "astro": "^7.4.2",
     "preact": "^11.0.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.156.0"
   }
 }
