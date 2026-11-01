@@ -1067,6 +1067,7 @@ html {
     .site-header #main-menu.is-pinned a[aria-current="page"] {
         padding-left: 10px;
     }
+
     .site-header .wordmark {
         position: absolute;
         top: 50%;
@@ -1095,5 +1096,50 @@ html {
     .site-header .theme-toggle {
         grid-column: 1;
         grid-row: 1;
+    }
+}
+
+/* BLOG：ページ上部の余白をMUSICに合わせる */
+.page-content:has(> .blog-tags) {
+    padding-top: 10px;
+}
+
+/* MUSICのタイトル下と空のmusic-introの余白に合わせる */
+.page-content:has(> .blog-tags)>h1 {
+    margin-bottom: 24px;
+}
+
+/* PCではMUSICの44pxの操作行と同じ高さで中央揃え */
+.page-content>.blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    margin: 0 0 18px;
+}
+
+/* MUSICのジャンルボタンと同じ寸法 */
+.page-content>.blog-tags a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    padding: 6px 18px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.9;
+    text-decoration: none;
+}
+
+/* スマホのMUSICは操作ボタンを次の行に移しているため、
+   ジャンルボタン自体の高さに合わせる */
+@media (max-width: 700px) {
+    .page-content>.blog-tags {
+        min-height: 36.8px;
     }
 }

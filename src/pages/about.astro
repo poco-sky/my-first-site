@@ -236,7 +236,29 @@ const timeline = [...qualifications].sort((a, b) =>
                         </a>
                     ))
                 }
+                <button
+                    type="button"
+                    class="social-icon-link site-share-button"
+                    data-site-share
+                    aria-label="このサイトを共有"
+                    title="このサイトを共有"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M12 15V3m-4 4 4-4 4 4"></path>
+                        <path d="M5 11v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9"
+                        ></path>
+                    </svg>
+                </button>
             </div>
+            <p class="site-share-status" data-share-status role="status"></p>
         </section>
         <a class="text-link" href="/">← ホームに戻る</a>
     </div>
@@ -960,5 +982,81 @@ const timeline = [...qualifications].sort((a, b) =>
             display: inline;
         }
     }
-    
+    .social-links .site-share-button {
+        background: transparent;
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    .site-share-button:disabled {
+        opacity: 0.5;
+        cursor: wait;
+    }
+
+    .site-share-status {
+        margin: 8px 0 0;
+        text-align: center;
+        font-size: 11px;
+        color: var(--muted);
+    }
+
+    .site-share-status:empty {
+        display: none;
+    }
 </style>
+<script>
+    document.addEventListener("click", async (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        const button =
+            event.target.closest<HTMLButtonElement>("[data-site-share]");
+
+        if (!button || button.disabled) return;
+
+        const status = document.querySelector<HTMLElement>(
+            "[data-share-status]",
+        );
+
+        // 今開いているサイトのホームURLを共有。
+        const url = new URL("/", window.location.href).href;
+
+        const shareData = {
+            title: "IN THE SKY",
+            url,
+        };
+
+        if (status) status.textContent = "";
+        button.disabled = true;
+
+        try {
+            if (typeof navigator.share === "function") {
+                try {
+                    await navigator.share(shareData);
+                    return;
+                } catch (error) {
+                    // 共有画面をキャンセルした場合は何もしない。
+                    if (
+                        error instanceof DOMException &&
+                        error.name === "AbortError"
+                    ) {
+                        return;
+                    }
+                }
+            }
+
+            // 共有画面を使えない場合はURLをコピー。
+            try {
+                await navigator.clipboard.writeText(url);
+
+                if (status) {
+                    status.textContent = "サイトのURLをコピーしました。";
+                }
+            } catch {
+                // コピーが許可されない場合は手動コピー用に表示。
+                window.prompt("このURLをコピーして共有してください。", url);
+            }
+        } finally {
+            button.disabled = false;
+        }
+    });
+</script>

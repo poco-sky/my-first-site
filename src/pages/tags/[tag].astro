@@ -30,8 +30,8 @@ function getThumbnail(post: (typeof posts)[number]) {
 ---
 
 <BaseLayout pageTitle="Blog">
-  <nav class="tag-list" aria-label="記事のタグ">
-    <a href="/blog/">ALL</a>
+  <nav class="tag-list blog-tags" aria-label="記事のタグ">
+    <a href="/blog/">All</a>
     {
       tags.map((item) => (
         <a

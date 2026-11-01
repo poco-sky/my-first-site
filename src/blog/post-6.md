@@ -1,7 +1,7 @@
 ---
 title: 'MUSICページが完成'
 pubDate: 2026-11-3
-description: '一番大変で，一番楽しい制作だった'
+description: '一番大変で，一番楽しい制作だった．'
 author: 'Sora'
 image:
     url: '/images/music.png'
