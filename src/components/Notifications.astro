@@ -14,12 +14,14 @@ const notices: Notice[] = [
         emphasis: `"${entry.data.title} (${entry.data.genre})"`,
         href: `/music/?genre=${encodeURIComponent(entry.data.genre)}`,
         date: entry.data.addedAt.toISOString().slice(0, 10),
+        kind: "music" as const,
     })),
     ...blog.map((entry) => ({
         text: "BLOGに",
         emphasis: `「${entry.data.title}」`,
         href: `/posts/${entry.id}/`,
         date: entry.data.pubDate.toISOString().slice(0, 10),
+        kind: "blog" as const,
     })),
 ].sort((a, b) => b.date.localeCompare(a.date));
 const formatDate = (date: string) => {
@@ -67,18 +69,65 @@ const formatDate = (date: string) => {
                     {notices.map((notice) => (
                         <li>
                             <a href={notice.href}>
-                                <span>
-                                    {notice.text}
-                                    {notice.emphasis && (
-                                        <>
-                                            <strong>{notice.emphasis}</strong>
-                                            {notice.suffix ?? "を追加しました．"}
-                                        </>
-                                    )}
+                                <span class="notice-icon" aria-hidden="true">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        {notice.kind === "music" && (
+                                            <>
+                                                <path d="M9 18V5l12-2v13M9 9l12-2" />
+                                                <ellipse
+                                                    cx="6"
+                                                    cy="18"
+                                                    rx="3"
+                                                    ry="3"
+                                                />
+                                                <ellipse
+                                                    cx="18"
+                                                    cy="16"
+                                                    rx="3"
+                                                    ry="3"
+                                                />
+                                            </>
+                                        )}
+
+                                        {notice.kind === "blog" && (
+                                            <>
+                                                <path d="M12 5v16" />
+                                                <path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-3-1-7-1-10 1Z" />
+                                                <path d="M5 8c1.5-.2 3 .1 4 1M15 9c1-.9 2.5-1.2 4-1" />
+                                            </>
+                                        )}
+
+                                        {notice.kind === "favorite" && (
+                                            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
+                                        )}
+                                    </svg>
                                 </span>
-                                <time datetime={notice.date}>
-                                    {formatDate(notice.date)}
-                                </time>
+
+                                <span class="notice-copy">
+                                    <span class="notice-message">
+                                        {notice.text}
+                                        {notice.emphasis && (
+                                            <>
+                                                <strong>
+                                                    {notice.emphasis}
+                                                </strong>
+                                                {notice.suffix ??
+                                                    "を追加しました．"}
+                                            </>
+                                        )}
+                                    </span>
+
+                                    <time datetime={notice.date}>
+                                        {formatDate(notice.date)}
+                                    </time>
+                                </span>
                             </a>
                         </li>
                     ))}

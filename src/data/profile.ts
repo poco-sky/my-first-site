@@ -1,34 +1,46 @@
 // プロフィールの文章・画像・資格・SNSはここで編集します。
 export const profile = {
     name: 'Sora', birthYear: '2004', pronoun: 'He, Him', mbti: 'INTJ-A (建築家)',
-    introduction: '好きなものを，好きなように，好きなだけ．\n趣味の一環でAIを用いて服をデザインしたり，音楽を作ったりしています．\nそれらの作品はこのサイトで閲覧できるのでぜひ見てみてください！\nまた，来年からの社会人生活に向けてNISAやふるさと納税などの様々な事柄を勉強中です．\nこのページには、自分らしいものを少しずつ集めていきます．',
+    introduction: '好きなものを，好きなように，好きなだけ．\n趣味は魚釣りと古着屋巡りに加え，AIを用いて服をデザインしたり，音楽を作ることです．作成した服や曲はこのサイトで閲覧できるのでぜひ見てみてください！\nまた，来年からの社会人生活に向けてNISAやふるさと納税などを勉強中です．\nこのページには、自分らしいものを少しずつ集めていきます．',
     image: '/images/pro.png', imageAlt: 'フグ',
 };
 // 記入例です。実際の資格と取得日に変更してください。日付順に表示されます。
 export const qualifications = [
-    { date: '2023-10', name: 'ITパスポート', note: '2023-10' },
-    { date: '2024-05', name: '情報セキュリティマネジメント', note: '2024-05' },
-    { date: '2024-09', name: 'G検定', note: '2024-09' },
-    { date: '2025-02', name: 'TOEIC L&R test score 745', note: '2025-02' },
+    { date: '2023/10', name: 'ITパスポート', note: '2023年10月' },
+    { date: '2023/11', name: '秘書検定 2級', note: '2023年11月' },
+    { date: '2024/05', name: '情報セキュリティマネジメント', note: '2024年05月' },
+    { date: '2024/05', name: '日商簿記 3級', note: '2024年05月' },
+    { date: '2024/09', name: 'G検定', note: '2024年09月' },
+    { date: '2025/02', name: 'TOEIC L&R test score 745', note: '2025年02月' },
 ];
 export const skills = [
     {
-        name: 'Astro', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/astro/astro-original.svg',
+        name: 'Astro',
+        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/astro/astro-original.svg',
     },
     {
-        name: 'C言語', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/c/c-original.svg',
+        name: 'C言語',
+        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/c/c-original.svg',
     },
     {
-        name: 'Canva', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/canva/canva-original.svg',
+        name: 'Python',
+        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/python/python-original.svg',
     },
     {
-        name: 'ChatGPT', icon: 'https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg',
+        name: 'ChatGPT',
+        icon: 'https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg',
     },
     {
-        name: 'C++', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/cplusplus/cplusplus-original.svg',
+        name: 'HTML',
+        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/html5/html5-original.svg',
     },
     {
-        name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/python/python-original.svg',
+        name: 'CSS',
+        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/css3/css3-original.svg',
+    },
+    {
+        name: 'TypeScript',
+        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/typescript/typescript-original.svg',
     },
 ];
 

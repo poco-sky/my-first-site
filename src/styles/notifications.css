@@ -129,11 +129,6 @@ site-notifications {
     overflow-wrap: anywhere;
 }
 
-.notice-list a:hover>span {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
 .notice-list time {
     font-size: 10px;
     color: var(--muted);
@@ -208,4 +203,72 @@ site-notifications {
     .site-header .notice-toggle {
         transition: none;
     }
+}
+
+/* 高さを固定し、アイコン追加による縦方向の拡大を防ぐ */
+.notice-list a {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    height: 84px;
+    padding: 12px 0 12px 60px;
+    overflow: hidden;
+}
+
+/* アイコンは行の高さに影響させず、枠の中に収める */
+.notice-icon {
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 0;
+    width: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+}
+
+.notice-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* 文章と日付を縦に配置 */
+.notice-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    width: 100%;
+}
+
+.notice-message {
+    font-size: 13px;
+    line-height: 1.5;
+
+    /* 長い文章でも枠を広げず、最大2行に収める */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.notice-copy time {
+    flex: none;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.notice-list a:hover .notice-message {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.notice-heading-row {
+    z-index: 2;
+    background: var(--page-bg);
 }
