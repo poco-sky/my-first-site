@@ -1067,4 +1067,33 @@ html {
     .site-header #main-menu.is-pinned a[aria-current="page"] {
         padding-left: 10px;
     }
+    .site-header .wordmark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: calc(100% - 200px);
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        white-space: nowrap;
+
+        /* 左右のボタンとの重なりを防ぐ */
+        font-size: clamp(14px, 4.2vw, 24px);
+        letter-spacing: 0.08em;
+    }
+
+    .site-header .wordmark span {
+        text-align: center;
+        white-space: nowrap;
+        font-size: clamp(5px, 1.5vw, 7px);
+        letter-spacing: 0;
+    }
+
+    /* タイトルを通常の配置から外しても左端を維持 */
+    .site-header .theme-toggle {
+        grid-column: 1;
+        grid-row: 1;
+    }
 }

@@ -262,7 +262,14 @@ const timeline = [...qualifications].sort((a, b) =>
         </div>
         <!-- .dialog-layout の閉じタグ -->
 
-        <p class="dialog-hint">ウィンドウの外側をクリックすると戻れます</p>
+        <p class="dialog-hint">
+            <span class="hint-desktop">
+                ウィンドウの外側をクリックすると戻れます
+            </span>
+            <span class="hint-mobile">
+                ウィンドウの外側をタップすると戻れます
+            </span>
+        </p>
     </dialog>
     <script
         type="application/json"
@@ -894,5 +901,54 @@ const timeline = [...qualifications].sort((a, b) =>
         text-shadow: 0 1px 6px #000;
 
         pointer-events: none;
+    }
+    /* PCでは従来の文章だけを表示 */
+    .hint-mobile {
+        display: none;
+    }
+
+    @media (max-width: 700px) {
+        /* 外枠はスクロールさせない */
+        #favorite-dialog {
+            overflow: visible;
+            max-height: none;
+        }
+
+        /* 画像と説明の部分だけをスクロール */
+        #favorite-dialog .dialog-layout {
+            max-height: min(70dvh, calc(100dvh - 120px));
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        /* ×は外枠に固定するため、本文をスクロールしても残る */
+        #favorite-dialog .dialog-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 3;
+        }
+
+        /* 案内文はウィンドウの下端から18px下 */
+        #favorite-dialog .dialog-hint {
+            position: absolute;
+            top: calc(100% + 18px);
+            bottom: auto;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            padding: 0 4px;
+            font-size: 10px;
+            line-height: 1.6;
+            pointer-events: none;
+        }
+
+        .hint-desktop {
+            display: none;
+        }
+
+        .hint-mobile {
+            display: inline;
+        }
     }
 </style>

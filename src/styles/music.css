@@ -1078,9 +1078,35 @@ sora-music-player[data-playing="true"] .icon-pause {
         top: 0px;
         /* 上下の位置 */
     }
+
     html[data-music-panel="true"] .music-bar .player-transport {
         position: relative;
-        left: 11px; /* プラスで右、マイナスで左 */
-        top: 0px;  /* プラスで下、マイナスで上 */
+        left: 11px;
+        /* プラスで右、マイナスで左 */
+        top: 0px;
+        /* プラスで下、マイナスで上 */
+    }
+}
+
+@media (max-width: 700px) {
+    .music-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .music-toolbar .music-filters {
+        width: 100%;
+    }
+
+    .music-toolbar .music-view-actions {
+        width: 100%;
+        margin-left: 0;
+        justify-content: flex-start;
+        gap: 14px;
+    }
+
+    .music-toolbar .music-view-actions .music-sort {
+        margin-left: 0;
     }
 }
