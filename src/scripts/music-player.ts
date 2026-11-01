@@ -354,7 +354,7 @@ class SoraMusicPlayer extends HTMLElement {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         document.querySelectorAll<HTMLElement>('[data-track-card]').forEach(card => {
             const image = card.querySelector<HTMLElement>('.record-image');
-            if (image) image.style.transform = `rotate(${card.dataset.trackCard === this.active?.id && !reduced ? (time * 15) % 360 : 0}deg)`;
+            if (image) image.style.transform = `rotate(${card.dataset.trackCard === this.active?.id && !reduced ? (time * 12) % 360 : 0}deg)`;
         });
     }
     private onKeydown(event: KeyboardEvent) {

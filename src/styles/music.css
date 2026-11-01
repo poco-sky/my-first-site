@@ -491,6 +491,7 @@ sora-music-player[data-playing="true"] .icon-pause {
     line-height: 2;
     font-size: 16px;
     padding-top: 24px;
+    font-weight: 600;
 }
 
 @container site (max-width: 1000px) {

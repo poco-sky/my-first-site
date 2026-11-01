@@ -12,6 +12,7 @@ You awaken to the light.
 The summer breeze, a gentle touch,
 Calls out my name, I want you so much.
 
+[Verse 2]
 Beyond the curtain, pure and white,
 I see your small silhouette in the light.
 I just reach out my hand to feel your warmth,
@@ -23,12 +24,13 @@ It feels like the sky, so blue, begins to taunt and wander.
 I could only stare at you,
 My heart just had to see it through.
 
-[Verse 2]
+[Verse 3]
 When the Morning Glory starts to fade,
 I know that I can finally be made
 To go and meet you, but a winter gust,
 Takes you away without any trust.
 
+[Verse 4]
 I stand beside you, just a little bit taller,
 A mundane future, nothing smaller.
 I only wish we could be side by side,
@@ -53,5 +55,52 @@ My longing heart will take its flight,
 Riding on the breeze, far out of sight.
 
 <!-- translation -->
+[Verse 1]
+アサガオが咲く頃に
+君は目を覚ます
+夏の風が頬をなでて
+僕を呼ぶようで 会いたくなる
 
-準備中です．
+[Verse 2]
+真っ白なカーテン越しに
+映る君の小さな影
+その温もりに触れたくて 手を伸ばす
+どんな嵐も越え 届くことを願って
+
+[Chorus]
+物思いをするには 君が眩しすぎるから
+青すぎる空さえ 僕をからかうようで
+
+ただ君を見つめていたんだ
+この想いの行方を見届けたかった
+
+[Verse 3]
+アサガオが枯れる頃
+君に会いに行けるはずだった
+冬の風が断り無く
+君を連れて行く
+
+[Verse 4]
+少しだけ背伸びして 君の隣に立つ
+ありふれた未来で それだけで
+ただ2人 肩を並べて
+歩いていられたら
+
+[Chorus]
+恋煩いをするには 空が青すぎるから
+眩しい太陽が 僕を急かすようで
+
+握りつぶした言葉には
+好きとしか書いてなかった
+
+[Pre Chorus]
+散っていく花の命も
+きっとまた生まれ変わる
+何度同じ季節を迎えれば
+奇跡は訪れるのだろうか
+
+[Chorus]
+君を忘れるには 君は素敵すぎた
+でもこの空が僕らを繋いでいくはず
+行き場をなくした 君への想いを
+そっと風に乗せて 遠くへ
