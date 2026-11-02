@@ -1,18 +1,155 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { fashionBrand as brand } from "../data/fashion";
+import "../styles/fashion.css";
+const items = (await getCollection("fashion")).sort(
+    (a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
+);
+const pickups = items
+    .filter((item) => item.data.pickup)
+    .sort((a, b) => a.data.pickup!.order - b.data.pickup!.order)
+    .slice(0, 3);
+const categories = [...new Set(items.map((item) => item.data.category))];
 ---
 
-<BaseLayout pageTitle="FASHION"
-    ><section class="empty-state">
+<BaseLayout pageTitle="Fashion" description={brand.concept} fashion>
+    <section class="fashion-hero" aria-label="ブランドのメインビジュアル">
         <img
-            src="/images/fashion.png"
-            alt="Fashionのイメージ"
-            width="720"
-            height="720"
-        /><div>
-            <p class="eyebrow">COMING SOON</p><h2>ただいま、準備中。</h2><p>
-                自分でデザインした服やアイテムを、ここに並べていきます。
-            </p>
+            src={brand.hero}
+            alt={brand.heroAlt}
+            width="1536"
+            height="1024"
+            loading="eager"
+            fetchpriority="high"
+            style={{ objectPosition: brand.heroPosition }}
+        />
+        <span class="fashion-hero-caption">ORIGINAL COLLECTION / SORA</span>
+        <a class="fashion-scroll" href="#fashion-brand"
+            >DISCOVER <span aria-hidden="true">↓</span></a
+        >
+    </section>
+    <section id="fashion-brand" class="fashion-brand">
+        <p class="fashion-kicker">IN THE SKY — FASHION</p>
+        <h1>{brand.name}</h1>
+        <p class="fashion-concept">{brand.concept}</p>
+    </section>
+    <section class="fashion-section" aria-labelledby="pickup-title">
+        <div class="fashion-heading">
+            <h2 id="pickup-title">PICK UP</h2><span>SELECTED LOOKS</span>
         </div>
-    </section></BaseLayout
->
+        <div class="fashion-pickups">
+            {
+                pickups.map((item) => (
+                    <a class="fashion-pickup" href={`/fashion/${item.id}/`}>
+                        <img
+                            src={item.data.pickup!.image}
+                            alt={item.data.pickup!.alt}
+                            width="750"
+                            height="1000"
+                            loading="lazy"
+                        />
+                        <div class="fashion-pickup-copy">
+                            <>
+                                <h3>{item.data.pickup!.title}</h3>
+                                <span>VIEW ITEM</span>
+                            </>
+                        </div>
+                    </a>
+                ))
+            }
+        </div>
+    </section>
+    <section
+        class="fashion-section fashion-items"
+        aria-labelledby="items-title"
+    >
+        <div class="fashion-heading">
+            <h2 id="items-title">ITEM</h2><span>THE COLLECTION</span>
+        </div>
+        <fashion-collection>
+            <div
+                class="fashion-filters"
+                role="group"
+                aria-label="アイテムの種類"
+            >
+                <button
+                    type="button"
+                    data-fashion-filter="*"
+                    aria-pressed="true">ALL</button
+                >
+                {
+                    categories.map((category) => (
+                        <button
+                            type="button"
+                            data-fashion-filter={category}
+                            aria-pressed="false"
+                        >
+                            {category}
+                        </button>
+                    ))
+                }
+            </div>
+            <ul class="fashion-grid">
+                {
+                    items.map((item) => (
+                        <li data-fashion-category={item.data.category}>
+                            <a href={`/fashion/${item.id}/`}>
+                                <div class="fashion-item-image">
+                                    <img
+                                        src={item.data.cover}
+                                        alt={item.data.coverAlt}
+                                        width="750"
+                                        height="1000"
+                                        loading="lazy"
+                                    />
+                                </div>
+                                <>
+                                    <h3>{item.data.title}</h3>
+                                    <p>{item.data.category}</p>
+                                </>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+            <p class="fashion-count" aria-live="polite" data-fashion-count>
+                {items.length} ITEMS
+            </p>
+        </fashion-collection>
+    </section>
+</BaseLayout>
+<script>
+    class FashionCollection extends HTMLElement {
+        connectedCallback() {
+            this.addEventListener("click", this.filter);
+        }
+        disconnectedCallback() {
+            this.removeEventListener("click", this.filter);
+        }
+        filter = (event: Event) => {
+            if (!(event.target instanceof Element)) return;
+            const button = event.target.closest<HTMLButtonElement>(
+                "[data-fashion-filter]",
+            );
+            if (!button) return;
+            const category = button.dataset.fashionFilter;
+            this.querySelectorAll("[data-fashion-filter]").forEach((el) =>
+                el.setAttribute("aria-pressed", String(el === button)),
+            );
+            let count = 0;
+            this.querySelectorAll<HTMLElement>(
+                "[data-fashion-category]",
+            ).forEach((el) => {
+                el.hidden =
+                    category !== "*" && el.dataset.fashionCategory !== category;
+                if (!el.hidden) count++;
+            });
+            const output = this.querySelector("[data-fashion-count]");
+            if (output)
+                output.textContent = `${count} ITEM${count === 1 ? "" : "S"}`;
+        };
+    }
+    if (!customElements.get("fashion-collection"))
+        customElements.define("fashion-collection", FashionCollection);
+</script>

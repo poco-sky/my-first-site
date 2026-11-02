@@ -13,6 +13,8 @@ const {
   description = "好きなものを、好きなように。ファッション、音楽、そして日々の記録。",
   home = false,
   music = false,
+  fashion = false,
+  fashionDetail = false,
 } = Astro.props;
 ---
 
@@ -42,19 +44,25 @@ const {
       }
     </script>
   </head>
-  <body id="top" class:list={{ "home-page": home }}
+  <body
+    id="top"
+    class:list={{
+      "home-page": home || fashion,
+      "fashion-page": fashion,
+      "fashion-detail-page": fashionDetail,
+    }}
     ><div id="site-shell">
       <a class="skip-link" href="#main">本文へ移動</a><Header /><main
         id="main"
         tabindex="-1"
         class:list={{
-          "page-content": !home,
+          "page-content": !home && !fashion && !fashionDetail,
           "music-page": music,
           "post-page": Astro.url.pathname.startsWith("/posts/"),
         }}
       >
         <slot name="before-title" />
-        {!home && <h1>{pageTitle}</h1>}<slot />
+        {!home && !fashion && !fashionDetail && <h1>{pageTitle}</h1>}<slot />
         {
           !isPostPage && (
             <>

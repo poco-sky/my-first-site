@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { fashionBrand } from '../../data/fashion';
+import '../../styles/fashion.css';
+export async function getStaticPaths() {
+    return (await getCollection('fashion')).map(item => ({ params: { id: item.id }, props: { item } }));
+}
+interface Props { item: CollectionEntry<'fashion'> }
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+<BaseLayout pageTitle={item.data.title} description={item.data.description} fashionDetail>
+    <article class="fashion-detail">
+        <div class="fashion-detail-top"><a href="/fashion/">← COLLECTION</a><span>{fashionBrand.name}</span></div>
+        <div class="fashion-gallery" tabindex="0" role="region" aria-label={`${item.data.title}の写真。横にスクロールして閲覧できます`}>
+            {item.data.images.map((image,index) => <figure><img src={image.src} alt={image.alt} width="750" height="1000" loading={index < 3 ? 'eager' : 'lazy'} /><figcaption>{String(index+1).padStart(2,'0')} / {String(item.data.images.length).padStart(2,'0')}</figcaption></figure>)}
+        </div>
+        <p class="fashion-gallery-hint">SCROLL TO EXPLORE <span aria-hidden="true">→</span></p>
+        <div class="fashion-detail-copy"><p class="fashion-kicker">{item.data.category}</p><h1>{item.data.title}</h1><p>{item.data.description}</p><div class="fashion-description"><Content /></div><a class="text-link" href="/fashion/">← アイテム一覧へ戻る</a></div>
+    </article>
+</BaseLayout>

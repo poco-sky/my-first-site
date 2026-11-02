@@ -1,0 +1,452 @@
+/* Fashionだけに適用。共通ページの幅・音楽プレイヤーには影響しません。 */
+.fashion-page #main,
+.fashion-detail-page #main {
+    min-width: 0;
+}
+
+.fashion-hero {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    min-height: 540px;
+    background: #111;
+    color: #fff;
+}
+
+.fashion-hero>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.fashion-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, #0006, transparent 35%, transparent 65%, #0007);
+}
+
+.fashion-hero-caption,
+.fashion-scroll {
+    position: absolute;
+    z-index: 1;
+    bottom: 32px;
+    font-size: 10px;
+    letter-spacing: .22em;
+}
+
+.fashion-hero-caption {
+    left: 32px;
+}
+
+.fashion-scroll {
+    right: 32px;
+    text-decoration: none;
+}
+
+.fashion-scroll span {
+    margin-left: 16px;
+}
+
+.fashion-brand {
+    text-align: center;
+    padding: 100px 24px 90px;
+}
+
+.fashion-kicker {
+    font-size: 10px;
+    letter-spacing: .22em;
+    color: var(--muted);
+}
+
+.fashion-brand h1 {
+    font-size: clamp(36px, 6vw, 84px);
+    font-weight: 700;
+    letter-spacing: .06em;
+    line-height: 1.15;
+    margin: 24px 0;
+}
+
+.fashion-concept {
+    font-size: clamp(14px, 1.3vw, 20px);
+    line-height: 2;
+    white-space: pre-line;
+}
+
+.fashion-section {
+    margin: 0 auto 100px;
+    width: calc(100% - 56px);
+    max-width: 1904px;
+}
+
+.fashion-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.fashion-heading h2 {
+    font-size: 22px;
+    letter-spacing: .13em;
+    margin: 0;
+    font-weight: 500;
+}
+
+.fashion-heading>span {
+    font-size: 9px;
+    letter-spacing: .2em;
+    color: var(--muted);
+}
+
+.fashion-pickups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.fashion-pickup {
+    position: relative;
+    min-width: 0;
+    display: block;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    color: #e4d6a4;
+    background: #202724;
+    text-decoration: none;
+}
+
+.fashion-pickup img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s;
+}
+
+.fashion-pickup::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(transparent 40%, #0009);
+    pointer-events: none;
+}
+
+.fashion-pickup::after {
+    content: '';
+    position: absolute;
+    inset: 16px;
+    border: 1px solid #e4d6a499;
+    border-radius: 22px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.fashion-pickup-copy {
+    position: absolute;
+    z-index: 2;
+    bottom: 8%;
+    left: 7%;
+    right: 7%;
+}
+
+.fashion-pickup h3 {
+    font-family: Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(18px, 2.9vw, 48px);
+    margin: 0 0 20px;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+.fashion-pickup-copy>span {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: .16em;
+    padding-bottom: 7px;
+    border-bottom: 1px solid;
+}
+
+.fashion-pickup:hover img {
+    transform: scale(1.025);
+}
+
+fashion-collection {
+    display: block;
+}
+
+.fashion-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 28px;
+}
+
+.fashion-filters button {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 20px;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.fashion-filters button[aria-pressed=true] {
+    background: var(--text);
+    color: var(--page-bg);
+    border-color: var(--text);
+}
+
+.fashion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px 16px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fashion-grid [hidden] {
+    display: none;
+}
+
+.fashion-grid li {
+    min-width: 0;
+}
+
+.fashion-grid a {
+    text-decoration: none;
+    display: block;
+}
+
+.fashion-item-image {
+    aspect-ratio: 3/4;
+    background: var(--surface);
+    overflow: hidden;
+}
+
+.fashion-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.fashion-grid h3 {
+    font-size: clamp(14px, 1.3vw, 21px);
+    font-weight: 400;
+    margin: 18px 0 8px;
+    line-height: 1.6;
+}
+
+.fashion-grid p {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 0;
+}
+
+.fashion-grid a:hover h3 {
+    text-decoration: underline;
+    text-underline-offset: .25em;
+}
+
+.fashion-count {
+    font-size: 10px;
+    letter-spacing: .15em;
+    color: var(--muted);
+    margin-top: 32px;
+}
+
+.fashion-detail {
+    padding: 12px 0 50px;
+}
+
+.fashion-detail-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 28px 24px;
+    font-size: 10px;
+    letter-spacing: .12em;
+}
+
+.fashion-detail-top a {
+    text-decoration: none;
+}
+
+.fashion-gallery {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding: 0 28px 14px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) var(--surface);
+}
+
+.fashion-gallery figure {
+    flex: 0 0 calc((100% - 32px)/3);
+    min-width: 0;
+    margin: 0;
+    scroll-snap-align: start;
+}
+
+.fashion-gallery img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: contain;
+    background: var(--surface);
+}
+
+.fashion-gallery figcaption {
+    font-size: 9px;
+    letter-spacing: .15em;
+    margin-top: 12px;
+    color: var(--muted);
+}
+
+.fashion-gallery-hint {
+    text-align: right;
+    margin: 14px 28px 0;
+    font-size: 9px;
+    letter-spacing: .17em;
+}
+
+.fashion-gallery-hint span {
+    margin-left: 20px;
+}
+
+.fashion-detail-copy {
+    max-width: 800px;
+    padding: 48px 28px 0;
+    margin: auto;
+    line-height: 1.9;
+}
+
+.fashion-detail-copy h1 {
+    font-family: Georgia, 'Yu Mincho', serif;
+    font-size: clamp(26px, 3vw, 44px);
+    line-height: 1.4;
+    font-weight: 400;
+    margin: 14px 0 24px;
+}
+
+.fashion-detail-copy>p:not(.fashion-kicker),
+.fashion-description {
+    color: var(--body-text);
+    font-size: 14px;
+}
+
+.fashion-description {
+    margin: 24px 0 40px;
+}
+
+.fashion-page #main>.text-link,
+.fashion-detail-page #main>.text-link {
+    display: block;
+    width: fit-content;
+    margin: 16px auto 60px;
+}
+
+.fashion-page #main>.shared-socials,
+.fashion-detail-page #main>.shared-socials {
+    padding-top: 16px;
+}
+
+@media(max-width:700px) {
+    .fashion-brand {
+        padding: 64px 20px;
+    }
+
+    .fashion-section {
+        width: calc(100% - 24px);
+        margin-bottom: 60px;
+    }
+
+    .fashion-hero-caption {
+        left: 16px;
+        bottom: 24px;
+        font-size: 8px;
+    }
+
+    .fashion-scroll {
+        right: 16px;
+        bottom: 24px;
+        font-size: 8px;
+    }
+
+    .fashion-heading h2 {
+        font-size: 18px;
+    }
+
+    .fashion-heading>span {
+        font-size: 8px;
+    }
+
+    .fashion-pickups {
+        gap: 8px;
+    }
+
+    .fashion-pickup::after {
+        inset: 5px;
+        border-radius: 9px;
+    }
+
+    .fashion-pickup h3 {
+        font-size: clamp(12px, 3.1vw, 22px);
+        margin-bottom: 8px;
+    }
+
+    .fashion-pickup-copy>span {
+        font-size: 7px;
+        letter-spacing: .04em;
+        padding-bottom: 3px;
+    }
+
+    .fashion-grid {
+        gap: 28px 8px;
+    }
+
+    .fashion-grid h3 {
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
+    .fashion-grid p {
+        font-size: 9px;
+    }
+
+    .fashion-gallery {
+        padding-left: 12px;
+        padding-right: 12px;
+        gap: 12px;
+    }
+
+    .fashion-gallery figure {
+        flex-basis: 82%;
+    }
+
+    .fashion-detail-top {
+        padding: 0 12px 20px;
+    }
+
+    .fashion-detail-copy {
+        padding: 32px 20px 0;
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .fashion-pickup img {
+        transition: none;
+    }
+
+    .fashion-pickup:hover img {
+        transform: none;
+    }
+}

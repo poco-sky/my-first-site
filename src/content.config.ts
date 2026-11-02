@@ -31,4 +31,17 @@ const music = defineCollection({
         cover: z.string().min(1),
     }),
 });
-export const collections = { blog, music };
+const fashion = defineCollection({
+    loader: glob({ pattern: '**/[^_]*.md', base: './src/fashion' }),
+    schema: z.object({
+        title: z.string().min(1),
+        category: z.string().min(1).default('スウェット'),
+        description: z.string(),
+        order: z.number().default(0),
+        cover: z.string().min(1),
+        coverAlt: z.string().min(1),
+        images: z.array(z.object({ src: z.string().min(1), alt: z.string().min(1) })).min(1),
+        pickup: z.object({ image: z.string(), alt: z.string(), title: z.string(), order: z.number() }).optional(),
+    }),
+});
+export const collections = { blog, music, fashion };
