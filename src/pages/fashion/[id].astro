@@ -1,23 +1,128 @@
 ---
-import { getCollection, render } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { fashionBrand } from '../../data/fashion';
-import '../../styles/fashion.css';
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { fashionBrand } from "../../data/fashion";
+import "../../styles/fashion.css";
 export async function getStaticPaths() {
-    return (await getCollection('fashion')).map(item => ({ params: { id: item.id }, props: { item } }));
+    return (await getCollection("fashion")).map((item) => ({
+        params: { id: item.id },
+        props: { item },
+    }));
 }
-interface Props { item: CollectionEntry<'fashion'> }
+interface Props {
+    item: CollectionEntry<"fashion">;
+}
 const { item } = Astro.props;
 const { Content } = await render(item);
 ---
-<BaseLayout pageTitle={item.data.title} description={item.data.description} fashionDetail>
+
+<BaseLayout
+    pageTitle={item.data.title}
+    description={item.data.description}
+    fashionDetail
+>
     <article class="fashion-detail">
-        <div class="fashion-detail-top"><a href="/fashion/">← COLLECTION</a><span>{fashionBrand.name}</span></div>
-        <div class="fashion-gallery" tabindex="0" role="region" aria-label={`${item.data.title}の写真。横にスクロールして閲覧できます`}>
-            {item.data.images.map((image,index) => <figure><img src={image.src} alt={image.alt} width="750" height="1000" loading={index < 3 ? 'eager' : 'lazy'} /><figcaption>{String(index+1).padStart(2,'0')} / {String(item.data.images.length).padStart(2,'0')}</figcaption></figure>)}
+        <div class="fashion-detail-top">
+            <a href="/fashion/">← COLLECTION</a><span>{fashionBrand.name}</span>
         </div>
-        <p class="fashion-gallery-hint">SCROLL TO EXPLORE <span aria-hidden="true">→</span></p>
-        <div class="fashion-detail-copy"><p class="fashion-kicker">{item.data.category}</p><h1>{item.data.title}</h1><p>{item.data.description}</p><div class="fashion-description"><Content /></div><a class="text-link" href="/fashion/">← アイテム一覧へ戻る</a></div>
+        <div class="fashion-detail-columns">
+            <div class="fashion-media">
+                <div
+                    class="fashion-thumbnails"
+                    role="group"
+                    aria-label="表示する写真"
+                >
+                    {
+                        item.data.images.map((image, index) => (
+                            <button
+                                type="button"
+                                data-fashion-photo={index}
+                                aria-label={`写真${index + 1}を表示`}
+                                aria-controls="fashion-detail-gallery"
+                            >
+                                <img src={image.src} alt="" loading="lazy" />
+                            </button>
+                        ))
+                    }
+                </div>
+
+                <div
+                    id="fashion-detail-gallery"
+                    class="fashion-gallery"
+                    tabindex="0"
+                    role="region"
+                    aria-label={`${item.data.title}の写真`}
+                >
+                    {
+                        item.data.images.map((image, index) => (
+                            <figure>
+                                <img
+                                    src={image.src}
+                                    alt={image.alt}
+                                    width="750"
+                                    height="1000"
+                                    loading={index < 3 ? "eager" : "lazy"}
+                                />
+                                <figcaption>
+                                    {String(index + 1).padStart(2, "0")} /{" "}
+                                    {String(item.data.images.length).padStart(
+                                        2,
+                                        "0",
+                                    )}
+                                </figcaption>
+                            </figure>
+                        ))
+                    }
+                </div>
+
+                <p class="fashion-gallery-hint">
+                    SCROLL TO EXPLORE <span aria-hidden="true">→</span>
+                </p>
+            </div>
+
+            <div
+                class="fashion-detail-copy"
+                tabindex="0"
+                role="region"
+                aria-label="服の説明"
+            >
+                <p class="fashion-kicker">{item.data.category}</p>
+                <h1>{item.data.title}</h1>
+                <p>{item.data.description}</p>
+                <div class="fashion-description"><Content /></div>
+                <a class="text-link" href="/fashion/">← アイテム一覧へ戻る</a>
+            </div>
+        </div>
     </article>
 </BaseLayout>
+<script>
+    document.addEventListener("click", (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        const button = event.target.closest<HTMLButtonElement>(
+            "[data-fashion-photo]",
+        );
+        if (!button || !window.matchMedia("(min-width: 701px)").matches) return;
+
+        const media = button.closest(".fashion-media");
+        const gallery = media?.querySelector<HTMLElement>(".fashion-gallery");
+        const index = Number(button.dataset.fashionPhoto);
+        const photo = gallery?.querySelectorAll<HTMLElement>("figure")[index];
+
+        if (!gallery || !photo) return;
+
+        const top =
+            photo.getBoundingClientRect().top -
+            gallery.getBoundingClientRect().top +
+            gallery.scrollTop;
+
+        gallery.scrollTo({
+            top,
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+                .matches
+                ? "auto"
+                : "smooth",
+        });
+    });
+</script>

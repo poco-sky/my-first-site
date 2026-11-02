@@ -1,7 +1,7 @@
 // ブランド共通設定。写真は public/images/fashion/ に置きます。
 export const fashionBrand = {
-    name: 'BRAND NAME', // ご自身のブランド名に変更
-    concept: '好きなものを、纏う。自分らしさを、かたちに。', // 仮のコンセプト文
+    name: 'POCO DI TINI', // ご自身のブランド名に変更
+    concept: '自分らしく，好きなものを纏いたい．\nその思いを原点に、カジュアルと上品さが調和するアイテムを展開.\n気負わず着られること．そして，装いに品があること．\n仕事からプライベートまで寄り添い\n自分らしさを忘れない一着を目指して．', // 仮のコンセプト文
     hero: '/images/hero.png', // ブランドのメイン写真に差し替え
     heroAlt: 'デザインしたスウェットのイメージ',
     heroPosition: 'center',

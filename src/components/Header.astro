@@ -51,7 +51,13 @@ import Notifications from "./Notifications.astro";
         const anchor =
             document.querySelector<HTMLElement>(".navigation-anchor");
         const navigation = document.querySelector<HTMLElement>("#main-menu");
-        const pinned = !!anchor && anchor.getBoundingClientRect().top <= 0;
+        const compactFashionHeader =
+            document.body.classList.contains("fashion-detail-page") &&
+            window.matchMedia("(min-width: 701px)").matches;
+
+        const pinned =
+            compactFashionHeader ||
+            (!!anchor && anchor.getBoundingClientRect().top <= 0);
         if (navigation?.classList.contains("is-pinned") !== pinned) {
             navigation?.classList.toggle("is-pinned", pinned);
             closeMenu();

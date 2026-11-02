@@ -196,10 +196,10 @@ fashion-collection {
     cursor: pointer;
 }
 
-.fashion-filters button[aria-pressed=true] {
-    background: var(--text);
-    color: var(--page-bg);
-    border-color: var(--text);
+.fashion-filters button[aria-pressed="true"] {
+    background: #000;
+    color: #fff;
+    border-color: #000;
 }
 
 .fashion-grid {
@@ -448,5 +448,196 @@ fashion-collection {
 
     .fashion-pickup:hover img {
         transform: none;
+    }
+}
+
+.fashion-page #main>.text-link {
+    margin-left: 240px;
+    margin-right: auto;
+}
+
+@media (max-width: 700px) {
+    .fashion-page #main>.text-link {
+        margin-left: 12px;
+    }
+}
+
+/* スマホでは追加した囲みをレイアウトに影響させない */
+.fashion-detail-columns,
+.fashion-media {
+    display: contents;
+}
+
+.fashion-thumbnails {
+    display: none;
+}
+
+/* PCだけ変更 */
+@media (min-width: 701px) {
+    .fashion-detail-columns {
+        --detail-height: calc(100dvh - 50px);
+
+        display: grid;
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        height: var(--detail-height);
+        min-height: 320px;
+        margin: 0 28px;
+    }
+
+    /* 左側：サムネイル＋メイン画像 */
+    .fashion-media {
+        display: grid;
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: clamp(20px, 3vw, 60px);
+        min-width: 0;
+        min-height: 0;
+        padding: 0 clamp(24px, 4vw, 80px) 0 0;
+    }
+
+    .fashion-thumbnails {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        overflow-y: auto;
+        min-height: 0;
+        padding: 2px;
+        scrollbar-width: thin;
+    }
+
+    .fashion-thumbnails button {
+        flex: 0 0 auto;
+        width: 100%;
+        aspect-ratio: 1;
+        padding: 3px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        cursor: pointer;
+    }
+
+    .fashion-thumbnails button:hover,
+    .fashion-thumbnails button:focus-visible {
+        border-color: var(--text);
+        outline: 1px solid var(--text);
+    }
+
+    .fashion-thumbnails img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* 左側だけ縦スクロール */
+    .fashion-media .fashion-gallery {
+        display: block;
+        min-width: 0;
+        min-height: 0;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0 8px 0 0;
+        scroll-snap-type: none;
+    }
+
+    .fashion-media .fashion-gallery figure {
+        width: 100%;
+        margin: 0 0 32px;
+    }
+
+    .fashion-media .fashion-gallery img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 4;
+        object-fit: contain;
+    }
+
+    .fashion-media .fashion-gallery-hint {
+        display: none;
+    }
+
+    /* 右側も独立して縦スクロール */
+    .fashion-detail-columns .fashion-detail-copy {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        min-height: 0;
+        height: 100%;
+        margin: 0;
+        padding: 28px clamp(24px, 3vw, 60px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+}
+
+/* 新しいリンクはPCだけ表示 */
+.fashion-collection-back {
+    display: none;
+}
+
+@media (min-width: 701px) {
+
+    /* 各服ページのヘッダーをコンパクトに */
+    .fashion-detail-page .site-header {
+        position: relative;
+        display: block;
+        height: 56px;
+        min-height: 56px;
+        padding: 0;
+        background: var(--page-bg);
+    }
+
+    .fashion-detail-page .site-header .wordmark,
+    .fashion-detail-page .site-header .menu-toggle {
+        display: none;
+    }
+
+    .fashion-detail-page .navigation-anchor {
+        height: 56px;
+        min-height: 56px;
+        margin: 0;
+    }
+
+    /* 上部のCOLLECTION・ブランド名の行を非表示 */
+    .fashion-detail-page .fashion-detail-top {
+        display: none;
+    }
+
+    /* 画像と説明をヘッダー直下に配置 */
+    .fashion-detail-page .fashion-detail {
+        padding-top: 12px;
+    }
+
+    .fashion-detail-page .fashion-detail-columns {
+        --detail-height: calc(100dvh - 80px);
+    }
+
+    /* 右の説明欄の先頭に戻るリンク */
+    .fashion-collection-back {
+        display: inline-block;
+        margin-bottom: 28px;
+        color: var(--text);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-decoration: none;
+    }
+
+    .fashion-collection-back:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+    .fashion-media .fashion-gallery {
+        width: 77%;
+        justify-self: center;
+    }
+    .fashion-media .fashion-thumbnails {
+        position: relative;
+        left: 48px;
+    }
+    .fashion-detail-columns .fashion-detail-copy {
+        position: relative;
+        left: -85px;
+    }
+    .fashion-detail-columns .fashion-detail-copy {
+        padding-right: 50px;
     }
 }
