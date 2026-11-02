@@ -4,7 +4,7 @@ export interface Notice {
     suffix?: string;
     href: string;
     date: string;
-    kind: 'music' | 'blog' | 'favorite';
+    kind: 'music' | 'blog' | 'favorite' | 'fashion';
 }
 
 // Favoritesを追加した日付だけを記入。

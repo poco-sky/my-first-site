@@ -2,6 +2,8 @@
 title: "ロゴスウェット"
 category: "スウェット"
 description: "ここに服のデザインやこだわりを記載します。"
+addedAt: 2026-11-03 
+
 order: 1
 cover: "/images/fashion/sample-1-item.svg"
 coverAlt: "スウェット01の商品写真を置く枠"

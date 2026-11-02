@@ -3,12 +3,27 @@ import { getCollection } from "astro:content";
 import { notifications, type Notice } from "../data/notifications";
 import "../styles/notifications.css";
 
-const [music, blog] = await Promise.all([
+const [music, blog, fashion] = await Promise.all([
     getCollection("music"),
     getCollection("blog"),
+    getCollection("fashion"),
 ]);
 const notices: Notice[] = [
     ...notifications,
+    ...fashion.flatMap((entry) => {
+        if (!entry.data.addedAt) return [];
+
+        return [
+            {
+                text: "FASHIONページに新たな",
+                emphasis: entry.data.category,
+                suffix: "を追加しました．",
+                href: `/fashion/${entry.id}/`,
+                date: entry.data.addedAt.toISOString().slice(0, 10),
+                kind: "fashion" as const,
+            },
+        ];
+    }),
     ...music.map((entry) => ({
         text: "MUSICに",
         emphasis: `"${entry.data.title} (${entry.data.genre})"`,
@@ -106,6 +121,11 @@ const formatDate = (date: string) => {
 
                                         {notice.kind === "favorite" && (
                                             <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
+                                        )}
+                                        {notice.kind === "fashion" && (
+                                            <path
+                                                d="M8 3 2 6l3 6 3-1v10h8V11l3 1 3-6-6-3c0 2-1.8 3-4 3S8 5 8 3Z"
+                                            />
                                         )}
                                     </svg>
                                 </span>

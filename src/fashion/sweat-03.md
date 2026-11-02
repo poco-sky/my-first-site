@@ -2,6 +2,8 @@
 title: "総柄ハーフジップ"
 category: "ハーフジップ"
 description: "ここに服のデザインやこだわりを記載します。"
+addedAt: 2026-11-03
+
 order: 3
 cover: "/images/fashion/sample-3-item.svg"
 coverAlt: "スウェット03の商品写真を置く枠"

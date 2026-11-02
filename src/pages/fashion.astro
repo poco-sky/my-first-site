@@ -60,6 +60,7 @@ const categories = [...new Set(items.map((item) => item.data.category))];
         </div>
     </section>
     <section
+        id="fashion-items"
         class="fashion-section fashion-items"
         aria-labelledby="items-title"
     >
@@ -151,4 +152,33 @@ const categories = [...new Set(items.map((item) => item.data.category))];
     }
     if (!customElements.get("fashion-collection"))
         customElements.define("fashion-collection", FashionCollection);
+    const updateFashionHeader = () => {
+        const hero = document.querySelector(".fashion-page .fashion-hero");
+
+        document.body.classList.toggle(
+            "fashion-hero-passed",
+            !!hero && hero.getBoundingClientRect().bottom <= 56,
+        );
+    };
+
+    let headerUpdateScheduled = false;
+
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (headerUpdateScheduled) return;
+            headerUpdateScheduled = true;
+
+            requestAnimationFrame(() => {
+                updateFashionHeader();
+                headerUpdateScheduled = false;
+            });
+        },
+        { passive: true },
+    );
+
+    window.addEventListener("resize", updateFashionHeader);
+    document.addEventListener("astro:page-load", updateFashionHeader);
+
+    updateFashionHeader();
 </script>

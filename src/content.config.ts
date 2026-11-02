@@ -42,6 +42,7 @@ const fashion = defineCollection({
         coverAlt: z.string().min(1),
         images: z.array(z.object({ src: z.string().min(1), alt: z.string().min(1) })).min(1),
         pickup: z.object({ image: z.string(), alt: z.string(), title: z.string(), order: z.number() }).optional(),
+        addedAt: z.coerce.date().optional(),
     }),
 });
 export const collections = { blog, music, fashion };

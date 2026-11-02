@@ -625,19 +625,46 @@ fashion-collection {
         text-decoration: underline;
         text-underline-offset: 4px;
     }
+
     .fashion-media .fashion-gallery {
         width: 77%;
         justify-self: center;
     }
+
     .fashion-media .fashion-thumbnails {
         position: relative;
         left: 48px;
     }
+
     .fashion-detail-columns .fashion-detail-copy {
         position: relative;
         left: -85px;
     }
+
     .fashion-detail-columns .fashion-detail-copy {
         padding-right: 50px;
     }
+}
+
+/* FASHION一覧ページ：スクロール後のボタンの視認性 */
+.fashion-page.fashion-hero-passed .site-header .theme-toggle,
+.fashion-page.fashion-hero-passed .site-header .notice-toggle {
+    background: var(--page-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    text-shadow: none;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+
+/* カーソルを重ねたとき */
+.fashion-page.fashion-hero-passed .site-header .theme-toggle:hover,
+.fashion-page.fashion-hero-passed .site-header .notice-toggle:hover {
+    background: var(--surface-hover);
+}
+
+/* お知らせを開いている間は色を反転 */
+.fashion-page.fashion-hero-passed .site-header .notice-toggle[aria-expanded="true"] {
+    background: var(--text);
+    color: var(--page-bg);
+    border-color: var(--text);
 }
