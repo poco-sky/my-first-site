@@ -1,7 +1,7 @@
 :root {
     --notice-width: 30vw;
     /* PCのお知らせ幅 */
-    --notice-max-height: 79dvh;
+    --notice-max-height: 81dvh;
     /* 高さの上限 */
 }
 
