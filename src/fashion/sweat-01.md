@@ -1,11 +1,11 @@
 ---
-title: "ロゴスウェット"
-category: "スウェット"
-description: "ここに服のデザインやこだわりを記載します。"
+title: "Logo sweat"
+category: "sweat"
+description: "Particularity"
 addedAt: 2026-11-03 
 
 order: 1
-cover: "/images/fashion/sample-1-item.svg"
+cover: "/images/fashion/sam1.jpeg"
 coverAlt: "スウェット01の商品写真を置く枠"
 pickup:
   image: "/images/fashion/pick1.jpeg"
@@ -13,8 +13,8 @@ pickup:
   title: "Look 01"
   order: 1
 images:
-  - src: "/images/fashion/sample-1-item.svg"
-    alt: "商品写真（差し替え用）"
+  - src: "/images/fashion/sam1.jpeg"
+    alt: "商品写真"
   - src: "/images/fashion/logo1.jpeg"
     alt: "着用写真1"
   - src: "/images/fashion/logo2.jpeg"
@@ -25,6 +25,10 @@ images:
     alt: "着用写真4"
 ---
 
-ここに素材、シルエット、制作したときの思いなどを書けます．ここに素材、シルエット、制作したときの思いなどを書けます．ここに素材、シルエット、制作したときの思いなどを書けます．
+ブランドの象徴であるロゴを大胆に中央へ配置し，その存在感を最大限に引き出した一着．
 
-この文章と写真は差し替え用のサンプルです。
+立体的な輝きを放つシルバーのエンブレムが，漆黒のボディに洗練されたコントラストを生み出す．
+
+カジュアルなシルエットに気品ある意匠を融合させ，日常に溶け込む自然体の美しさと，ラグジュアリーな存在感を両立．
+
+シンプルでありながら，確かな個性を宿すデザインを追求した一着．

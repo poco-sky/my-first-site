@@ -6,9 +6,7 @@ import Notifications from "./Notifications.astro";
 
 <header class="site-header">
     <ThemeToggle />
-    <a class="wordmark" href="/" aria-label="マイサイト ホーム"
-        >IN THE SKY</a
-    >
+    <a class="wordmark" href="/" aria-label="マイサイト ホーム">IN THE SKY</a>
     <Notifications />
     <button class="menu-toggle" aria-expanded="false" aria-controls="main-menu"
         ><span class="menu-label">MENU</span><span
@@ -53,7 +51,7 @@ import Notifications from "./Notifications.astro";
         const navigation = document.querySelector<HTMLElement>("#main-menu");
         const compactFashionHeader =
             document.body.classList.contains("fashion-detail-page") &&
-            window.matchMedia("(min-width: 701px)").matches;
+            window.matchMedia("(min-width: 1101px)").matches;
 
         const pinned =
             compactFashionHeader ||

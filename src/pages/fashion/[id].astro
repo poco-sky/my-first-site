@@ -103,7 +103,7 @@ const { Content } = await render(item);
         const button = event.target.closest<HTMLButtonElement>(
             "[data-fashion-photo]",
         );
-        if (!button || !window.matchMedia("(min-width: 701px)").matches) return;
+        if (!button || !window.matchMedia("(min-width: 1101px)").matches) return;
 
         const media = button.closest(".fashion-media");
         const gallery = media?.querySelector<HTMLElement>(".fashion-gallery");
