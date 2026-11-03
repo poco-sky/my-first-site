@@ -15,15 +15,18 @@ const categories = [...new Set(items.map((item) => item.data.category))];
 
 <BaseLayout pageTitle="Fashion" description={brand.concept} fashion>
     <section class="fashion-hero" aria-label="ブランドのメインビジュアル">
-        <img
-            src={brand.hero}
-            alt={brand.heroAlt}
-            width="1536"
-            height="1024"
-            loading="eager"
-            fetchpriority="high"
-            style={{ objectPosition: brand.heroPosition }}
-        />
+        <picture class="fashion-hero-picture">
+            <source media="(max-width: 700px)" srcset={brand.heroMobile} />
+            <img
+                src={brand.hero}
+                alt={brand.heroAlt}
+                width="1536"
+                height="1024"
+                loading="eager"
+                fetchpriority="high"
+                style={{ objectPosition: brand.heroPosition }}
+            />
+        </picture>
         <span class="fashion-hero-caption">POCO DI TINI © 2026 Sora</span>
         <a class="fashion-scroll" href="#fashion-brand"
             >DISCOVER <span aria-hidden="true">↓</span></a
@@ -182,3 +185,18 @@ const categories = [...new Set(items.map((item) => item.data.category))];
 
     updateFashionHeader();
 </script>
+
+<style>
+    .fashion-hero-picture {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .fashion-hero-picture img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
