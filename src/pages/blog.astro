@@ -1,6 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import BlogScrollButtons from "../components/BlogScrollButtons.astro";
+
 const posts = (await getCollection("blog")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
@@ -72,6 +74,7 @@ function getThumbnail(post: (typeof posts)[number]) {
             ))
         }
     </ul>
+    <BlogScrollButtons />
 </BaseLayout>
 <style>
     .post-meta {

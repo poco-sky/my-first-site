@@ -642,7 +642,7 @@ fashion-collection {
     }
 
     .fashion-detail-columns .fashion-detail-copy {
-        padding-right: 50px;
+        padding-right:60px;
     }
 }
 
@@ -694,5 +694,111 @@ fashion-collection {
 
     .fashion-detail-page .fashion-detail-copy {
         padding: 32px 20px 0;
+    }
+}
+
+/* PCでは囲みをレイアウトに影響させない */
+.fashion-mobile-frame {
+    display: contents;
+}
+
+.fashion-photo-arrow {
+    display: none;
+}
+
+@media (max-width: 1100px) {
+    .fashion-detail-page .fashion-mobile-frame {
+        display: block;
+        position: relative;
+        margin: 0 12px;
+    }
+
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery {
+        display: block;
+        width: 100%;
+        height: auto;
+        padding: 0;
+        overflow: hidden;
+        scroll-snap-type: none;
+        touch-action: pan-y pinch-zoom;
+    }
+
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery figure {
+        display: none;
+        width: 100%;
+        margin: 0;
+    }
+
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery figure.is-current {
+        display: block;
+    }
+
+    /* JavaScriptの準備ができるまでは1枚目を表示 */
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery:not(:has(.is-current)) figure:first-child {
+        display: block;
+    }
+
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 4;
+        object-fit: contain;
+        user-select: none;
+        -webkit-user-drag: none;
+    }
+
+    .fashion-detail-page .fashion-photo-arrow {
+        display: grid;
+        place-items: center;
+        position: absolute;
+
+        /* 3:4画像の縦中央。画像下の番号は含めない */
+        top: 0;
+        bottom: 0;
+        height: 44px;
+        width: 44px;
+        margin-top: calc(66.6667% - 22px);
+
+        padding: 0;
+        border: 1px solid rgb(255 255 255 / 50%);
+        border-radius: 50%;
+        background: rgb(255 255 255 / 55%);
+        color: #111;
+        backdrop-filter: blur(5px);
+        font-size: 22px;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    .fashion-photo-prev {
+        left: 10px;
+    }
+
+    .fashion-photo-next {
+        right: 10px;
+    }
+
+    .fashion-detail-page .fashion-photo-arrow:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+}
+
+/* 曲の詳細パネルを開いているときだけ調整 */
+@media (min-width: 1101px) {
+    html[data-music-panel="true"] .fashion-detail-columns .fashion-detail-copy {
+        left: 0;
+    }
+}
+
+@media (min-width: 1101px) {
+    html[data-music-panel="true"] .fashion-detail-page .fashion-detail-copy {
+        /* 大きくするほど、説明欄が画像に近づきます */
+        --copy-shift: 70px;
+
+        position: relative;
+        left: calc(-1 * var(--copy-shift));
+        width: calc(100% + var(--copy-shift));
     }
 }

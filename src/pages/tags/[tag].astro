@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogScrollButtons from "../../components/BlogScrollButtons.astro";
 
 export async function getStaticPaths() {
   const allPosts = (await getCollection("blog")).sort(
@@ -96,6 +97,7 @@ function getThumbnail(post: (typeof posts)[number]) {
       }
     </ul>
   </ul>
+  <BlogScrollButtons />
 </BaseLayout>
 <style>
   .post-meta {

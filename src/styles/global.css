@@ -57,8 +57,8 @@ img {
 
 a:focus-visible,
 button:focus-visible {
-    outline: 3px solid #a97832;
-    outline-offset: 5px
+    outline: 2px solid #8ec0e9;
+    outline-offset: 3px
 }
 
 .sr-only {
@@ -1144,17 +1144,19 @@ html {
     }
 }
 
-:root {
-    --focus-color: #687f96;
-    /* 好きな色に変更 */
+/* 固定ナビの左右余白を揃えて中央を維持 */
+@media (min-width: 701px) {
+    #site-shell .site-header .navigation-anchor>#main-menu.is-pinned {
+        padding-left: 130px;
+        padding-right: 130px;
+        justify-content: center;
+    }
 }
 
-:root[data-theme="dark"] {
-    --focus-color: #b6c9db;
-    /* 黒テーマでの色 */
-}
-
-:focus-visible {
-    outline: 2px solid var(--focus-color);
-    outline-offset: 4px;
+@media (max-width: 700px) {
+    #site-shell .site-header .navigation-anchor>#main-menu.is-pinned {
+        padding-left: 58px;
+        padding-right: 58px;
+        justify-content: center;
+    }
 }
