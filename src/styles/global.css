@@ -1143,3 +1143,18 @@ html {
         min-height: 36.8px;
     }
 }
+
+:root {
+    --focus-color: #687f96;
+    /* 好きな色に変更 */
+}
+
+:root[data-theme="dark"] {
+    --focus-color: #b6c9db;
+    /* 黒テーマでの色 */
+}
+
+:focus-visible {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 4px;
+}
