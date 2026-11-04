@@ -220,7 +220,8 @@ sora-music-player [hidden] {
     margin: 0;
     font-size: 19px;
     line-height: 1.4;
-    font-family: Georgia, serif;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 500;
     overflow-wrap: anywhere;
 }
 
@@ -459,10 +460,10 @@ sora-music-player[data-playing="true"] .icon-pause {
 }
 
 #detail-title {
-    font-family: Georgia, serif;
-    font-size: clamp(26px, 3vw, 38px);
-    font-weight: 400;
-    line-height: 1.15;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: clamp(26px, 2vw, 38px);
+    font-weight: 600;
+    line-height: 1;
     margin: 0;
     overflow-wrap: anywhere;
 }
@@ -1111,6 +1112,25 @@ sora-music-player[data-playing="true"] .icon-pause {
         margin-left: 0;
     }
 }
+
 .music-bar .player-close {
     font-weight: 500;
+}
+
+/* 曲名の下に、アーティスト名とジャンルを横並び */
+.detail-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 10px 0 26px;
+}
+
+.detail-meta .detail-artist,
+.detail-meta .detail-genre {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: var(--muted);
+    white-space: nowrap;
 }

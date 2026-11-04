@@ -30,6 +30,20 @@ const {
     /><link rel="icon" type="image/png" href="/icon.png" /><title>
       {pageTitle === "IN THE SKY" ? pageTitle : `${pageTitle} | IN THE SKY`}
     </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin="anonymous"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
     <ClientRouter />
     <script is:inline>
       // 描画前に保存したテーマを復元して、ページ移動時の白いちらつきを防ぐ。
@@ -62,7 +76,20 @@ const {
         }}
       >
         <slot name="before-title" />
-        {!home && !fashion && !fashionDetail && <h1>{pageTitle}</h1>}<slot />
+        {
+          !home && !fashion && !fashionDetail && (
+            <h1
+              class:list={{
+                "custom-page-title": ["/about", "/music", "/blog"].includes(
+                  Astro.url.pathname.replace(/\/+$/, ""),
+                ),
+              }}
+            >
+              {pageTitle}
+            </h1>
+          )
+        }
+        <slot />
         {
           !isPostPage && (
             <>

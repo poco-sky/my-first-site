@@ -1175,3 +1175,8 @@ html {
     text-decoration-thickness: 1px;
     text-underline-offset: 4px;
 }
+
+.page-content>h1.custom-page-title {
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    font-weight: 600;
+}
