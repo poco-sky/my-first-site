@@ -164,6 +164,15 @@ class SoraMusicPlayer extends HTMLElement {
         this.layout();
         this.updatePlayback();
         this.play();
+
+        // 曲の表示とレイアウトの更新後に、歌詞パネルを最上部へ戻す
+        requestAnimationFrame(() => {
+            this.querySelector<HTMLElement>('.detail-scroll')?.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'instant',
+            });
+        });
     }
 
     private async play() {

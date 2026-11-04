@@ -642,7 +642,7 @@ fashion-collection {
     }
 
     .fashion-detail-columns .fashion-detail-copy {
-        padding-right:60px;
+        padding-right: 60px;
     }
 }
 
@@ -801,4 +801,43 @@ fashion-collection {
         left: calc(-1 * var(--copy-shift));
         width: calc(100% + var(--copy-shift));
     }
+}
+
+/* サイズ・形をMUSICのジャンルボタンに合わせる */
+.fashion-filters button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font: inherit;
+    font-size: 12px;
+    color: var(--text);
+    background: transparent;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 未選択のボタンにカーソルを当てたとき */
+.fashion-filters button:hover:not([aria-pressed="true"]) {
+    background: var(--surface-hover);
+}
+
+/* 選択中 */
+.fashion-filters button[aria-pressed="true"] {
+    background: #111;
+    border-color: #111;
+    color: #fff;
+}
+
+/* ダークテーマの選択中 */
+:root[data-theme="dark"] .fashion-filters button[aria-pressed="true"] {
+    background: #fff;
+    border-color: #fff;
+    color: #111;
+}
+/* 各服ページの「←アイテム一覧へ戻る」 */
+.fashion-detail-copy a.text-link[href="/fashion/#fashion-items"]:hover {
+    font-weight: 700;
 }

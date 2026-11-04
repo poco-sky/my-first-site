@@ -912,4 +912,13 @@ const timeline = [...qualifications].sort((a, b) =>
     .site-share-status:empty {
         display: none;
     }
+    .favorite-jump:hover {
+    /* 文字の幅・高さを変えずに太く見せる */
+    text-shadow:
+        0.3px 0 currentColor,
+        -0.3px 0 currentColor;
+
+    /* 下線も、寸法を変えずに太く見せる */
+    box-shadow: 0 1px 0 var(--border);
+}
 </style>

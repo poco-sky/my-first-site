@@ -1160,3 +1160,18 @@ html {
         justify-content: center;
     }
 }
+
+/* 「←ホームに戻る」にカーソルを当てている間 */
+#main>a.text-link[href="/"]:hover {
+    font-weight: 700;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+}
+
+/* カーソルを当てている間だけ下線を表示 */
+.site-footer .footer-brand:hover,
+.site-footer .back-top:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}

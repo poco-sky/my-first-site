@@ -2,5 +2,29 @@
     <a class="footer-brand" href="/">IN THE SKY</a><p>
         © {new Date().getFullYear()} Sora All rights reserved.
     </p><a href="#top" class="back-top"
-        >BACK TO TOP <span aria-hidden="true">↑</span></a>
+        >BACK TO TOP ↑</a
+    >
 </footer>
+
+<style>
+    @media (min-width: 701px) {
+        .site-footer {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            align-items: center;
+        }
+
+        .site-footer .footer-brand {
+            justify-self: start;
+        }
+
+        .site-footer p {
+            margin: 0;
+            text-align: center;
+        }
+
+        .site-footer .back-top {
+            justify-self: end;
+        }
+    }
+</style>

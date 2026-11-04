@@ -4,25 +4,9 @@ const { frontmatter, previousPost = null, nextPost = null } = Astro.props;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-  
-  <nav slot="before-title" class="article-navigation" aria-label="前後の記事">
-    
-    {
-      previousPost && (
-        <a class="previous-post" href={`/posts/${previousPost.id}/`} rel="prev">
-          ← 前の記事を読む
-        </a>
-      )
-    }
-
-    {
-      nextPost && (
-        <a class="next-post" href={`/posts/${nextPost.id}/`} rel="next">
-          次の記事を読む →
-        </a>
-      )
-    }
-  </nav>
+  <div slot="before-title" class="article-back">
+    <a class="text-link" href="/blog/">← ブログ一覧へ</a>
+  </div>
   <p><em>{frontmatter.description}</em></p>
   <p>{frontmatter.pubDate.toLocaleDateString()}</p>
   <p>著者: {frontmatter.author}</p>
@@ -70,8 +54,11 @@ const { frontmatter, previousPost = null, nextPost = null } = Astro.props;
       )
     }
   </nav>
-
-  <a class="text-link" href="/blog/">← ブログ一覧へ</a>
+  <article-scroll-top>
+    <button type="button" aria-label="記事の一番上へ戻る" hidden>
+      ページTOPへ
+    </button>
+  </article-scroll-top>
 </BaseLayout>
 
 <style>
@@ -138,4 +125,89 @@ const { frontmatter, previousPost = null, nextPost = null } = Astro.props;
     margin-top: 40px;
     margin-bottom: 0;
   }
+  .article-back {
+    margin-bottom: 28px;
+  }
+  article-scroll-top button {
+    position: fixed;
+    left: calc((100% - var(--music-panel-width, 0px)) / 2);
+    bottom: calc(40px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    background: var(--page-bg);
+    color: var(--text);
+    width: auto;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    white-space: nowrap;
+    line-height: 2;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(16, 16, 16, 0.12);
+  }
+
+  article-scroll-top button[hidden] {
+    display: none;
+  }
+
+  article-scroll-top button:hover {
+    background: var(--surface-hover);
+  }
+
+  :global(html[data-music-active="true"]) article-scroll-top button {
+    bottom: calc(
+      var(--music-bar-height, 76px) + 24px + env(safe-area-inset-bottom)
+    );
+  }
 </style>
+<script>
+  class ArticleScrollTop extends HTMLElement {
+    private controller?: AbortController;
+
+    connectedCallback() {
+      this.controller?.abort();
+      this.controller = new AbortController();
+
+      const button = this.querySelector("button");
+      if (!button) return;
+
+      const { signal } = this.controller;
+
+      const update = () => {
+        button.hidden = window.scrollY < 300;
+      };
+
+      window.addEventListener("scroll", update, {
+        passive: true,
+        signal,
+      });
+
+      button.addEventListener(
+        "click",
+        () => {
+          window.scrollTo({
+            top: 0,
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+              .matches
+              ? "instant"
+              : "smooth",
+          });
+        },
+        { signal },
+      );
+
+      update();
+    }
+
+    disconnectedCallback() {
+      this.controller?.abort();
+    }
+  }
+
+  if (!customElements.get("article-scroll-top")) {
+    customElements.define("article-scroll-top", ArticleScrollTop);
+  }
+</script>

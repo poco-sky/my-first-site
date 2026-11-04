@@ -136,10 +136,21 @@ const categories = [...new Set(items.map((item) => item.data.category))];
                 "[data-fashion-filter]",
             );
             if (!button) return;
-            const category = button.dataset.fashionFilter;
-            this.querySelectorAll("[data-fashion-filter]").forEach((el) =>
-                el.setAttribute("aria-pressed", String(el === button)),
-            );
+            const clickedCategory = button.dataset.fashionFilter;
+            const isSelected = button.getAttribute("aria-pressed") === "true";
+
+            // 選択中のジャンルを再度押したら、All（*）に戻す
+            const category =
+                clickedCategory !== "*" && isSelected ? "*" : clickedCategory;
+
+            this.querySelectorAll<HTMLButtonElement>(
+                "[data-fashion-filter]",
+            ).forEach((el) => {
+                el.setAttribute(
+                    "aria-pressed",
+                    String(el.dataset.fashionFilter === category),
+                );
+            });
             let count = 0;
             this.querySelectorAll<HTMLElement>(
                 "[data-fashion-category]",
