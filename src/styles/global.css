@@ -877,6 +877,10 @@ html {
     margin-right: auto;
 }
 
+.page-content.post-page>h1 {
+    font-family: "Noto Sans JP", sans-serif;
+}
+
 /* 本文も、その領域いっぱいに揃える */
 .post-page .article-body {
     max-width: none;
