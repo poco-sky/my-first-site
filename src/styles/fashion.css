@@ -837,7 +837,28 @@ fashion-collection {
     border-color: #fff;
     color: #111;
 }
+
 /* 各服ページの「←アイテム一覧へ戻る」 */
 .fashion-detail-copy a.text-link[href="/fashion/#fashion-items"]:hover {
     font-weight: 700;
+}
+
+/* スマホ・幅1100px以下の各服ページだけ */
+@media (max-width: 1100px) {
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        overflow: hidden;
+    }
+
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery figure {
+        grid-area: 1 / 1;
+        min-width: 0;
+    }
+
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery figure.is-current,
+    .fashion-detail-page .fashion-mobile-frame .fashion-gallery figure.is-leaving {
+        display: block;
+    }
 }
