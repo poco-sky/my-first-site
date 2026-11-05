@@ -875,6 +875,7 @@ html {
     max-width: 1050px;
     margin-left: auto;
     margin-right: auto;
+    padding-top: 0px;
 }
 
 .page-content.post-page>h1 {
