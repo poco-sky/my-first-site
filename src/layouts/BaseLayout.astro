@@ -18,8 +18,7 @@ const {
 } = Astro.props;
 
 const shareTitle = "IN THE SKY | Sora";
-const shareDescription =
-  "Sora's music, fashion and blog";
+const shareDescription = "Sora's music, fashion and blog";
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site!);
 const shareImageUrl = new URL("/images/ogp.jpg", Astro.site!);
@@ -95,9 +94,10 @@ const shareImageUrl = new URL("/images/ogp.jpg", Astro.site!);
           !home && !fashion && !fashionDetail && (
             <h1
               class:list={{
-                "custom-page-title": ["/about", "/music", "/blog"].includes(
-                  Astro.url.pathname.replace(/\/+$/, ""),
-                ),
+                "custom-page-title":
+                  ["/about", "/music", "/blog"].includes(
+                    Astro.url.pathname.replace(/\/+$/, ""),
+                  ) || Astro.url.pathname.startsWith("/tags/"),
               }}
             >
               {pageTitle}
