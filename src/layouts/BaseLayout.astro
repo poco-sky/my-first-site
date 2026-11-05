@@ -10,7 +10,7 @@ import SocialLinks from "../components/SocialLinks.astro";
 const isPostPage = Astro.url.pathname.startsWith("/posts/");
 const {
   pageTitle = "マイサイト",
-  description = "好きなものを、好きなように。ファッション、音楽、そして日々の記録。",
+  description = "Sora's music, fashion and blog",
   home = false,
   music = false,
   fashion = false,
@@ -19,7 +19,7 @@ const {
 
 const shareTitle = "IN THE SKY | Sora";
 const shareDescription =
-  "Sora's music, fashin and blog";
+  "Sora's music, fashion and blog";
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site!);
 const shareImageUrl = new URL("/images/ogp.jpg", Astro.site!);
