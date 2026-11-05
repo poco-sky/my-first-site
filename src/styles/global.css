@@ -31,7 +31,6 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 24px;
     background: var(--page-bg);
     color: var(--text)
 }
@@ -468,19 +467,8 @@ button:focus-visible {
         height: 98px;
         flex-direction: row;
         justify-content: space-between;
-        padding: 0 22px;
         position: relative;
         z-index: 5
-    }
-
-    .wordmark {
-        font-size: 27px;
-        text-align: left
-    }
-
-    .wordmark span {
-        font-size: 8px;
-        letter-spacing: .1em
     }
 
     .menu-toggle {
@@ -489,20 +477,12 @@ button:focus-visible {
         align-items: center;
         background: none;
         border: 0;
-        padding: 12px 0 12px 12px;
         color: var(--text)
     }
 
     .menu-label {
         font-size: 9px;
         letter-spacing: .1em
-    }
-
-    .menu-lines {
-        width: 21px;
-        height: 10px;
-        border-top: 1px solid;
-        border-bottom: 1px solid
     }
 
     .site-header nav {
@@ -871,7 +851,6 @@ html {
 
     /* 固定時はメニューを開かず、5つのリンクを直接選べる。 */
     .site-header nav.is-pinned {
-        gap: clamp(10px, 3.5vw, 24px);
         padding: 8px 10px;
     }
 
@@ -944,18 +923,11 @@ html {
     }
 }
 
-/* 選択中のタグ：ライトテーマでは黒背景・白文字 */
-.tag-list a.is-selected {
-    background-color: #111;
-    border-color: #111;
-    color: #fff;
-}
-
-/* ダークテーマでは白背景・黒文字 */
+.tag-list a.is-selected,
 :root[data-theme="dark"] .tag-list a.is-selected {
-    background-color: #fff;
-    border-color: #fff;
-    color: #111;
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--page-bg);
 }
 
 .page-content:has(.sora-profile)>h1 {

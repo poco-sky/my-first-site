@@ -120,8 +120,6 @@ html[data-music-active="true"] #site-shell {
 .music-collection-meta {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 14px;
     font-size: 9px;
     letter-spacing: .17em;
     color: var(--muted);
@@ -132,7 +130,6 @@ html[data-music-active="true"] #site-shell {
     padding: 0;
     margin: 34px 0 48px;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 40px 32px;
 }
 
@@ -549,11 +546,9 @@ sora-music-player[data-playing="true"] .icon-pause {
     :root,
     html[data-music-panel="true"] {
         --music-panel-width: 0px;
-        --music-bar-height: 70px;
     }
 
     .music-bar {
-        grid-template-columns: minmax(84px, 1fr) 36px minmax(70px, 1fr) 32px;
         gap: 8px;
         padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
     }
@@ -590,10 +585,6 @@ sora-music-player[data-playing="true"] .icon-pause {
         gap: 6px;
     }
 
-    .player-duration {
-        display: none;
-    }
-
     .player-elapsed {
         font-size: 9px;
     }
@@ -601,7 +592,6 @@ sora-music-player[data-playing="true"] .icon-pause {
     .music-details {
         width: 100%;
         border-left: 0;
-        height: 100dvh;
     }
 
     .detail-scroll {
@@ -619,8 +609,6 @@ sora-music-player[data-playing="true"] .icon-pause {
 
 @media (min-width: 701px) {
     .music-bar {
-        grid-template-columns:
-            minmax(0, 1fr) 44px minmax(0, 36%) 44px minmax(0, 1fr);
         gap: 12px;
     }
 
@@ -667,20 +655,6 @@ sora-music-player[data-playing="true"] .icon-pause {
     background: var(--surface-hover);
 }
 
-/* 選択中：ライトテーマ */
-.music-filters button[aria-pressed="true"] {
-    background: #111;
-    border-color: #111;
-    color: #fff;
-}
-
-/* 選択中：ダークテーマ */
-:root[data-theme="dark"] .music-filters button[aria-pressed="true"] {
-    background: #fff;
-    border-color: #fff;
-    color: #111;
-}
-
 .music-bar .player-close {
     width: auto;
     height: auto;
@@ -702,10 +676,6 @@ sora-music-player[data-playing="true"] .icon-pause {
 
 /* スマホでも文字ボタンの幅を確保 */
 @media (max-width: 700px) {
-    .music-bar {
-        grid-template-columns:
-            minmax(0, 1fr) 36px minmax(0, 1fr) auto;
-    }
 
     .music-bar .player-close {
         padding: 7px 9px;
@@ -745,13 +715,6 @@ sora-music-player[data-playing="true"] .icon-pause {
     padding-bottom: 3px;
 }
 
-.bar-title {
-    position: relative;
-    width: fit-content;
-    max-width: 100%;
-    padding-bottom: 3px;
-}
-
 .bar-title:hover {
     text-decoration-line: underline;
     text-decoration-thickness: 1px;
@@ -773,9 +736,6 @@ sora-music-player[data-playing="true"] .icon-pause {
 }
 
 /* ジャンルボタンとジャケット画像の間隔 */
-.music-toolbar {
-    margin-bottom: 20px;
-}
 
 .music-grid {
     margin-top: 0;
@@ -855,7 +815,6 @@ sora-music-player[data-playing="true"] .icon-pause {
     }
 
     .music-bar {
-        grid-template-columns: minmax(0, 1fr) 100px auto;
         gap: 4px 8px;
     }
 
@@ -944,7 +903,6 @@ sora-music-player[data-playing="true"] .icon-pause {
     /* 歌詞画面の上部にヘッダー分の余白 */
     .music-details {
         box-sizing: border-box;
-        height: 100dvh;
     }
 
     /* 歌詞画面をヘッダーより手前に全画面表示 */
@@ -1144,11 +1102,4 @@ sora-music-player[data-playing="true"] .icon-pause {
     .music-details .detail-scroll {
         overscroll-behavior-y: none;
     }
-}
-
-/* 歌詞切り替えの選択中ボタンを完全な黒に */
-.lyric-tabs button[aria-selected="true"] {
-    background: #000;
-    border-color: #000;
-    color: #fff;
 }

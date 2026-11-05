@@ -186,22 +186,6 @@ fashion-collection {
     margin: 0 0 28px;
 }
 
-.fashion-filters button {
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 7px 20px;
-    background: transparent;
-    color: var(--text);
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.fashion-filters button[aria-pressed="true"] {
-    background: #000;
-    color: #fff;
-    border-color: #000;
-}
-
 .fashion-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -639,9 +623,6 @@ fashion-collection {
     .fashion-detail-columns .fashion-detail-copy {
         position: relative;
         left: -85px;
-    }
-
-    .fashion-detail-columns .fashion-detail-copy {
         padding-right: 60px;
     }
 }
@@ -714,7 +695,6 @@ fashion-collection {
     }
 
     .fashion-detail-page .fashion-mobile-frame .fashion-gallery {
-        display: block;
         width: 100%;
         height: auto;
         padding: 0;
@@ -727,10 +707,6 @@ fashion-collection {
         display: none;
         width: 100%;
         margin: 0;
-    }
-
-    .fashion-detail-page .fashion-mobile-frame .fashion-gallery figure.is-current {
-        display: block;
     }
 
     /* JavaScriptの準備ができるまでは1枚目を表示 */
@@ -825,17 +801,11 @@ fashion-collection {
 }
 
 /* 選択中 */
-.fashion-filters button[aria-pressed="true"] {
-    background: #111;
-    border-color: #111;
-    color: #fff;
-}
-
-/* ダークテーマの選択中 */
+.fashion-filters button[aria-pressed="true"],
 :root[data-theme="dark"] .fashion-filters button[aria-pressed="true"] {
-    background: #fff;
-    border-color: #fff;
-    color: #111;
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--page-bg);
 }
 
 /* 各服ページの「←アイテム一覧へ戻る」 */

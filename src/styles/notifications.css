@@ -119,10 +119,7 @@ site-notifications {
 }
 
 .notice-list a {
-    display: flex;
-    flex-direction: column;
     gap: 8px;
-    padding: 18px 0;
     font-size: 13px;
     line-height: 1.7;
     text-decoration: none;
@@ -270,5 +267,4 @@ site-notifications {
 
 .notice-heading-row {
     z-index: 2;
-    background: var(--page-bg);
 }
