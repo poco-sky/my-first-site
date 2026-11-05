@@ -1,6 +1,6 @@
 // プロフィールの文章・画像・資格・SNSはここで編集します。
 export const profile = {
-    name: 'Sora', birthYear: '2004', pronoun: 'He, Him', mbti: 'INTJ-A (建築家)',
+    name: 'Sora', birthYear: '2004', pronoun: 'He, Him', origin: 'Osaka',mbti: 'INTJ-A (建築家)',
     introduction: 'こんにちは．大学で情報理論を専攻している学生です．\n現在は来年からの社会人生活に向けてNISAやふるさと納税などを勉強中です．\n趣味は魚釣りと古着屋巡りに加え，AIを用いて服をデザインしたり，音楽を作ることです．作成した服や曲はこのサイトで閲覧できるのでぜひご覧下さい！\nこのページには、自分らしいものを少しずつ集めていきます．',
     image: '/images/pro.png', imageAlt: 'フグ',
 };

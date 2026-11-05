@@ -449,7 +449,7 @@ sora-music-player[data-playing="true"] .icon-pause {
 }
 
 .detail-copy {
-    padding-top: 24px;
+    padding-top: 16px;
 }
 
 .detail-genre {
@@ -491,7 +491,7 @@ sora-music-player[data-playing="true"] .icon-pause {
     overflow-wrap: anywhere;
     line-height: 2;
     font-size: 16px;
-    padding-top: 24px;
+    padding-top: 10px;
     font-weight: 600;
 }
 
@@ -1122,7 +1122,7 @@ sora-music-player[data-playing="true"] .icon-pause {
     display: flex;
     align-items: baseline;
     gap: 14px;
-    margin: 10px 0 26px;
+    margin: 10px 0 10px;
 }
 
 .detail-meta .detail-artist,
