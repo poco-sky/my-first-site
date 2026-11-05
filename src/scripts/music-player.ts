@@ -31,6 +31,7 @@ class SoraMusicPlayer extends HTMLElement {
         if (this.initialized || (playerOwner && playerOwner !== this)) return;
         playerOwner = this;
         this.initialized = true;
+        this.setupPanelSwipe();
         this.audio = this.querySelector('audio')!;
         this.tracks = JSON.parse(this.querySelector('[data-music-catalog]')!.textContent || '[]');
         this.addEventListener('click', event => {
@@ -244,12 +245,116 @@ class SoraMusicPlayer extends HTMLElement {
             button.tabIndex = selected ? 0 : -1;
         });
     }
+    private setupPanelSwipe() {
+        const panel = this.panel;
+        const scroll = this.querySelector<HTMLElement>('.detail-scroll');
+        if (!scroll) return;
 
+        let tracking = false;
+        let startX = 0;
+        let startY = 0;
+        let distance = 0;
+
+        panel.addEventListener('touchstart', event => {
+            tracking = false;
+            distance = 0;
+
+            if (!this.mobile.matches || !this.panelOpen) return;
+            if (event.touches.length !== 1) return;
+
+            const target = event.target;
+            if (!(target instanceof Element)) return;
+
+            // ボタン・リンクなどの通常操作を優先
+            if (target.closest('button, a, input, select, textarea')) return;
+
+            const fromHeader = !!target.closest('.detail-header');
+            const fromTop =
+                scroll.contains(target) && scroll.scrollTop <= 1;
+
+            if (!fromHeader && !fromTop) return;
+
+            startX = event.touches[0].clientX;
+            startY = event.touches[0].clientY;
+            tracking = true;
+        }, { passive: true });
+
+        panel.addEventListener('touchmove', event => {
+            if (!tracking) return;
+
+            if (
+                !this.mobile.matches ||
+                !this.panelOpen ||
+                event.touches.length !== 1
+            ) {
+                tracking = false;
+                return;
+            }
+
+            const dx = event.touches[0].clientX - startX;
+            const dy = event.touches[0].clientY - startY;
+
+            // 横方向や、通常の下読み方向への操作なら閉じない
+            if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+                tracking = false;
+                return;
+            }
+
+            if (dy < -8) {
+                tracking = false;
+                return;
+            }
+
+            distance = Math.max(0, dy);
+
+            if (dy > 8 && dy > Math.abs(dx) * 1.2) {
+                if (event.cancelable) event.preventDefault();
+            }
+        }, { passive: false });
+
+        panel.addEventListener('touchend', () => {
+            const shouldClose =
+                tracking &&
+                distance >= 70 &&
+                this.mobile.matches &&
+                this.panelOpen;
+
+            tracking = false;
+            distance = 0;
+
+            if (shouldClose) this.closePanel();
+        });
+
+        panel.addEventListener('touchcancel', () => {
+            tracking = false;
+            distance = 0;
+        }, { passive: true });
+    }
     private openPanel() {
         if (!this.active) return;
+
         this.panelOpen = true;
         this.layout();
-        this.querySelector<HTMLButtonElement>('[data-player-action="hide-details"]')!.focus({ preventScroll: true });
+
+        this.querySelector<HTMLButtonElement>(
+            '[data-player-action="hide-details"]'
+        )!.focus({ preventScroll: true });
+
+        // スマホでは、パネルを表示してから最上部へ戻す
+        if (this.mobile.matches) {
+            const resetScroll = () => {
+                if (!this.panelOpen) return;
+
+                this.querySelector<HTMLElement>('.detail-scroll')?.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'instant',
+                });
+            };
+
+            resetScroll();
+            requestAnimationFrame(resetScroll);
+        }
     }
     private closePanel() {
         this.panelOpen = false;

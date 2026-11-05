@@ -1134,3 +1134,14 @@ sora-music-player[data-playing="true"] .icon-pause {
     color: var(--muted);
     white-space: nowrap;
 }
+
+@media (max-width: 700px) {
+    .music-details .detail-header {
+        touch-action: none;
+        user-select: none;
+    }
+
+    .music-details .detail-scroll {
+        overscroll-behavior-y: none;
+    }
+}
