@@ -14,6 +14,7 @@ class SoraMusicPlayer extends HTMLElement {
     private audio!: HTMLAudioElement;
     private active: Track | null = null;
     private panelOpen = false;
+    private panelScrollReset?: AbortController;
     private language: 'original' | 'translation' = 'original';
     private genre = '洋楽';
     private sortOrder: 'oldest' | 'newest' = 'newest';
@@ -251,11 +252,55 @@ class SoraMusicPlayer extends HTMLElement {
         if (!scroll) return;
 
         let tracking = false;
+        let animating = false;
         let startX = 0;
         let startY = 0;
         let distance = 0;
 
+        const clearStyle = () => {
+            panel.style.removeProperty('transform');
+            panel.style.removeProperty('transition');
+            panel.style.removeProperty('will-change');
+        };
+
+        const settle = (close: boolean) => {
+            tracking = false;
+            animating = true;
+
+            const reduced = window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+            ).matches;
+
+            const animation = panel.animate(
+                [
+                    { transform: `translateY(${distance}px)` },
+                    {
+                        transform: close
+                            ? 'translateY(100%)'
+                            : 'translateY(0)',
+                    },
+                ],
+                {
+                    duration: reduced ? 0 : close ? 280 : 220,
+                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                    fill: 'forwards',
+                }
+            );
+
+            animation.onfinish = () => {
+                // 閉じる動作が完了してから、元の開閉処理を実行
+                if (close && this.panelOpen) this.closePanel();
+
+                clearStyle();
+                animation.cancel();
+                distance = 0;
+                animating = false;
+            };
+        };
+
         panel.addEventListener('touchstart', event => {
+            if (animating) return;
+
             tracking = false;
             distance = 0;
 
@@ -265,7 +310,6 @@ class SoraMusicPlayer extends HTMLElement {
             const target = event.target;
             if (!(target instanceof Element)) return;
 
-            // ボタン・リンクなどの通常操作を優先
             if (target.closest('button, a, input, select, textarea')) return;
 
             const fromHeader = !!target.closest('.detail-header');
@@ -280,54 +324,53 @@ class SoraMusicPlayer extends HTMLElement {
         }, { passive: true });
 
         panel.addEventListener('touchmove', event => {
-            if (!tracking) return;
+            if (!tracking || animating) return;
 
             if (
+                event.touches.length !== 1 ||
                 !this.mobile.matches ||
-                !this.panelOpen ||
-                event.touches.length !== 1
+                !this.panelOpen
             ) {
-                tracking = false;
+                settle(false);
                 return;
             }
 
             const dx = event.touches[0].clientX - startX;
             const dy = event.touches[0].clientY - startY;
 
-            // 横方向や、通常の下読み方向への操作なら閉じない
-            if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
-                tracking = false;
-                return;
+            // 動かし始める前に、操作方向を判定
+            if (distance === 0) {
+                if (
+                    (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) ||
+                    dy < -8
+                ) {
+                    tracking = false;
+                    return;
+                }
+
+                if (dy <= 8 || dy <= Math.abs(dx) * 1.2) return;
             }
 
-            if (dy < -8) {
-                tracking = false;
-                return;
-            }
+            if (event.cancelable) event.preventDefault();
 
             distance = Math.max(0, dy);
-
-            if (dy > 8 && dy > Math.abs(dx) * 1.2) {
-                if (event.cancelable) event.preventDefault();
-            }
+            panel.style.transition = 'none';
+            panel.style.willChange = 'transform';
+            panel.style.transform = `translateY(${distance}px)`;
         }, { passive: false });
 
         panel.addEventListener('touchend', () => {
-            const shouldClose =
-                tracking &&
+            if (!tracking || animating) return;
+
+            settle(
                 distance >= 70 &&
                 this.mobile.matches &&
-                this.panelOpen;
-
-            tracking = false;
-            distance = 0;
-
-            if (shouldClose) this.closePanel();
+                this.panelOpen
+            );
         });
 
         panel.addEventListener('touchcancel', () => {
-            tracking = false;
-            distance = 0;
+            if (tracking && !animating) settle(false);
         }, { passive: true });
     }
     private openPanel() {
@@ -340,23 +383,64 @@ class SoraMusicPlayer extends HTMLElement {
             '[data-player-action="hide-details"]'
         )!.focus({ preventScroll: true });
 
-        // スマホでは、パネルを表示してから最上部へ戻す
-        if (this.mobile.matches) {
-            const resetScroll = () => {
-                if (!this.panelOpen) return;
+        if (!this.mobile.matches) return;
 
-                this.querySelector<HTMLElement>('.detail-scroll')?.scrollTo({
-                    top: 0,
-                    left: 0,
-                    behavior: 'instant',
-                });
-            };
+        const scroll = this.querySelector<HTMLElement>('.detail-scroll');
+        const cover = this.querySelector<HTMLImageElement>('.detail-cover');
+        if (!scroll) return;
 
-            resetScroll();
-            requestAnimationFrame(resetScroll);
+        // 前回の「最上部へ戻す」待機処理を解除
+        this.panelScrollReset?.abort();
+
+        const controller = new AbortController();
+        this.panelScrollReset = controller;
+        const { signal } = controller;
+        const trackId = this.active.id;
+
+        const reset = () => {
+            if (
+                signal.aborted ||
+                !this.panelOpen ||
+                !this.mobile.matches ||
+                this.active?.id !== trackId
+            ) return;
+
+            scroll.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'instant',
+            });
+        };
+
+        // ユーザーが操作し始めたら、それ以降は位置を戻さない
+        const stopReset = () => controller.abort();
+
+        for (const type of ['touchstart', 'pointerdown', 'wheel', 'keydown']) {
+            this.panel.addEventListener(type, stopReset, {
+                once: true,
+                passive: true,
+                signal,
+            });
+        }
+
+        reset();
+
+        // 表示後のレイアウトが反映されるのを待って再度確定
+        requestAnimationFrame(() => {
+            reset();
+            requestAnimationFrame(reset);
+        });
+
+        // ジャケットの読み込みが遅れた場合にも対応
+        if (cover && !cover.complete) {
+            cover.addEventListener('load', reset, {
+                once: true,
+                signal,
+            });
         }
     }
     private closePanel() {
+        this.panelScrollReset?.abort();
         this.panelOpen = false;
         this.layout();
         this.querySelector<HTMLButtonElement>('[data-player-action="details"]')!.focus({ preventScroll: true });
