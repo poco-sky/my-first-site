@@ -14,7 +14,6 @@ class SoraMusicPlayer extends HTMLElement {
     private audio!: HTMLAudioElement;
     private active: Track | null = null;
     private panelOpen = false;
-    private panelScrollReset?: AbortController;
     private language: 'original' | 'translation' = 'original';
     private genre = '洋楽';
     private sortOrder: 'oldest' | 'newest' = 'newest';
@@ -383,64 +382,23 @@ class SoraMusicPlayer extends HTMLElement {
             '[data-player-action="hide-details"]'
         )!.focus({ preventScroll: true });
 
-        if (!this.mobile.matches) return;
+        // スマホでは、パネルを表示してから最上部へ戻す
+        if (this.mobile.matches) {
+            const resetScroll = () => {
+                if (!this.panelOpen) return;
 
-        const scroll = this.querySelector<HTMLElement>('.detail-scroll');
-        const cover = this.querySelector<HTMLImageElement>('.detail-cover');
-        if (!scroll) return;
+                this.querySelector<HTMLElement>('.detail-scroll')?.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'instant',
+                });
+            };
 
-        // 前回の「最上部へ戻す」待機処理を解除
-        this.panelScrollReset?.abort();
-
-        const controller = new AbortController();
-        this.panelScrollReset = controller;
-        const { signal } = controller;
-        const trackId = this.active.id;
-
-        const reset = () => {
-            if (
-                signal.aborted ||
-                !this.panelOpen ||
-                !this.mobile.matches ||
-                this.active?.id !== trackId
-            ) return;
-
-            scroll.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: 'instant',
-            });
-        };
-
-        // ユーザーが操作し始めたら、それ以降は位置を戻さない
-        const stopReset = () => controller.abort();
-
-        for (const type of ['touchstart', 'pointerdown', 'wheel', 'keydown']) {
-            this.panel.addEventListener(type, stopReset, {
-                once: true,
-                passive: true,
-                signal,
-            });
-        }
-
-        reset();
-
-        // 表示後のレイアウトが反映されるのを待って再度確定
-        requestAnimationFrame(() => {
-            reset();
-            requestAnimationFrame(reset);
-        });
-
-        // ジャケットの読み込みが遅れた場合にも対応
-        if (cover && !cover.complete) {
-            cover.addEventListener('load', reset, {
-                once: true,
-                signal,
-            });
+            resetScroll();
+            requestAnimationFrame(resetScroll);
         }
     }
     private closePanel() {
-        this.panelScrollReset?.abort();
         this.panelOpen = false;
         this.layout();
         this.querySelector<HTMLButtonElement>('[data-player-action="details"]')!.focus({ preventScroll: true });

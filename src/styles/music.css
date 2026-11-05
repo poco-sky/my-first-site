@@ -1145,10 +1145,3 @@ sora-music-player[data-playing="true"] .icon-pause {
         overscroll-behavior-y: none;
     }
 }
-
-@media (max-width: 700px) {
-    .music-details .detail-scroll {
-        overflow-anchor: none;
-        scroll-behavior: auto;
-    }
-}
