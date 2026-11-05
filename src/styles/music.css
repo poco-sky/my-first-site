@@ -1145,3 +1145,10 @@ sora-music-player[data-playing="true"] .icon-pause {
         overscroll-behavior-y: none;
     }
 }
+
+/* 歌詞切り替えの選択中ボタンを完全な黒に */
+.lyric-tabs button[aria-selected="true"] {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
