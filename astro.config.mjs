@@ -5,7 +5,7 @@ import preact from "@astrojs/preact";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://my-site-atelier-20261023.blackshore33.chatgpt.site",
+  site: "https://sora.sky-me.workers.dev",
   vite: { server: { allowedHosts: ["terminal.local"] } },
   integrations: [preact()]
 });
