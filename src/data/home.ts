@@ -22,10 +22,6 @@ export const homePanels = [
                 src: '/images/profile4.png',
                 alt: '青い光が差し込む神秘的な洞窟',
             },
-            {
-                src: '/images/profile5.png',
-                alt: '幻想的な宇宙',
-            },
         ],
     },
     { title: 'Fashion', description: '着たいものを，かたちに．', image: '/images/fashion.png', alt: 'pcco-di-tini', href: '/fashion/', linkLabel: 'ファッションを見る', kind: 'fashion' },
