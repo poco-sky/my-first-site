@@ -186,7 +186,7 @@ const { frontmatter, previousPost = null, nextPost = null } = Astro.props;
       const { signal } = this.controller;
 
       const update = () => {
-        button.hidden = window.scrollY < 300;
+        button.hidden = window.scrollY < 170;
       };
 
       window.addEventListener("scroll", update, {

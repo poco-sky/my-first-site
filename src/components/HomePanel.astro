@@ -1,5 +1,10 @@
 ---
 const { panel, first = false } = Astro.props;
+
+const slides =
+    first && panel.slides?.length
+        ? panel.slides
+        : [{ src: panel.image, alt: panel.alt }];
 ---
 
 <a
@@ -7,16 +12,33 @@ const { panel, first = false } = Astro.props;
     href={panel.href}
     aria-label={panel.linkLabel}
 >
-    <img
-        src={panel.image}
-        alt={panel.alt}
-        loading={first ? "eager" : "lazy"}
-        fetchpriority={first ? "high" : "auto"}
-        width={panel.kind === "fashion" || panel.kind === "music" ? 1024 : 1536}
-        height={panel.kind === "fashion" || panel.kind === "music"
-            ? 1536
-            : 1024}
-    />
+    <home-slideshow data-interval="6000">
+        {
+            slides.map((slide, index) => (
+                <img
+                    class:list={{
+                        "hero-slide": first,
+                        "is-active": index === 0,
+                    }}
+                    src={slide.src}
+                    alt={slide.alt}
+                    aria-hidden={index !== 0 ? "true" : undefined}
+                    loading={first ? "eager" : "lazy"}
+                    fetchpriority={first && index === 0 ? "high" : "auto"}
+                    width={
+                        panel.kind === "fashion" || panel.kind === "music"
+                            ? 1024
+                            : 1536
+                    }
+                    height={
+                        panel.kind === "fashion" || panel.kind === "music"
+                            ? 1536
+                            : 1024
+                    }
+                />
+            ))
+        }
+    </home-slideshow>
     <div class="panel-copy">
         <p class="eyebrow">{panel.eyebrow}</p><h2>{panel.title}</h2><p
             class="panel-description"
@@ -27,3 +49,92 @@ const { panel, first = false } = Astro.props;
         >
     </div>
 </a>
+<style>
+    home-slideshow {
+        display: contents;
+    }
+
+    .photo-panel img.hero-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition:
+            opacity 1.2s ease,
+            transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .photo-panel img.hero-slide.is-active {
+        opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .photo-panel img.hero-slide {
+            transition: none;
+        }
+    }
+</style>
+
+<script>
+    class HomeSlideshow extends HTMLElement {
+        private cleanup?: () => void;
+
+        connectedCallback() {
+            this.cleanup?.();
+
+            const images = Array.from(
+                this.querySelectorAll<HTMLImageElement>(".hero-slide"),
+            );
+
+            if (images.length < 2) return;
+
+            const motion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            );
+
+            const interval = Number(this.dataset.interval) || 5000;
+            let current = 0;
+            let busy = false;
+            let disposed = false;
+
+            const timer = window.setInterval(async () => {
+                // 非表示のタブや、動きを減らす設定では切り替えない。
+                if (document.hidden || motion.matches || busy) return;
+
+                busy = true;
+                const next = (current + 1) % images.length;
+
+                try {
+                    // 次の画像の準備ができてから切り替える。
+                    await images[next].decode();
+
+                    if (disposed || document.hidden || motion.matches) return;
+
+                    images[current].classList.remove("is-active");
+                    images[current].setAttribute("aria-hidden", "true");
+
+                    images[next].classList.add("is-active");
+                    images[next].removeAttribute("aria-hidden");
+
+                    current = next;
+                } catch {
+                    // 読み込めなかった場合は現在の画像を表示し続ける。
+                } finally {
+                    busy = false;
+                }
+            }, interval);
+
+            this.cleanup = () => {
+                disposed = true;
+                window.clearInterval(timer);
+            };
+        }
+
+        disconnectedCallback() {
+            this.cleanup?.();
+        }
+    }
+
+    if (!customElements.get("home-slideshow")) {
+        customElements.define("home-slideshow", HomeSlideshow);
+    }
+</script>
