@@ -15,10 +15,6 @@ export const homePanels = [
                 alt: 'オーロラが降り注ぐ幻想的な風景',
             },
             {
-                src: '/images/profile2.png',
-                alt: '夕空を映す穏やかな湖',
-            },
-            {
                 src: '/images/profile3.png',
                 alt: '空を映す海',
             },
