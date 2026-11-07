@@ -1161,8 +1161,8 @@ html {
 /* スマホ：ブログ一覧・タグ別一覧の記事の余白を詰める */
 @media (max-width: 700px) {
     .post-list .post-row {
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 12px;
+        padding-bottom: 12px;
     }
 
     .post-list .post-row h2 {
