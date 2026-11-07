@@ -306,6 +306,29 @@ const timeline = [...qualifications].sort((a, b) =>
                         previousOverflow = document.body.style.overflow;
                         document.body.style.overflow = "hidden";
                         dialog.showModal();
+
+                        // スマホでは、開くたびに画像がある先頭へ戻す。
+                        if (window.matchMedia("(max-width: 700px)").matches) {
+                            const layout =
+                                dialog.querySelector<HTMLElement>(
+                                    ".dialog-layout",
+                                );
+
+                            const resetScroll = () => {
+                                if (!dialog.open) return;
+
+                                layout?.scrollTo({
+                                    top: 0,
+                                    left: 0,
+                                    behavior: "instant",
+                                });
+                            };
+
+                            resetScroll();
+
+                            // モーダルが表示された後にも位置を確定する。
+                            requestAnimationFrame(resetScroll);
+                        }
                     }),
                 );
             dialog
