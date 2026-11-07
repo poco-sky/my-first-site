@@ -1,5 +1,5 @@
 ---
-title: 'FASHIONページの完成'
+title: 'FASHIONページが完成'
 pubDate: 2026-11-06
 description: '渾身！大変！達成感！'
 author: 'Sora'
