@@ -1,5 +1,5 @@
 ---
-title: 'MUSICページの順番再生ボタンなど実装'
+title: 'MUSICページの順番再生ボタンなどを実装'
 pubDate: 2026-11-09
 description: ''
 author: 'Sora'

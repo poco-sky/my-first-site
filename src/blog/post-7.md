@@ -1,5 +1,5 @@
 ---
-title: 'お知らせボタンなど実装'
+title: 'お知らせボタンなどを実装'
 pubDate: 2026-11-07
 description: ''
 author: 'Sora'

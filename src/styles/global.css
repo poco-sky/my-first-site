@@ -318,7 +318,7 @@ button:focus-visible {
 }
 
 .page-content>h1 {
-    font-family: Georgia, "Yu Mincho", serif;
+    font-family: Georgia, "Noto Sans JP", serif;
     font-size: clamp(28px, 3.5vw, 44px);
     font-weight: 400;
     letter-spacing: -.02em;
@@ -911,8 +911,8 @@ html {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 210px;
-    height: 125px;
+    width: 195px;
+    height: 115px;
     object-fit: cover;
     border-radius: 3px;
 }
@@ -1156,4 +1156,45 @@ html {
 .page-content>h1.custom-page-title {
     font-family: "M PLUS Rounded 1c", sans-serif;
     font-weight: 600;
+}
+
+/* スマホ：ブログ一覧・タグ別一覧の記事の余白を詰める */
+@media (max-width: 700px) {
+    .post-list .post-row {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .post-list .post-row h2 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    /* 記事タイトル */
+    .post-list .post-row h2 {
+        font-size: 17px;
+    }
+
+    /* 記事の説明文 */
+    .post-list .post-row p {
+        font-size: 12px;
+    }
+}
+
+.post-list .post-row h2 {
+    font-weight: 400;
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+@media (min-width: 701px) {
+    .post-list .post-row {
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+
+    .post-list .post-row h2 {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
 }
