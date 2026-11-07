@@ -9,16 +9,16 @@ import SocialLinks from "../components/SocialLinks.astro";
 
 const isPostPage = Astro.url.pathname.startsWith("/posts/");
 const {
-  pageTitle = "マイサイト",
-  description = "Sora's fashion, music and blog.",
+  pageTitle = "IN THE SKY",
+  description = "IN THE SKYはSoraの個人サイトです．オリジナルの洋楽やInstrumental，オリジナルブランド「POCO DI TINI」の服，日々のブログを公開しています．",
   home = false,
   music = false,
   fashion = false,
   fashionDetail = false,
 } = Astro.props;
 
-const shareTitle = "IN THE SKY | Sora";
-const shareDescription = "Sora's fashion, music and blog.";
+const shareTitle = "IN THE SKY";
+const shareDescription = "Sora's fashion of POCO DI TINI, music and blog.";
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site!);
 const shareImageUrl = new URL("/images/ogp.jpg", Astro.site!);

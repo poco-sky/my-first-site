@@ -24,7 +24,7 @@ export const homePanels = [
             },
         ],
     },
-    { title: 'Fashion', description: '着たいものを，かたちに．', image: '/images/fashion.png', alt: 'pcco-di-tini', href: '/fashion/', linkLabel: 'ファッションを見る', kind: 'fashion' },
+    { title: 'POCO DI TINI', description: '着たいものを，かたちに．', image: '/images/fashion.png', alt: 'pcco-di-tini', href: '/fashion/', linkLabel: 'コレクションを見る', kind: 'fashion' },
     { title: 'Music', description: '気持ちを，音にのせて．', image: '/images/music.jpg', alt: '窓辺のレコードプレーヤー', href: '/music/', linkLabel: '音楽を聴く', kind: 'music' },
     { title: 'Blog', description: '何気ない日々を，少しずつ．', image: '/images/blog.webp', alt: '光が差し込む机の上のノートとコーヒー', href: '/blog/', linkLabel: 'ブログを読む', kind: 'blog' },
 ];
