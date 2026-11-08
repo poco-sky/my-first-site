@@ -7,6 +7,7 @@ import {
     favorites,
     socials,
 } from "../data/profile";
+import YouTubeCarousel from "../components/YouTubeCarousel.astro";
 const timeline = [...qualifications].sort((a, b) =>
     a.date.localeCompare(b.date),
 );
@@ -122,7 +123,15 @@ const timeline = [...qualifications].sort((a, b) =>
                         aria-label="前のお気に入りを表示"
                         aria-controls="favorite-track"
                     >
-                        ←
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            aria-hidden="true"
+                        >
+                            <path d="m14 5-7 7 7 7"></path>
+                        </svg>
                     </button>
                     <button
                         type="button"
@@ -130,7 +139,15 @@ const timeline = [...qualifications].sort((a, b) =>
                         aria-label="次のお気に入りを表示"
                         aria-controls="favorite-track"
                     >
-                        →
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            aria-hidden="true"
+                        >
+                            <path d="m10 5 7 7-7 7"></path>
+                        </svg>
                     </button>
                 </div>
                 <div
@@ -179,6 +196,8 @@ const timeline = [...qualifications].sort((a, b) =>
                 </div>
             </div>
         </section>
+        <h2 class="section-title songs-title">Songs</h2>
+        <YouTubeCarousel />
     </div>
     <dialog
         id="favorite-dialog"
@@ -954,5 +973,20 @@ const timeline = [...qualifications].sort((a, b) =>
 
         /* 下線も、寸法を変えずに太く見せる */
         box-shadow: 0 1px 0 var(--border);
+    }
+    .songs-title {
+        margin-top: 28px;
+        margin-bottom: 28px;
+    }
+    .carousel-controls button {
+        display: grid;
+        place-items: center;
+        padding: 0;
+    }
+
+    .carousel-controls button svg {
+        display: block;
+        width: 20px;
+        height: 20px;
     }
 </style>

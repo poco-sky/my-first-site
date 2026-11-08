@@ -6,223 +6,253 @@
         aria-label="一番上の記事へ"
         title="一番上の記事へ"
         hidden
-        ><span class="blog-scroll-arrow" aria-hidden="true">↑</span></button
-    >
+        ><span class="blog-scroll-arrow" aria-hidden="true">
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+            >
+                <path d="m5 14 7-7 7 7"></path>
+            </svg>
+        </span>
 
-    <button
-        type="button"
-        class="blog-scroll-button blog-scroll-down"
-        data-direction="down"
-        aria-label="一番下の記事へ"
-        title="一番下の記事へ"
-        hidden
-        ><span class="blog-scroll-arrow" aria-hidden="true">↓</span></button
-    >
-</blog-scroll-buttons>
+        <button
+            type="button"
+            class="blog-scroll-button blog-scroll-down"
+            data-direction="down"
+            aria-label="一番下の記事へ"
+            title="一番下の記事へ"
+            hidden
+            ><span class="blog-scroll-arrow" aria-hidden="true">
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                >
+                    <path d="m5 10 7 7 7-7"></path>
+                </svg>
+            </span>
+        </button>
 
-<script>
-    class BlogScrollButtons extends HTMLElement {
-        private cleanup?: () => void;
+        <script>
+            class BlogScrollButtons extends HTMLElement {
+                private cleanup?: () => void;
 
-        connectedCallback() {
-            const up = this.querySelector<HTMLButtonElement>(
-                '[data-direction="up"]',
-            );
-            const down = this.querySelector<HTMLButtonElement>(
-                '[data-direction="down"]',
-            );
+                connectedCallback() {
+                    const up = this.querySelector<HTMLButtonElement>(
+                        '[data-direction="up"]',
+                    );
+                    const down = this.querySelector<HTMLButtonElement>(
+                        '[data-direction="down"]',
+                    );
 
-            const posts = document.querySelectorAll<HTMLElement>(
-                "#main .post-list .post-row",
-            );
+                    const posts = document.querySelectorAll<HTMLElement>(
+                        "#main .post-list .post-row",
+                    );
 
-            if (!up || !down || !posts.length) return;
+                    if (!up || !down || !posts.length) return;
 
-            const first = posts[0];
-            const last = posts[posts.length - 1];
-            const controller = new AbortController();
-            const { signal } = controller;
+                    const first = posts[0];
+                    const last = posts[posts.length - 1];
+                    const controller = new AbortController();
+                    const { signal } = controller;
 
-            // 固定ヘッダーの下に確保する余白
-            const topSpace = 200;
+                    // 固定ヘッダーの下に確保する余白
+                    const topSpace = 200;
 
-            const getPositions = () => {
-                const root = document.documentElement;
-                const style = getComputedStyle(root);
+                    const getPositions = () => {
+                        const root = document.documentElement;
+                        const style = getComputedStyle(root);
 
-                // 曲タブがある場合、その高さも避ける
-                const playerHeight =
-                    root.dataset.musicActive === "true"
-                        ? parseFloat(
-                              style.getPropertyValue("--music-bar-height"),
-                          ) || 76
-                        : 0;
+                        // 曲タブがある場合、その高さも避ける
+                        const playerHeight =
+                            root.dataset.musicActive === "true"
+                                ? parseFloat(
+                                      style.getPropertyValue(
+                                          "--music-bar-height",
+                                      ),
+                                  ) || 76
+                                : 0;
 
-                const bottomSpace = playerHeight + 24;
-                const maxScroll = Math.max(
-                    0,
-                    root.scrollHeight - window.innerHeight,
-                );
+                        const bottomSpace = playerHeight + 24;
+                        const maxScroll = Math.max(
+                            0,
+                            root.scrollHeight - window.innerHeight,
+                        );
 
-                const clamp = (value: number) =>
-                    Math.max(0, Math.min(value, maxScroll));
+                        const clamp = (value: number) =>
+                            Math.max(0, Math.min(value, maxScroll));
 
-                return {
-                    top: clamp(
-                        window.scrollY +
-                            first.getBoundingClientRect().top -
-                            topSpace,
-                    ),
-                    bottom: clamp(
-                        window.scrollY +
-                            last.getBoundingClientRect().bottom -
-                            window.innerHeight +
-                            bottomSpace,
-                    ),
-                };
-            };
+                        return {
+                            top: clamp(
+                                window.scrollY +
+                                    first.getBoundingClientRect().top -
+                                    topSpace,
+                            ),
+                            bottom: clamp(
+                                window.scrollY +
+                                    last.getBoundingClientRect().bottom -
+                                    window.innerHeight +
+                                    bottomSpace,
+                            ),
+                        };
+                    };
 
-            const update = () => {
-                const positions = getPositions();
+                    const update = () => {
+                        const positions = getPositions();
 
-                up.hidden = window.scrollY <= positions.top + 8;
-                down.hidden = window.scrollY >= positions.bottom - 8;
-            };
+                        up.hidden = window.scrollY <= positions.top + 8;
+                        down.hidden = window.scrollY >= positions.bottom - 8;
+                    };
 
-            const move = (direction: "up" | "down") => {
-                const positions = getPositions();
+                    const move = (direction: "up" | "down") => {
+                        const positions = getPositions();
 
-                window.scrollTo({
-                    top: direction === "up" ? positions.top : positions.bottom,
-                    behavior: window.matchMedia(
-                        "(prefers-reduced-motion: reduce)",
-                    ).matches
-                        ? "auto"
-                        : "smooth",
-                });
-            };
+                        window.scrollTo({
+                            top:
+                                direction === "up"
+                                    ? positions.top
+                                    : positions.bottom,
+                            behavior: window.matchMedia(
+                                "(prefers-reduced-motion: reduce)",
+                            ).matches
+                                ? "auto"
+                                : "smooth",
+                        });
+                    };
 
-            up.addEventListener("click", () => move("up"), { signal });
-            down.addEventListener("click", () => move("down"), { signal });
+                    up.addEventListener("click", () => move("up"), { signal });
+                    down.addEventListener("click", () => move("down"), {
+                        signal,
+                    });
 
-            let frame = 0;
-            const scheduleUpdate = () => {
-                if (frame) return;
+                    let frame = 0;
+                    const scheduleUpdate = () => {
+                        if (frame) return;
 
-                frame = requestAnimationFrame(() => {
-                    frame = 0;
+                        frame = requestAnimationFrame(() => {
+                            frame = 0;
+                            update();
+                        });
+                    };
+
+                    window.addEventListener("scroll", scheduleUpdate, {
+                        passive: true,
+                        signal,
+                    });
+                    window.addEventListener("resize", scheduleUpdate, {
+                        signal,
+                    });
+
+                    // 画像読み込みなどで記事の高さが変わった場合も再判定
+                    const resizeObserver = new ResizeObserver(scheduleUpdate);
+                    const main = document.querySelector("#main");
+                    if (main) resizeObserver.observe(main);
+
+                    // 曲タブの開閉・テーマ変更などに対応
+                    const observer = new MutationObserver(scheduleUpdate);
+                    observer.observe(document.documentElement, {
+                        attributes: true,
+                        attributeFilter: [
+                            "data-music-active",
+                            "data-music-panel",
+                            "data-theme",
+                        ],
+                    });
+
+                    this.cleanup = () => {
+                        controller.abort();
+                        resizeObserver.disconnect();
+                        observer.disconnect();
+                        cancelAnimationFrame(frame);
+                    };
+
                     update();
-                });
-            };
+                }
 
-            window.addEventListener("scroll", scheduleUpdate, {
-                passive: true,
-                signal,
-            });
-            window.addEventListener("resize", scheduleUpdate, { signal });
+                disconnectedCallback() {
+                    this.cleanup?.();
+                }
+            }
 
-            // 画像読み込みなどで記事の高さが変わった場合も再判定
-            const resizeObserver = new ResizeObserver(scheduleUpdate);
-            const main = document.querySelector("#main");
-            if (main) resizeObserver.observe(main);
+            if (!customElements.get("blog-scroll-buttons")) {
+                customElements.define("blog-scroll-buttons", BlogScrollButtons);
+            }
+        </script>
 
-            // 曲タブの開閉・テーマ変更などに対応
-            const observer = new MutationObserver(scheduleUpdate);
-            observer.observe(document.documentElement, {
-                attributes: true,
-                attributeFilter: [
-                    "data-music-active",
-                    "data-music-panel",
-                    "data-theme",
-                ],
-            });
+        <style>
+            .blog-scroll-button {
+                position: fixed;
+                left: calc((100% - var(--music-panel-width, 0px)) / 2);
+                right: auto;
+                transform: translateX(-50%);
+                z-index: 20;
 
-            this.cleanup = () => {
-                controller.abort();
-                resizeObserver.disconnect();
-                observer.disconnect();
-                cancelAnimationFrame(frame);
-            };
+                display: grid;
+                place-items: center;
+                width: 40px;
+                height: 40px;
+                padding: 0;
 
-            update();
-        }
+                border: 1px solid var(--border);
+                border-radius: 50%;
+                background: var(--page-bg);
+                color: var(--text);
+                box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
 
-        disconnectedCallback() {
-            this.cleanup?.();
-        }
-    }
+                font-size: 23px;
+                cursor: pointer;
+            }
 
-    if (!customElements.get("blog-scroll-buttons")) {
-        customElements.define("blog-scroll-buttons", BlogScrollButtons);
-    }
-</script>
+            .blog-scroll-button[hidden] {
+                display: none;
+            }
 
-<style>
-    .blog-scroll-button {
-        position: fixed;
-        left: calc((100% - var(--music-panel-width, 0px)) / 2);
-        right: auto;
-        transform: translateX(-50%);
-        z-index: 20;
+            .blog-scroll-button:hover {
+                background: var(--surface-hover);
+            }
 
-        display: grid;
-        place-items: center;
-        width: 40px;
-        height: 40px;
-        padding: 0;
+            .blog-scroll-up {
+                top: 90px;
+            }
 
-        border: 1px solid var(--border);
-        border-radius: 50%;
-        background: var(--page-bg);
-        color: var(--text);
-        box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
+            .blog-scroll-down {
+                bottom: calc(24px + env(safe-area-inset-bottom));
+            }
 
-        font-size: 23px;
-        cursor: pointer;
-    }
+            :global(html[data-music-active="true"]) .blog-scroll-down {
+                bottom: calc(
+                    var(--music-bar-height, 76px) + 24px +
+                        env(safe-area-inset-bottom)
+                );
+            }
 
-    .blog-scroll-button[hidden] {
-        display: none;
-    }
+            @media (max-width: 700px) {
+                .blog-scroll-button {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 21px;
+                }
+            }
+            .blog-scroll-arrow {
+                display: block;
+                line-height: 1;
+                transform: translate(var(--arrow-x, 0px), var(--arrow-y, 0px));
+            }
 
-    .blog-scroll-button:hover {
-        background: var(--surface-hover);
-    }
+            .blog-scroll-up,
+            .blog-scroll-down {
+                --arrow-x: 0px;
+                --arrow-y: 0px;
+            }
 
-    .blog-scroll-up {
-        top: 90px;
-    }
-
-    .blog-scroll-down {
-        bottom: calc(24px + env(safe-area-inset-bottom));
-    }
-
-    :global(html[data-music-active="true"]) .blog-scroll-down {
-        bottom: calc(
-            var(--music-bar-height, 76px) + 24px + env(safe-area-inset-bottom)
-        );
-    }
-
-    @media (max-width: 700px) {
-        .blog-scroll-button {
-            width: 40px;
-            height: 40px;
-            font-size: 21px;
-        }
-    }
-    .blog-scroll-arrow {
-        display: block;
-        line-height: 1;
-        transform: translate(var(--arrow-x, 0px), var(--arrow-y, 0px));
-    }
-
-    .blog-scroll-up {
-        --arrow-x: 0px;
-        --arrow-y: -2px;
-    }
-
-    .blog-scroll-down {
-        --arrow-x: 0px;
-        --arrow-y: -2px;
-    }
-</style>
+            .blog-scroll-arrow svg {
+                display: block;
+                width: 20px;
+                height: 20px;
+            }
+        </style>
+    </button></blog-scroll-buttons
+>

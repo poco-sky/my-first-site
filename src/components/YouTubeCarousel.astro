@@ -1,0 +1,295 @@
+---
+import { recommendedVideos } from "../data/youtube";
+---
+
+{
+    recommendedVideos.length > 0 && (
+        <youtube-carousel role="region" aria-label="お気に入りのYouTube動画">
+            <div class="youtube-frame">
+                <div class="youtube-layout">
+                    <button
+                        type="button"
+                        class="youtube-arrow"
+                        data-prev
+                        aria-label="前の動画へスクロール"
+                        disabled
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            aria-hidden="true"
+                        >
+                            <path d="m14 5-7 7 7 7" />
+                        </svg>
+                    </button>
+
+                    <div
+                        class="youtube-track"
+                        data-track
+                        tabindex="0"
+                        aria-label="動画一覧。左右にスクロールできます"
+                    >
+                        {recommendedVideos.map((video, index) => (
+                            <div class="youtube-card">
+                                <div class="youtube-player">
+                                    <iframe
+                                        src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                                        title={`お気に入りのYouTube動画 ${index + 1}`}
+                                        width="360"
+                                        height="203"
+                                        loading="lazy"
+                                        referrerpolicy="strict-origin-when-cross-origin"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <button
+                        type="button"
+                        class="youtube-arrow"
+                        data-next
+                        aria-label="次の動画へスクロール"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            aria-hidden="true"
+                        >
+                            <path d="m10 5 7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="youtube-footer">
+                    <span>SWIPE TO EXPLORE</span>
+                    <span>
+                        {String(recommendedVideos.length).padStart(2, "0")}{" "}
+                        SONGS
+                    </span>
+                </div>
+            </div>
+        </youtube-carousel>
+    )
+}
+
+<script>
+    class YouTubeCarousel extends HTMLElement {
+        private cleanup?: () => void;
+
+        connectedCallback() {
+            this.cleanup?.();
+
+            const track = this.querySelector<HTMLElement>("[data-track]");
+            const prev = this.querySelector<HTMLButtonElement>("[data-prev]");
+            const next = this.querySelector<HTMLButtonElement>("[data-next]");
+
+            if (!track || !prev || !next) return;
+
+            const controller = new AbortController();
+            const { signal } = controller;
+
+            const update = () => {
+                const maxScroll = Math.max(
+                    0,
+                    track.scrollWidth - track.clientWidth,
+                );
+
+                prev.disabled = track.scrollLeft <= 2;
+                next.disabled = track.scrollLeft >= maxScroll - 2;
+            };
+
+            const move = (direction: number) => {
+                const card = track.querySelector<HTMLElement>(".youtube-card");
+
+                if (!card) return;
+
+                const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+
+                track.scrollBy({
+                    left:
+                        direction * (card.getBoundingClientRect().width + gap),
+                    behavior: window.matchMedia(
+                        "(prefers-reduced-motion: reduce)",
+                    ).matches
+                        ? "instant"
+                        : "smooth",
+                });
+            };
+
+            prev.addEventListener("click", () => move(-1), { signal });
+            next.addEventListener("click", () => move(1), { signal });
+
+            track.addEventListener("scroll", update, {
+                passive: true,
+                signal,
+            });
+
+            const observer = new ResizeObserver(update);
+            observer.observe(track);
+
+            const card = track.querySelector(".youtube-card");
+            if (card) observer.observe(card);
+
+            update();
+
+            this.cleanup = () => {
+                controller.abort();
+                observer.disconnect();
+            };
+        }
+
+        disconnectedCallback() {
+            this.cleanup?.();
+        }
+    }
+
+    if (!customElements.get("youtube-carousel")) {
+        customElements.define("youtube-carousel", YouTubeCarousel);
+    }
+</script>
+
+<style>
+    youtube-carousel {
+        /* 横幅を広げる場合は、この値を増やす */
+        --youtube-expand: 0px;
+
+        display: block;
+        width: calc(100% + var(--youtube-expand) * 2);
+        min-width: 0;
+        margin: 0 calc(-1 * var(--youtube-expand)) 32px;
+    }
+
+    /* Favoritesと同じ四角い外枠 */
+    .youtube-frame {
+        position: relative;
+        border: 1px solid var(--border);
+        padding: 18px 18px 12px;
+        background: var(--surface);
+    }
+
+    .youtube-layout {
+        position: relative;
+        min-width: 0;
+    }
+
+    .youtube-track {
+        display: flex;
+        gap: 24px;
+        min-width: 0;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;
+
+        scrollbar-width: thin;
+        scrollbar-color: var(--border) transparent;
+        padding-bottom: 12px;
+    }
+
+    .youtube-card {
+        flex: 0 0 360px;
+        min-width: 0;
+        scroll-snap-align: start;
+    }
+
+    .youtube-player {
+        aspect-ratio: 16 / 9;
+        min-height: 200px;
+    }
+
+    .youtube-player iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    /* Favoritesと同じ丸いボタン・枠線・影 */
+    .youtube-arrow {
+        position: absolute;
+        top: calc(50% + var(--arrow-y, 0px));
+        transform: translateY(-50%);
+        z-index: 2;
+
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        margin: 0;
+        padding: 0;
+
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: var(--page-bg);
+        color: var(--text);
+        box-shadow: 0 2px 12px #0003;
+        cursor: pointer;
+    }
+
+    /* ボタンの左右位置 */
+    .youtube-arrow[data-prev] {
+        left: -42px;
+    }
+
+    .youtube-arrow[data-next] {
+        right: -42px;
+    }
+
+    .youtube-arrow svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .youtube-arrow:hover:not(:disabled) {
+        background: var(--surface-hover);
+    }
+
+    /* 押せない場合も消さずに薄く表示 */
+    .youtube-arrow:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+
+    /* Favoritesと同じ下部の表示 */
+    .youtube-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 8px;
+
+        font-size: 8px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+    }
+
+    @media (max-width: 700px) {
+        youtube-carousel {
+            --youtube-expand: 0px;
+        }
+
+        .youtube-frame {
+            padding: 12px 12px 10px;
+        }
+
+        .youtube-track {
+            gap: 16px;
+        }
+
+        .youtube-card {
+            flex-basis: 100%;
+        }
+
+        .youtube-arrow[data-prev] {
+            left: -24px;
+        }
+
+        .youtube-arrow[data-next] {
+            right: -24px;
+        }
+    }
+</style>
