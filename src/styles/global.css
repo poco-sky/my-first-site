@@ -1201,7 +1201,21 @@ html {
 
 /* スマホ：スクロール後の固定ナビの間隔 */
 @media (max-width: 700px) {
-    #site-shell .site-header .navigation-anchor > #main-menu.is-pinned {
+    #site-shell .site-header .navigation-anchor>#main-menu.is-pinned {
         gap: 20px;
     }
+}
+
+/* ヘッダーの「IN THE SKY」 */
+.site-header .wordmark {
+    font-family: "Playfair Display", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ホームの画像上の「My Profile」「Music」など */
+.home-gallery .panel-copy h2 {
+    font-family: "Playfair Display", serif;
+    font-weight: 400;
+    font-style: normal;
 }
