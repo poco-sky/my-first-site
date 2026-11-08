@@ -176,6 +176,38 @@ for (const track of tracks) {
     </section>
 </BaseLayout>
 <script>
+    const musicViewStorageKey = "music-grid-compact";
+
+    const restoreMusicView = () => {
+        const library = document.querySelector<HTMLElement>(".music-library");
+        const grid = library?.querySelector<HTMLElement>(".music-grid");
+        const button = library?.querySelector<HTMLButtonElement>(
+            "[data-music-view-toggle]",
+        );
+
+        if (!grid || !button) return;
+
+        let compact = false;
+
+        try {
+            compact = localStorage.getItem(musicViewStorageKey) === "true";
+        } catch {
+            // 保存領域が使えない場合は標準表示にする。
+        }
+
+        grid.classList.toggle("is-compact", compact);
+        button.setAttribute("aria-pressed", String(compact));
+
+        const label = compact
+            ? "ジャケットを標準サイズに戻す"
+            : "ジャケットを縮小表示";
+
+        button.setAttribute("aria-label", label);
+        button.title = label;
+    };
+
+    document.addEventListener("astro:page-load", restoreMusicView);
+    restoreMusicView();
     document.addEventListener("click", (event) => {
         if (!(event.target instanceof Element)) return;
 
@@ -200,7 +232,11 @@ for (const track of tracks) {
         const before = cards.map((card) => card.getBoundingClientRect());
 
         const compact = grid.classList.toggle("is-compact");
-
+        try {
+            localStorage.setItem(musicViewStorageKey, String(compact));
+        } catch {
+            // 保存できなくても表示の切り替えは続ける。
+        }
         button.setAttribute("aria-pressed", String(compact));
 
         const label = compact

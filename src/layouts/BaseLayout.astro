@@ -66,6 +66,21 @@ const shareImageUrl = new URL("/images/ogp.jpg", Astro.site!);
     <meta property="og:image:alt" content="IN THE SKY — Soraの個人サイト" />
     <meta property="og:locale" content="ja_JP" />
     <ClientRouter />
+    {
+      Astro.url.pathname === "/" && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "IN THE SKY",
+            alternateName: "IN THE SKY | Sora",
+            url: "https://sora.sky-me.workers.dev/",
+          })}
+        />
+      )
+    }
     <script is:inline>
       // 描画前に保存したテーマを復元して、ページ移動時の白いちらつきを防ぐ。
       try {
