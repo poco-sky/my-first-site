@@ -286,7 +286,8 @@ button:focus-visible {
 }
 
 .footer-brand {
-    font-family: Georgia, serif;
+    font-family: "Playfair Display", serif;
+    font-weight: 400;
     letter-spacing: .15em;
     font-size: 19px;
     text-decoration: none
