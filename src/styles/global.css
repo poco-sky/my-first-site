@@ -1231,7 +1231,7 @@ html {
     #site-shell .site-header #main-menu.is-pinned a {
         font-size: 12px;
         font-weight: 400;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.03em;
     }
 
     /* スクロール後のリンク同士の間隔 */
