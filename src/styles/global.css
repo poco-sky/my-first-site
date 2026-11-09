@@ -121,9 +121,8 @@ button:focus-visible {
 }
 
 .site-header nav a {
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: .13em;
-    text-transform: uppercase;
     text-decoration: none;
     padding: 6px 0 9px;
     position: relative
