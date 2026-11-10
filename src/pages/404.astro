@@ -46,4 +46,32 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         object-fit: cover;
         object-position: center;
     }
+    /* 404ページ専用のヘッダー文字色 */
+    :global(html:not([data-theme="dark"]) body:has(.not-found-hero)) {
+        --not-found-header-color: #000;
+    }
+
+    :global(html[data-theme="dark"] body:has(.not-found-hero)) {
+        --not-found-header-color: #fff;
+    }
+
+    /* サイト名・ナビゲーション・各ボタン */
+    :global(body:has(.not-found-hero) .site-header .wordmark),
+    :global(body:has(.not-found-hero) .site-header #main-menu a),
+    :global(body:has(.not-found-hero) .site-header .theme-toggle),
+    :global(body:has(.not-found-hero) .site-header .notice-toggle),
+    :global(body:has(.not-found-hero) .site-header .menu-toggle) {
+        color: var(--not-found-header-color);
+        text-shadow: none;
+    }
+
+    /* お知らせを開いている間は背景と文字色を反転 */
+    :global(
+        body:has(.not-found-hero)
+            .site-header
+            .notice-toggle[aria-expanded="true"]
+    ) {
+        background: var(--not-found-header-color);
+        color: var(--page-bg);
+    }
 </style>
