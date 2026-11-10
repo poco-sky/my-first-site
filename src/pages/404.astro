@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    pageTitle="ページが見つかりません"
+    description="指定されたページが見つかりませんでした。"
+    home
+>
+    <section class="not-found-hero" aria-label="ページが見つかりません">
+        <h1 class="sr-only">404：ページが見つかりません</h1>
+
+        <picture>
+            <source
+                media="(max-width: 700px)"
+                srcset="/images/404-mobile.png"
+            />
+            <img
+                src="/images/404-pc.png"
+                alt="指定されたページが見つかりませんでした。"
+                fetchpriority="high"
+            />
+        </picture>
+    </section>
+</BaseLayout>
+
+<style>
+    .not-found-hero {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        height: 100svh;
+        overflow: hidden;
+    }
+
+    .not-found-hero picture {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .not-found-hero img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+</style>

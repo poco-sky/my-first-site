@@ -22,14 +22,33 @@ import Notifications from "./Notifications.astro";
             .querySelector(".menu-toggle")
             ?.setAttribute("aria-expanded", "false");
     document.addEventListener("click", (event) => {
-        const target = event.target as Element;
+        if (!(event.target instanceof Element)) return;
+
+        const target = event.target;
         const button = target.closest(".menu-toggle");
-        if (button)
+
+        // ハンバーガーボタンを押したら開閉
+        if (button) {
             button.setAttribute(
                 "aria-expanded",
                 String(button.getAttribute("aria-expanded") !== "true"),
             );
-        if (target.closest("#main-menu a")) closeMenu();
+            return;
+        }
+
+        // ナビゲーションのリンクを押したら閉じる
+        if (target.closest("#main-menu a")) {
+            closeMenu();
+            return;
+        }
+
+        // スマホでは、メニューの外側をタップしても閉じる
+        if (
+            window.matchMedia("(max-width: 700px)").matches &&
+            !target.closest("#main-menu")
+        ) {
+            closeMenu();
+        }
     });
     document.addEventListener("keydown", (event) => {
         const button =
