@@ -21,6 +21,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 fetchpriority="high"
             />
         </picture>
+        <span class="not-found-credit">© 2026 Sora</span>
     </section>
 </BaseLayout>
 
@@ -73,5 +74,38 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     ) {
         background: var(--not-found-header-color);
         color: var(--page-bg);
+    }
+    /* ヒーロー画像の左下に重ねるコピーライト */
+    .not-found-credit {
+        position: absolute;
+        left: 32px;
+        bottom: 30px;
+        z-index: 1;
+
+        color: var(--not-found-header-color, #000);
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        line-height: 1.5;
+        text-shadow: none;
+        pointer-events: none;
+    }
+
+    @media (max-width: 700px) {
+        .not-found-credit {
+            left: 16px;
+            bottom: 16px;
+            font-size: 10px;
+        }
+    }
+
+    /* ライトモードではテーマ切り替えボタンの枠も黒にする */
+    :global(
+        html:not([data-theme="dark"])
+            body:has(.not-found-hero)
+            .site-header
+            .theme-toggle
+    ) {
+        border: 1px solid #000;
     }
 </style>
