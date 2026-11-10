@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
-    pageTitle="ページが見つかりません"
+    pageTitle="404 Not Found"
     description="指定されたページが見つかりませんでした。"
     home
 >
@@ -47,13 +47,26 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         object-fit: cover;
         object-position: center;
     }
-    /* 404ページ専用のヘッダー文字色 */
+    /* 白テーマ */
     :global(html:not([data-theme="dark"]) body:has(.not-found-hero)) {
         --not-found-header-color: #000;
+
+        /* 通常のボタンにカーソルを当てた時 */
+        --404-button-hover-bg: #e6e6e6;
+
+        /* 開いているお知らせボタンにカーソルを当てた時 */
+        --404-notice-open-hover-bg: #333;
     }
 
+    /* 黒テーマ */
     :global(html[data-theme="dark"] body:has(.not-found-hero)) {
         --not-found-header-color: #fff;
+
+        /* 通常のボタンにカーソルを当てた時 */
+        --404-button-hover-bg: #3b3b3b;
+
+        /* 開いているお知らせボタンにカーソルを当てた時 */
+        --404-notice-open-hover-bg: #ddd;
     }
 
     /* サイト名・ナビゲーション・各ボタン */
@@ -100,12 +113,115 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     }
 
     /* ライトモードではテーマ切り替えボタンの枠も黒にする */
+    /* 白テーマの枠線 */
     :global(
         html:not([data-theme="dark"])
             body:has(.not-found-hero)
             .site-header
             .theme-toggle
     ) {
-        border: 1px solid #000;
+        border: 1px solid #d9d9d9;
+    }
+
+    /* 黒テーマの枠線 */
+    :global(
+        html[data-theme="dark"]
+            body:has(.not-found-hero)
+            .site-header
+            .theme-toggle
+    ) {
+        border: 1px solid #454444;
+    }
+    @media (max-width: 700px) {
+        /* ライトモード */
+        :global(
+            body:has(.not-found-hero)
+                .site-header:has(.menu-toggle[aria-expanded="true"])
+                #main-menu
+        ) {
+            background: #fff;
+            opacity: 1;
+            backdrop-filter: none;
+        }
+
+        /* ダークモード */
+        :global(
+            html[data-theme="dark"]
+                body:has(.not-found-hero)
+                .site-header:has(.menu-toggle[aria-expanded="true"])
+                #main-menu
+        ) {
+            background: #101112;
+        }
+    }
+
+    @media (hover: hover) {
+        /* 白テーマ：テーマ切り替え・閉じているお知らせ */
+        :global(
+            html[data-theme="light"]
+                body:has(.not-found-hero)
+                .site-header
+                .theme-toggle:hover
+        ),
+        :global(
+            html[data-theme="light"]
+                body:has(.not-found-hero)
+                .site-header
+                .notice-toggle:not([aria-expanded="true"]):hover
+        ) {
+            background: #e6e6e6 !important;
+        }
+
+        /* 黒テーマ：テーマ切り替え・閉じているお知らせ */
+        :global(
+            html[data-theme="dark"]
+                body:has(.not-found-hero)
+                .site-header
+                .theme-toggle:hover
+        ),
+        :global(
+            html[data-theme="dark"]
+                body:has(.not-found-hero)
+                .site-header
+                .notice-toggle:not([aria-expanded="true"]):hover
+        ) {
+            background: #3b3b3b !important;
+        }
+
+        /* 白テーマ：開いているお知らせ */
+        :global(
+            html[data-theme="light"]
+                body:has(.not-found-hero)
+                .site-header
+                .notice-toggle[aria-expanded="true"]:hover
+        ) {
+            background: #333 !important;
+        }
+
+        /* 黒テーマ：開いているお知らせ */
+        :global(
+            html[data-theme="dark"]
+                body:has(.not-found-hero)
+                .site-header
+                .notice-toggle[aria-expanded="true"]:hover
+        ) {
+            background: #ddd !important;
+        }
+    }
+    /* 404ページのお知らせボタンを丸い枠線で囲む */
+    :global(body:has(.not-found-hero) .site-header .notice-toggle) {
+        --notice-ring-color: #d9d9d9; /* 枠線の色 */
+        border: 1px solid var(--notice-ring-color);
+        border-radius: 50%;
+    }
+
+    /* 黒テーマでは白い枠線 */
+    :global(
+        html[data-theme="dark"]
+            body:has(.not-found-hero)
+            .site-header
+            .notice-toggle
+    ) {
+        --notice-ring-color: #454444;
     }
 </style>
