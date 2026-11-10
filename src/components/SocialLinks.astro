@@ -99,7 +99,7 @@ import { socials } from "../data/profile";
         );
 
         // 今開いているサイトのホームURLを共有。
-        const url = window.location.origin;
+        const url = new URL("/", window.location.href).href;
 
         const shareData = {
             title: "IN THE SKY",
