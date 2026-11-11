@@ -208,20 +208,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             background: #ddd !important;
         }
     }
-    /* 404ページのお知らせボタンを丸い枠線で囲む */
-    :global(body:has(.not-found-hero) .site-header .notice-toggle) {
-        --notice-ring-color: #d9d9d9; /* 枠線の色 */
-        border: 1px solid var(--notice-ring-color);
-        border-radius: 50%;
-    }
+    @media (min-width: 701px) {
+        /* 404ページのお知らせボタンを丸い枠線で囲む */
+        :global(body:has(.not-found-hero) .site-header .notice-toggle) {
+            --notice-ring-color: #d9d9d9; /* 枠線の色 */
+            border: 1px solid var(--notice-ring-color);
+            border-radius: 50%;
+        }
 
-    /* 黒テーマでは白い枠線 */
-    :global(
-        html[data-theme="dark"]
-            body:has(.not-found-hero)
-            .site-header
-            .notice-toggle
-    ) {
-        --notice-ring-color: #454444;
+        /* 黒テーマでは白い枠線 */
+        :global(
+            html[data-theme="dark"]
+                body:has(.not-found-hero)
+                .site-header
+                .notice-toggle
+        ) {
+            --notice-ring-color: #454444;
+        }
     }
 </style>
