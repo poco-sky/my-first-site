@@ -157,7 +157,7 @@ sora-reactions[data-compact="true"] {
 
 .reaction-bubble .reaction-options {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .reaction-bubble .reaction-option {
@@ -176,21 +176,102 @@ sora-reactions[data-compact="true"] {
     }
 }
 
+/* PC：曲タブでは収納せず、絵文字を直接並べる */
+@media (min-width: 701px) {
+    html .music-bar.has-reactions {
+        grid-template-columns: minmax(0, 1fr) 108px minmax(80px, 1fr) auto;
+    }
+
+    html .music-bar.has-reactions .player-bar-actions {
+        grid-column: 4;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .player-bar-actions sora-reactions[data-compact="true"] {
+        position: relative;
+    }
+
+    .player-bar-actions .reaction-trigger {
+        display: none;
+    }
+
+    .player-bar-actions .reaction-bubble {
+        position: static;
+        width: auto;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .player-bar-actions .reaction-bubble::after,
+    .player-bar-actions .reaction-caption {
+        display: none;
+    }
+
+    .player-bar-actions .reaction-options {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 5px;
+    }
+
+    .player-bar-actions .reaction-option {
+        flex-direction: row;
+        min-height: 36px;
+        gap: 4px;
+        padding: 6px 8px;
+        font-size: 18px;
+        border-radius: 999px;
+    }
+
+    /* 成功メッセージは読み上げ用に残し、曲タブの高さを変えない */
+    .player-bar-actions sora-reactions:not([data-error="true"]) .reaction-feedback {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .player-bar-actions sora-reactions[data-error="true"] .reaction-feedback {
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 12px);
+        width: min(280px, 70vw);
+        box-sizing: border-box;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--page-bg);
+        box-shadow: 0 4px 16px #0002;
+    }
+}
+
+/* スマホ：ジャケット・曲名 / 再生操作 / リアクション＋終了 */
 @media (max-width: 700px) {
-    .player-bar-actions {
+    html .music-bar.has-reactions {
+        grid-template-columns: minmax(0, 1fr) 100px auto;
+        column-gap: 6px;
+    }
+
+    html .music-bar.has-reactions .player-bar-actions {
         grid-column: 3;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 0;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
     }
 
-    .reaction-trigger {
+    .player-bar-actions .reaction-trigger {
         width: 30px;
-        height: 30px;
+        height: 36px;
     }
 
-    .music-bar .player-bar-actions .player-close {
-        padding-block: 4px;
+    .music-bar.has-reactions .player-bar-actions .player-close {
+        padding: 7px 6px;
     }
 
     .reaction-option {
@@ -198,20 +279,309 @@ sora-reactions[data-compact="true"] {
     }
 }
 
+/* 幅の狭いPC・曲詳細を開いているときも直接表示を維持 */
 @media (min-width: 701px) and (max-width: 1100px) {
-    html[data-music-panel="true"] .player-bar-actions {
+    html[data-music-panel="true"] {
+        --music-bar-height: 160px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions {
+        grid-template-columns: minmax(0, 1fr) 108px;
+        gap: 4px 8px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .player-bar-actions {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+}
+
+/* 曲タブの再生・スキップ操作を、左右同じ幅の列で中央へ */
+html:has(.music-bar.has-reactions),
+html[data-music-panel="true"]:has(.music-bar.has-reactions) {
+    --music-bar-height: 104px;
+}
+
+html .music-bar.has-reactions,
+html[data-music-panel="true"] .music-bar.has-reactions {
+    grid-template-columns: minmax(0, 1fr) 108px minmax(0, 1fr);
+    gap: 4px 8px;
+}
+
+html .music-bar.has-reactions .bar-track {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+}
+
+html .music-bar.has-reactions .player-transport,
+html[data-music-panel="true"] .music-bar.has-reactions .player-transport {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: none;
+    margin-inline: 0;
+}
+
+html .music-bar.has-reactions .player-bar-actions,
+html[data-music-panel="true"] .music-bar.has-reactions .player-bar-actions {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+}
+
+html .music-bar.has-reactions .player-progress,
+html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    position: relative;
+    left: 0;
+    top: 0;
+    min-width: 0;
+}
+
+@media (min-width: 701px) {
+    .music-bar.has-reactions .player-bar-actions .reaction-option {
+        padding-inline: 4px;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .player-close {
+        padding-inline: 8px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    html .music-bar.has-reactions,
+    html[data-music-panel="true"] .music-bar.has-reactions {
+        grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr);
+        column-gap: 6px;
+    }
+}
+
+/* 小さいスマホでも右側の2ボタンを同じ行に収める */
+@media (max-width: 360px) {
+    .music-bar.has-reactions .player-bar-actions {
+        gap: 2px;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .reaction-trigger {
+        width: 26px;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .player-close {
+        font-size: 9px;
+        padding-inline: 3px;
+    }
+}
+
+/* 曲詳細で狭くなったPC：操作は中央、リアクションは次の行 */
+@media (min-width: 701px) and (max-width: 1100px) {
+    html[data-music-panel="true"]:has(.music-bar.has-reactions) {
+        --music-bar-height: 160px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .player-bar-actions {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
+        grid-row: 3;
+    }
+}
+
+/* PC：再生操作とシークバーをひとまとまりとして中央に置く */
+@media (min-width: 701px) {
+
+    html:has(.music-bar.has-reactions),
+    html[data-music-panel="true"]:has(.music-bar.has-reactions) {
+        --music-bar-height: 76px;
+    }
+
+    html .music-bar.has-reactions,
+    html[data-music-panel="true"] .music-bar.has-reactions {
+        /* 調節する値：25vw＝PC画面幅の約1/4 */
+        --desktop-seek-width: 25vw;
+        --bar-side-reserve: 245px;
+        --bar-controls-width: 108px;
+        --bar-padding-x: 24px;
+        --bar-column-gap: 12px;
+        --bar-time-width: 72px;
+        --bar-progress-width: clamp(80px,
+                calc(var(--desktop-seek-width) + var(--bar-time-width)),
+                calc(100vw - var(--music-panel-width, 0px) - 2 * var(--bar-padding-x) - 2 * var(--bar-side-reserve) - var(--bar-controls-width) - 3 * var(--bar-column-gap)));
+        grid-template-columns: minmax(0, 1fr) var(--bar-controls-width) var(--bar-progress-width) minmax(0, 1fr);
+        grid-template-rows: auto;
+        gap: 0 var(--bar-column-gap);
+        padding-inline: var(--bar-padding-x);
+    }
+
+    html .music-bar.has-reactions .player-transport,
+    html[data-music-panel="true"] .music-bar.has-reactions .player-transport {
+        grid-column: 2;
+        grid-row: 1;
+        left: 0;
+        top: 0;
+    }
+
+    html .music-bar.has-reactions .player-progress,
+    html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
         grid-column: 3;
+        grid-row: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    html .music-bar.has-reactions .player-bar-actions,
+    html[data-music-panel="true"] .music-bar.has-reactions .player-bar-actions {
+        grid-column: 4;
+        grid-row: 1;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+}
+
+/* 狭いPCではシークバーを自動で短くして1行を維持 */
+@media (min-width: 701px) and (max-width: 1100px) {
+
+    html .music-bar.has-reactions,
+    html[data-music-panel="true"] .music-bar.has-reactions {
+        --bar-side-reserve: 205px;
+        --bar-controls-width: 100px;
+        --bar-padding-x: 12px;
+        --bar-column-gap: 6px;
+        --bar-time-width: 36px;
+    }
+
+    .music-bar.has-reactions .player-progress {
+        gap: 6px;
+    }
+
+    .music-bar.has-reactions .player-progress .player-duration {
+        display: none;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .reaction-option {
         flex-direction: column;
-        align-items: flex-end;
+        gap: 2px;
+        padding: 4px 5px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions {
+        --bar-side-reserve: 144px;
+        --bar-controls-width: 84px;
+        --bar-padding-x: 10px;
+        --bar-column-gap: 4px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .player-transport {
         gap: 0;
     }
 
-    html[data-music-panel="true"] .player-bar-actions .reaction-trigger {
-        width: 28px;
-        height: 28px;
+    html[data-music-panel="true"] .music-bar.has-reactions .player-transport .player-icon-button {
+        width: 26px;
+        height: 36px;
+        padding: 4px;
     }
 
-    html[data-music-panel="true"] .music-bar .player-bar-actions .player-close {
-        padding-block: 3px;
+    html[data-music-panel="true"] .music-bar.has-reactions .player-transport .player-toggle {
+        width: 32px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .player-bar-actions {
+        gap: 4px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .reaction-options {
+        gap: 2px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .player-bar-actions .reaction-option {
+        font-size: 16px;
+        padding-inline: 3px;
+    }
+
+    html[data-music-panel="true"] .music-bar.has-reactions .player-bar-actions .player-close {
+        font-size: 9px;
+        padding-inline: 3px;
+    }
+}
+
+@media (min-width: 701px) {
+
+    html .music-bar.has-reactions,
+    html[data-music-panel="true"] .music-bar.has-reactions {
+        /* シークバーの希望幅 */
+        --desktop-seek-width: 25vw;
+
+        /* 左右の時間表示と、その間隔の分 */
+        --bar-time-width: 84px;
+
+        --bar-progress-width: clamp(80px,
+                calc(var(--desktop-seek-width) + var(--bar-time-width)),
+                calc(100vw - var(--music-panel-width, 0px) - 2 * var(--bar-padding-x) - 2 * var(--bar-side-reserve) - 2 * var(--bar-column-gap)));
+
+        /* 左右を同じ幅にして、中央にシークバーを配置 */
+        grid-template-columns:
+            minmax(0, 1fr) var(--bar-progress-width) minmax(0, 1fr);
+    }
+
+    /* 左側：ジャケットと曲名 */
+    html .music-bar.has-reactions .bar-track {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+        width: max(0px,
+                calc(100% - var(--bar-controls-width) - 8px));
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    /* 左側の右端＝シークバーのすぐ左 */
+    html .music-bar.has-reactions .player-transport,
+    html[data-music-panel="true"] .music-bar.has-reactions .player-transport {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: end;
+        left: 0;
+        top: 0;
+        transform: none;
+    }
+
+    /* 中央：シークバー */
+    html .music-bar.has-reactions .player-progress,
+    html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
+        grid-column: 2;
+        grid-row: 1;
+        width: 100%;
+        left: 0;
+        top: 0;
+        gap: 12px;
+    }
+
+    /* 時間表示の左右幅を揃え、バーそのものも中央にする */
+    html .music-bar.has-reactions .player-progress>span {
+        display: inline-block;
+        flex: 0 0 30px;
+        width: 30px;
+        text-align: center;
+    }
+
+    /* 右側：リアクションと終了ボタン */
+    html .music-bar.has-reactions .player-bar-actions,
+    html[data-music-panel="true"] .music-bar.has-reactions .player-bar-actions {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
     }
 }

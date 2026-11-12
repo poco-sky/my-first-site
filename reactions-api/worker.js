@@ -1,14 +1,32 @@
-const EMOJIS = ['like', 'love', 'fire', 'moved', 'sparkles'];
+const EMOJIS = ['like', 'love', 'moved'];
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const catalogCache = new Map();
-async function catalog(origin) {
+async function catalog(env) {
+    const origin = env.SITE_ORIGIN;
     const cached = catalogCache.get(origin);
-    if (cached && cached.expires > Date.now()) return cached.value;
-    const response = await fetch(new URL('/reaction-catalog.json', origin), { signal: AbortSignal.timeout(8000) });
-    if (!response.ok) throw new Error('Catalog unavailable');
+    if (cached && cached.expires > Date.now()) {
+        return cached.value;
+    }
+    const url = new URL("/reaction-catalog.json", origin);
+    const response = await env.SITE.fetch(url.href, {
+        signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok) {
+        throw new Error(
+            `Catalog unavailable: HTTP ${response.status}`
+        );
+    }
     const value = await response.json();
-    if (!Array.isArray(value.music) || !Array.isArray(value.blog)) throw new Error('Invalid catalog');
-    catalogCache.set(origin, { value, expires: Date.now() + 60000 });
+    if (
+        !Array.isArray(value.music) ||
+        !Array.isArray(value.blog)
+    ) {
+        throw new Error("Invalid catalog");
+    }
+    catalogCache.set(origin, {
+        value,
+        expires: Date.now() + 60000,
+    });
     return value;
 }
 async function hash(value) {
@@ -57,11 +75,13 @@ export default {
         if (url.pathname !== '/v1/reactions') return json({ error: 'Not found' }, 404);
         if (!allowed.includes(origin)) return json({ error: 'Origin not allowed' }, 403);
         if (request.method === 'OPTIONS') {
-            return new Response(null, { status: 204, headers: {
-                ...headers, 'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, X-Reaction-Visitor',
-                'Access-Control-Max-Age': '600',
-            } });
+            return new Response(null, {
+                status: 204, headers: {
+                    ...headers, 'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Content-Type, X-Reaction-Visitor',
+                    'Access-Control-Max-Age': '600',
+                }
+            });
         }
         if (!['GET', 'PUT'].includes(request.method)) return json({ error: 'Method not allowed' }, 405);
         const kind = url.searchParams.get('kind');
@@ -86,7 +106,7 @@ export default {
                     return json({ error: 'Invalid reaction' }, 400);
                 }
             }
-            const contents = await catalog(env.SITE_ORIGIN);
+            const contents = await catalog(env);
             if (!contents[kind].includes(id)) return json({ error: 'Content not found' }, 404);
             const visitorHash = await hash(visitor);
             const reads = queries(env.DB, kind, id, visitorHash);

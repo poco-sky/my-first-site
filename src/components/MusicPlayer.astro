@@ -14,7 +14,7 @@ import { tracks } from "../data/music";
         set:html={JSON.stringify(tracks).replace(/</g, "\\u003c")}
     />
     <audio id="site-audio" preload="metadata"></audio>
-    <section class="music-bar" aria-label="音楽プレイヤー" hidden>
+    <section class="music-bar has-reactions" aria-label="音楽プレイヤー" hidden>
         <button
             type="button"
             class="bar-track"
@@ -69,8 +69,8 @@ import { tracks } from "../data/music";
                 disabled
             /><span class="player-duration">0:00</span>
         </div>
-        +        <div class="player-bar-actions">
-+            <Reactions kind="music" compact />
+        <div class="player-bar-actions">
+            <Reactions kind="music" compact />
         <button
             type="button"
             class="player-close"

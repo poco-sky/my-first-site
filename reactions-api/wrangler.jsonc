@@ -4,6 +4,12 @@
 	"main": "worker.js",
 	"compatibility_date": "2026-11-12",
 	"workers_dev": true,
+	"services": [
+		{
+			"binding": "SITE",
+			"service": "sora"
+		}
+	],
 	"vars": {
 		"SITE_ORIGIN": "https://sora.sky-me.workers.dev",
 		"ALLOWED_ORIGINS": "https://sora.sky-me.workers.dev,http://localhost:4321,http://127.0.0.1:4321"

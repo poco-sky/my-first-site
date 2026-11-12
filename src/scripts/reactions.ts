@@ -1,8 +1,8 @@
 type Kind = 'music' | 'blog';
-type Emoji = 'like' | 'love' | 'fire' | 'moved' | 'sparkles';
+type Emoji = 'like' | 'love' | 'moved';
 type Snapshot = { counts: Record<Emoji, number>; selected: Emoji[] };
 type State = { snapshot?: Snapshot; pending: boolean; loading: boolean; error: string; version: number; updated: number; message?: string };
-const keys: Emoji[] = ['like', 'love', 'fire', 'moved', 'sparkles'];
+const keys: Emoji[] = ['like', 'love', 'moved'];
 const storageKey = 'sora-reaction-visitor-v1';
 const states = new Map<string, State>();
 const changes = new EventTarget();
@@ -77,6 +77,7 @@ class SoraReactions extends HTMLElement {
     static observedAttributes = ['data-content-id'];
     private controller?: AbortController;
     private opened = false;
+    private mobile = window.matchMedia('(max-width: 700px)');
     private observer?: ResizeObserver;
     private key = '';
     private get compact() { return this.dataset.compact === 'true'; }
@@ -105,6 +106,14 @@ class SoraReactions extends HTMLElement {
         }, { capture: true, signal });
         document.addEventListener('astro:before-swap', () => this.close(), { signal });
         document.addEventListener('visibilitychange', () => { if (!document.hidden) this.refresh(true); }, { signal });
+        this.mobile.addEventListener('change', () => {
+            const hadFocus = this.contains(document.activeElement);
+            this.close();
+            if (this.compact && hadFocus) {
+                const target = this.mobile.matches ? this.trigger : this.querySelector<HTMLButtonElement>('[data-emoji]:not(:disabled)');
+                target?.focus({ preventScroll: true });
+            }
+        }, { signal });
         window.addEventListener('resize', () => { if (this.opened) this.position(); }, { signal });
         window.visualViewport?.addEventListener('resize', () => { if (this.opened) this.position(); }, { signal });
         this.observer = new ResizeObserver(() => { if (this.opened) this.position(); });
@@ -123,6 +132,7 @@ class SoraReactions extends HTMLElement {
     }
     private draw() {
         const s = this.key ? state(this.key) : undefined;
+        this.dataset.error = String(!!s?.error);
         if (this.trigger) {
             this.trigger.disabled = !this.key;
             this.trigger.dataset.selected = String(!!s?.snapshot?.selected.length);
@@ -141,7 +151,7 @@ class SoraReactions extends HTMLElement {
         this.querySelector<HTMLButtonElement>('.reaction-retry')!.hidden = !s?.error;
     }
     private open() {
-        if (!this.key || !this.compact) return;
+        if (!this.key || !this.compact || !this.mobile.matches) return;
         document.querySelectorAll<SoraReactions>('sora-reactions').forEach(el => { if (el !== this) el.close(); });
         this.opened = true; this.box.hidden = false;
         this.trigger?.setAttribute('aria-expanded', 'true');
@@ -154,7 +164,13 @@ class SoraReactions extends HTMLElement {
     }
     close(restoreFocus = false) {
         this.opened = false;
-        if (this.compact && this.box) this.box.hidden = true;
+        if (this.compact && this.box) {
+            this.box.hidden = this.mobile.matches;
+            this.box.style.removeProperty('width');
+            this.box.style.removeProperty('left');
+            this.box.style.removeProperty('top');
+            this.box.removeAttribute('tabindex');
+        }
         this.trigger?.setAttribute('aria-expanded', 'false');
         if (restoreFocus) this.trigger?.focus({ preventScroll: true });
     }
@@ -187,4 +203,4 @@ window.addEventListener('storage', event => {
         const [api, kind, id] = JSON.parse(key); void load(key, api, kind, id, true);
     }
 });
-export {};
+export { };
