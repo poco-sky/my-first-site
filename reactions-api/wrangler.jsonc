@@ -1,0 +1,43 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "sora-reactions",
+	"main": "worker.js",
+	"compatibility_date": "2026-11-12",
+	"workers_dev": true,
+	"vars": {
+		"SITE_ORIGIN": "https://sora.sky-me.workers.dev",
+		"ALLOWED_ORIGINS": "https://sora.sky-me.workers.dev,http://localhost:4321,http://127.0.0.1:4321"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "sora-reactions",
+			"database_id": "7d84eb56-bcc6-4515-8382-a300a313433d",
+			"migrations_dir": "migrations"
+		},
+		{
+			"binding": "sora_reactions",
+			"database_name": "sora-reactions",
+			"database_id": "7d84eb56-bcc6-4515-8382-a300a313433d",
+			"remote": true
+		}
+	],
+	"ratelimits": [
+		{
+			"name": "REQUEST_LIMITER",
+			"namespace_id": "804202601",
+			"simple": {
+				"limit": 120,
+				"period": 60
+			}
+		},
+		{
+			"name": "WRITE_LIMITER",
+			"namespace_id": "804202602",
+			"simple": {
+				"limit": 30,
+				"period": 60
+			}
+		}
+	]
+}

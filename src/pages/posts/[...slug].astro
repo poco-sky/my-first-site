@@ -25,6 +25,7 @@ const { Content } = await render(post);
 
 <MarkdownPostLayout
     frontmatter={post.data}
+    postId={post.id}
     previousPost={previousPost}
     nextPost={nextPost}
 >

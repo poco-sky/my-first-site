@@ -1,4 +1,5 @@
 ---
++import Reactions from "./Reactions.astro";
 import PlayerIcon from "./PlayerIcon.astro";
 import { tracks } from "../data/music";
 ---
@@ -68,6 +69,8 @@ import { tracks } from "../data/music";
                 disabled
             /><span class="player-duration">0:00</span>
         </div>
+        +        <div class="player-bar-actions">
++            <Reactions kind="music" compact />
         <button
             type="button"
             class="player-close"
@@ -76,6 +79,7 @@ import { tracks } from "../data/music";
         >
             再生を終える
         </button>
+        </div>
         <p class="player-error" role="status" hidden></p>
     </section>
     <aside
@@ -104,6 +108,7 @@ import { tracks } from "../data/music";
                     <p class="detail-artist"></p>
                     <p class="detail-genre"></p>
                 </div>
+                <Reactions kind="music" />
                 <div class="lyric-tabs" role="tablist" aria-label="歌詞の言語">
                     <button
                         type="button"

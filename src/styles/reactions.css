@@ -1,0 +1,217 @@
+sora-reactions {
+    display: block;
+    color: var(--text);
+}
+
+sora-reactions[data-kind="blog"] {
+    margin: 32px 0 0;
+}
+
+sora-reactions [hidden] {
+    display: none !important;
+}
+
+.reaction-caption {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 11px;
+    letter-spacing: .06em;
+    color: var(--muted);
+}
+
+.reaction-options {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.reaction-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text);
+    background: var(--page-bg);
+    cursor: pointer;
+    font: inherit;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.reaction-count {
+    font: 11px/1.2 Arial, sans-serif;
+}
+
+.reaction-option[aria-pressed="true"] {
+    border-color: var(--text);
+    background: var(--surface-hover);
+    box-shadow: inset 0 0 0 1px var(--text);
+}
+
+.reaction-option:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
+.reaction-feedback {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.reaction-status {
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.reaction-feedback:has(.reaction-status:empty):has(.reaction-retry[hidden]) {
+    display: none;
+}
+
+.reaction-retry {
+    padding: 4px;
+    border: 0;
+    color: var(--text);
+    background: none;
+    font: inherit;
+    font-size: 11px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.detail-copy>sora-reactions {
+    margin: 18px 0 22px;
+}
+
+/* 既存の再生操作・シークバーのグリッド位置を維持 */
+.player-bar-actions {
+    grid-column: 5;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    min-width: 0;
+}
+
+sora-reactions[data-compact="true"] {
+    flex: none;
+}
+
+.reaction-trigger {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.reaction-trigger[aria-expanded="true"],
+.reaction-trigger[data-selected="true"] {
+    background: var(--surface-hover);
+    border-color: var(--border);
+}
+
+.reaction-trigger:disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+.reaction-bubble {
+    position: fixed;
+    z-index: 80;
+    width: min(330px, calc(100vw - 20px));
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--page-bg);
+    color: var(--text);
+    box-shadow: 0 8px 30px #0003;
+    box-sizing: border-box;
+}
+
+.reaction-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: var(--reaction-tail, 50%);
+    width: 10px;
+    height: 10px;
+    transform: translateX(-50%) rotate(45deg);
+    background: var(--page-bg);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.reaction-bubble .reaction-options {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.reaction-bubble .reaction-option {
+    flex-direction: column;
+    gap: 5px;
+    padding: 7px 2px;
+    min-width: 0;
+    border-radius: 12px;
+}
+
+@media (hover: hover) {
+
+    .reaction-option:not(:disabled):hover,
+    .reaction-trigger:not(:disabled):hover {
+        background: var(--surface-hover);
+    }
+}
+
+@media (max-width: 700px) {
+    .player-bar-actions {
+        grid-column: 3;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0;
+    }
+
+    .reaction-trigger {
+        width: 30px;
+        height: 30px;
+    }
+
+    .music-bar .player-bar-actions .player-close {
+        padding-block: 4px;
+    }
+
+    .reaction-option {
+        padding: 6px 8px;
+    }
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+    html[data-music-panel="true"] .player-bar-actions {
+        grid-column: 3;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0;
+    }
+
+    html[data-music-panel="true"] .player-bar-actions .reaction-trigger {
+        width: 28px;
+        height: 28px;
+    }
+
+    html[data-music-panel="true"] .music-bar .player-bar-actions .player-close {
+        padding-block: 3px;
+    }
+}

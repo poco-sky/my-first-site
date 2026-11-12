@@ -1,0 +1,55 @@
+---
+import { REACTIONS_API_URL } from "../config/reactions";
+import "../styles/reactions.css";
+interface Props {
+    kind: "music" | "blog";
+    contentId?: string;
+    compact?: boolean;
+}
+const { kind, contentId = "", compact = false } = Astro.props;
+const emojis = [
+    ["like", "👍", "いいね"], ["love", "❤️", "大好き"],
+    ["fire", "🔥", "最高"], ["moved", "🥹", "感動した"],
+    ["sparkles", "✨", "素敵"],
+];
+---
+<sora-reactions
+    data-kind={kind}
+    data-content-id={contentId}
+    data-api={REACTIONS_API_URL}
+    data-compact={String(compact)}
+>
+    {compact && (
+        <button type="button" class="reaction-trigger" data-reaction-trigger
+            aria-label="この曲にリアクションする" title="リアクション"
+            aria-expanded="false" disabled>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M20.6 13.5A9 9 0 1 1 10.5 3.1M18 2v6M15 5h6" />
+                <path d="M8 14a4.5 4.5 0 0 0 8 0" />
+                <circle cx="8.5" cy="10" r=".75" fill="currentColor" stroke="none" />
+                <circle cx="14.5" cy="10" r=".75" fill="currentColor" stroke="none" />
+            </svg>
+        </button>
+    )}
+    <div class:list={{ "reaction-box": true, "reaction-bubble": compact }}
+        data-reaction-box hidden={compact}>
+        <span class="reaction-caption">{kind === "blog" ? "この記事にリアクション" : "この曲にリアクション"}</span>
+        <div class="reaction-options" role="group" aria-label="絵文字リアクション">
+            {emojis.map(([key, emoji, label]) => (
+                <button type="button" class="reaction-option" data-emoji={key}
+                    data-label={label} aria-label={label} aria-pressed="false" disabled>
+                    <span aria-hidden="true">{emoji}</span>
+                    <span class="reaction-count" aria-hidden="true">—</span>
+                </button>
+            ))}
+        </div>
+        <div class="reaction-feedback">
+            <span class="reaction-status" role="status" aria-live="polite"></span>
+            <button type="button" class="reaction-retry" hidden>再試行</button>
+        </div>
+    </div>
+</sora-reactions>
+<script>
+    import "../scripts/reactions";
+</script>

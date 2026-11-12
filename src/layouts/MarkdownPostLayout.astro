@@ -1,6 +1,11 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-const { frontmatter, previousPost = null, nextPost = null } = Astro.props;
+const {
+  frontmatter,
+  postId,
+  previousPost = null,
+  nextPost = null,
+} = Astro.props;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
@@ -42,6 +47,7 @@ const { frontmatter, previousPost = null, nextPost = null } = Astro.props;
   <article class="article-body">
     <slot />
   </article>
+  <Reactions kind="blog" contentId={postId} />
 
   <nav
     class="article-navigation article-navigation-bottom"
@@ -85,7 +91,7 @@ const { frontmatter, previousPost = null, nextPost = null } = Astro.props;
     margin: 0.25em;
     border: dotted 1px var(--border);
     border-radius: 0.5em;
-    padding: 0.20em 0.8em;
+    padding: 0.2em 0.8em;
     font-size: 1em;
     background-color: var(--tag-bg);
   }

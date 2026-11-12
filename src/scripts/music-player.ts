@@ -203,6 +203,7 @@ class SoraMusicPlayer extends HTMLElement {
         ++this.request;
         this.audio.pause();
         this.active = null;
+        this.querySelectorAll('sora-reactions[data-kind="music"]').forEach(el => el.setAttribute('data-content-id', ''));
         this.queue = [];
         this.queueIndex = -1;
         this.continuousMode = false;
@@ -218,6 +219,7 @@ class SoraMusicPlayer extends HTMLElement {
 
     private updateTrack() {
         if (!this.active) return;
+        this.querySelectorAll('sora-reactions[data-kind="music"]').forEach(el => el.setAttribute('data-content-id', this.active!.id));
         for (const selector of ['.bar-cover', '.detail-cover']) {
             const image = this.querySelector<HTMLImageElement>(selector)!;
             image.src = this.active.cover;
@@ -374,7 +376,7 @@ class SoraMusicPlayer extends HTMLElement {
     }
     private openPanel() {
         if (!this.active) return;
-
+        this.querySelectorAll<HTMLElement>('sora-reactions[data-compact="true"] [data-reaction-trigger][aria-expanded="true"]').forEach(el => el.click());
         this.panelOpen = true;
         this.layout();
 
@@ -523,7 +525,7 @@ class SoraMusicPlayer extends HTMLElement {
             this.querySelector<HTMLButtonElement>(`[data-lyric="${this.language}"]`)!.focus();
         }
         if (event.key === 'Tab' && this.mobile.matches) {
-            const focusable = Array.from(this.panel.querySelectorAll<HTMLElement>('button:not([tabindex="-1"]), [tabindex="0"]'));
+            const focusable = Array.from(this.panel.querySelectorAll<HTMLElement>('button:not(:disabled):not([tabindex="-1"]), [tabindex="0"]'));
             const first = focusable[0], last = focusable[focusable.length - 1];
             if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
             else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
