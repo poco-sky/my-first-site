@@ -101,15 +101,24 @@ class SiteNotifications extends HTMLElement {
 
         const updateUnread = () => {
             const seen = readSeenNotices();
-            const unread = keys.some((key) => !seen.has(key));
 
-            bubble.hidden = !unread || !panel.hidden;
+            // このブラウザで未確認のお知らせの件数
+            const unreadCount = keys.filter((key) => !seen.has(key)).length;
+
+            const message =
+                unreadCount > 10
+                    ? "10件以上の新しいお知らせがあります"
+                    : `${unreadCount}件の新しいお知らせがあります`;
+
+            bubble.textContent = message;
+            bubble.hidden = unreadCount === 0 || !panel.hidden;
 
             button.setAttribute(
                 "aria-label",
-                unread ? "お知らせ：新しいお知らせがあります" : "お知らせ",
+                unreadCount > 0 ? `お知らせ：${message}` : "お知らせ",
             );
 
+            // 文章の長さが変わるので、吹き出しの位置を再計算
             position();
         };
 
