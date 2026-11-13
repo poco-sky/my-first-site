@@ -5,7 +5,7 @@ description: ''
 author: 'Sora'
 image:
     url: '/images/rec.png'
-    alt: 'ホーム画面のスクショ'
+    alt: 'リアクションボタンのスクショ'
 tags: ["アップデート"]
 ---
 
