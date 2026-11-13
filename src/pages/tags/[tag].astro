@@ -1,125 +1,16 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogScrollButtons from "../../components/BlogScrollButtons.astro";
 
 export async function getStaticPaths() {
-  const allPosts = (await getCollection("blog")).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-  );
+    const posts = await getCollection("blog");
+    const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
 
-  const uniqueTags = [...new Set(allPosts.flatMap((post) => post.data.tags))];
-
-  return uniqueTags.map((tag) => ({
-    params: { tag },
-    props: {
-      posts: allPosts.filter((post) => post.data.tags.includes(tag)),
-      tags: uniqueTags,
-    },
-  }));
+    return tags.map((tag) => ({
+        params: { tag },
+    }));
 }
 
-const { tag } = Astro.params;
-const { posts, tags } = Astro.props;
+const tag = Astro.params.tag || "";
 
-function getThumbnail(post: (typeof posts)[number]) {
-  return (
-    post.data.image?.url ||
-    post.body?.match(/!\[[^\]]*\]\(\s*<?([^\s)>]+)>?(?:\s+"[^"]*")?\s*\)/)?.[1]
-  );
-}
+return Astro.redirect(`/blog/?tag=${encodeURIComponent(tag)}`, 301);
 ---
-
-<BaseLayout pageTitle="Blog">
-  <nav class="tag-list blog-tags" aria-label="記事のタグ">
-    <a href="/blog/">All</a>
-    {
-      tags.map((item) => (
-        <a
-          href={item === tag ? "/blog/" : `/tags/${encodeURIComponent(item)}/`}
-          class:list={{ "is-selected": item === tag }}
-          aria-current={item === tag ? "true" : undefined}
-          aria-label={
-            item === tag ? `${item}の絞り込みを解除してブログ一覧へ` : undefined
-          }
-        >
-          {item}
-        </a>
-      ))
-    }
-  </nav>
-
-  <ul class="post-list">
-    <ul class="post-list">
-      {
-        posts.map((post) => {
-          const thumbnail = getThumbnail(post);
-
-          return (
-            <li>
-              <a
-                href={`/posts/${post.id}/`}
-                class:list={{
-                  "post-row": true,
-                  "has-thumbnail": Boolean(thumbnail),
-                }}
-              >
-                <div class="post-meta">
-                  <time datetime={post.data.pubDate.toISOString()}>
-                    {post.data.pubDate
-                      .toISOString()
-                      .slice(0, 10)
-                      .replaceAll("-", ".")}
-                  </time>
-
-                  <span class="post-meta-tags">
-                    {post.data.tags.map((tag) => (
-                      <span class="post-meta-tag">#{tag}</span>
-                    ))}
-                  </span>
-                </div>
-
-                <h2>{post.data.title}</h2>
-                <p>{post.data.description}</p>
-
-                {thumbnail && (
-                  <img
-                    class="post-thumbnail"
-                    src={thumbnail}
-                    alt=""
-                    loading="lazy"
-                  />
-                )}
-              </a>
-            </li>
-          );
-        })
-      }
-    </ul>
-  </ul>
-  <BlogScrollButtons />
-</BaseLayout>
-<style>
-  .post-meta {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 6px 14px;
-  }
-
-  .post-meta-tags {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 4px 10px;
-  }
-
-  .post-meta-tag {
-    font-size: 12px;
-    color: var(--link);
-  }
-  @media (max-width: 700px) {
-    .post-list .post-row h2 {
-      font-size: 18px;
-    }
-  }
-</style>

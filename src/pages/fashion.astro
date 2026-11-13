@@ -77,20 +77,22 @@ const categories = [...new Set(items.map((item) => item.data.category))];
                 aria-label="アイテムの種類"
             >
                 <button
-                    type="button"
-                    data-fashion-filter="*"
-                    aria-pressed="true">All</button
-                >
+    type="button"
+    data-fashion-filter="*"
+    aria-pressed="true"
+>
+    <span class="filter-label">All</span>
+</button>
                 {
                     categories.map((category) => (
-                        <button
-                            type="button"
-                            data-fashion-filter={category}
-                            aria-pressed="false"
-                        >
-                            {category}
-                        </button>
-                    ))
+    <button
+        type="button"
+        data-fashion-filter={category}
+        aria-pressed="false"
+    >
+        <span class="filter-label">{category}</span>
+    </button>
+))
                 }
             </div>
             <ul class="fashion-grid">

@@ -25,14 +25,14 @@ for (const track of tracks) {
             <div class="music-filters" role="group" aria-label="曲のジャンル">
                 {
                     genres.map((genre) => (
-                        <button
-                            type="button"
-                            data-music-filter={genre}
-                            aria-pressed={genre === "洋楽"}
-                        >
-                            {genre}
-                        </button>
-                    ))
+    <button
+        type="button"
+        data-music-filter={genre}
+        aria-pressed={genre === "洋楽"}
+    >
+        <span class="filter-label">{genre}</span>
+    </button>
+))
                 }
                 <button
                     type="button"

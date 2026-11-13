@@ -928,13 +928,6 @@ html {
     }
 }
 
-.tag-list a.is-selected,
-:root[data-theme="dark"] .tag-list a.is-selected {
-    background: var(--text);
-    border-color: var(--text);
-    color: var(--page-bg);
-}
-
 .page-content:has(.sora-profile)>h1 {
     margin-bottom: 0px;
 }
@@ -1219,12 +1212,17 @@ html {
     font-weight: 400;
     font-style: normal;
 }
+
 @media (max-width: 700px) {
+
     /* ハンバーガーメニューを開いたとき */
     #site-shell .site-header #main-menu:not(.is-pinned) a {
-        font-size: 15px;         /* 文字の大きさ */
-        font-weight: 400;        /* 太さ */
-        letter-spacing: 0.08em;  /* 文字同士の間隔 */
+        font-size: 15px;
+        /* 文字の大きさ */
+        font-weight: 400;
+        /* 太さ */
+        letter-spacing: 0.08em;
+        /* 文字同士の間隔 */
     }
 
     /* スクロール後、画面上部に残るナビゲーション */
@@ -1235,7 +1233,61 @@ html {
     }
 
     /* スクロール後のリンク同士の間隔 */
-    #site-shell .site-header .navigation-anchor > #main-menu.is-pinned {
+    #site-shell .site-header .navigation-anchor>#main-menu.is-pinned {
         gap: 10px;
     }
+}
+
+/* 選択中のボタン：白・黒テーマ共通の青 */
+:root {
+    --selected-button-blue: #4c86c5;
+}
+
+/* ブログのタグ絞り込み（タグ別一覧も含む） */
+:root .tag-list.blog-tags a.is-selected,
+/* MUSICの曲ジャンル絞り込み */
+:root .music-filters button[aria-pressed="true"],
+/* 1/3曲ページの歌詞切り替え */
+:root .lyric-tabs button[aria-selected="true"] {
+    background: var(--selected-button-blue);
+    border-color: var(--selected-button-blue);
+    color: #fff;
+}
+
+:root {
+    --blog-label-scale: 1.15;
+    --music-label-scale: 1.15;
+    --lyric-label-scale: 1.15;
+    --fashion-label-scale: 1.15;
+}
+
+/* 元の文字サイズを維持して、ボタンの寸法を変えない */
+:root .tag-list.blog-tags a,
+:root .music-filters button,
+:root .lyric-tabs button,
+:root .fashion-filters button {
+    font-size: 12px;
+}
+
+/* 見た目の文字だけ拡大 */
+:root .tag-list.blog-tags a .filter-label {
+    --label-scale: var(--blog-label-scale);
+}
+
+:root .music-filters button .filter-label {
+    --label-scale: var(--music-label-scale);
+}
+
+:root .lyric-tabs button .filter-label {
+    --label-scale: var(--lyric-label-scale);
+}
+
+:root .fashion-filters button .filter-label {
+    --label-scale: var(--fashion-label-scale);
+}
+
+.filter-label {
+    display: inline-block;
+    transform: scale(var(--label-scale, 1));
+    transform-origin: center;
 }

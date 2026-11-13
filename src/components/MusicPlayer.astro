@@ -111,21 +111,27 @@ import { tracks } from "../data/music";
                 <Reactions kind="music" />
                 <div class="lyric-tabs" role="tablist" aria-label="歌詞の言語">
                     <button
-                        type="button"
-                        id="lyric-original-tab"
-                        role="tab"
-                        data-lyric="original"
-                        aria-selected="true"
-                        aria-controls="lyric-content">Lyric</button
-                    ><button
-                        type="button"
-                        id="lyric-translation-tab"
-                        role="tab"
-                        data-lyric="translation"
-                        aria-selected="false"
-                        aria-controls="lyric-content"
-                        tabindex="-1">日本語訳</button
-                    >
+    type="button"
+    id="lyric-original-tab"
+    role="tab"
+    data-lyric="original"
+    aria-selected="true"
+    aria-controls="lyric-content"
+>
+    <span class="filter-label">Lyric</span>
+</button>
+
+<button
+    type="button"
+    id="lyric-translation-tab"
+    role="tab"
+    data-lyric="translation"
+    aria-selected="false"
+    aria-controls="lyric-content"
+    tabindex="-1"
+>
+    <span class="filter-label">日本語訳</span>
+</button>
                 </div>
                 <div
                     id="lyric-content"

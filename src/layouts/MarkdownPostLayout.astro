@@ -39,7 +39,7 @@ const {
     {
       frontmatter.tags.map((tag: string) => (
         <p class="tag">
-          <a href={`/tags/${tag}`}>{tag}</a>
+          <a href={`/blog/?tag=${encodeURIComponent(tag)}`}>{tag}</a>
         </p>
       ))
     }

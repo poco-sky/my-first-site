@@ -1,5 +1,5 @@
 ---
-title: 'オリジナルの"404 Not Found ページ"を実装'
+title: 'サイトオリジナルの"404 Not Found ページ"を実装'
 pubDate: 2026-11-11
 description: ''
 author: 'Sora'

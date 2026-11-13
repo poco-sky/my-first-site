@@ -1,11 +1,52 @@
 type Kind = 'music' | 'blog';
-type Emoji = 'like' | 'love' | 'moved';
+type Emoji = 'like' | 'love' | 'moved' ;
 type Snapshot = { counts: Record<Emoji, number>; selected: Emoji[] };
 type State = { snapshot?: Snapshot; pending: boolean; loading: boolean; error: string; version: number; updated: number; message?: string };
 const keys: Emoji[] = ['like', 'love', 'moved'];
 const storageKey = 'sora-reaction-visitor-v1';
 const states = new Map<string, State>();
 const changes = new EventTarget();
+// 共通のリアクション演出。サイズと表示時間はここで調節できます。
+const reactionEffectSize = 'clamp(160px, 36vw, 280px)';
+const reactionEffectDuration = 850;
+const reactionSymbols: Record<Emoji, string> = { like: '👍', love: '❤️', moved: '🥹' };
+let clearReactionEffect: (() => void) | undefined;
+function showReactionEffect(emoji: Emoji) {
+    clearReactionEffect?.();
+    const effect = document.createElement('div');
+    effect.className = 'reaction-celebration';
+    effect.setAttribute('aria-hidden', 'true');
+    effect.textContent = reactionSymbols[emoji];
+    // body直下に置き、曲ページの幅やスクロール位置から独立させる。
+    Object.assign(effect.style, {
+        position: 'fixed', left: '50%', top: '45%', zIndex: '2147483647',
+        pointerEvents: 'none', userSelect: 'none', lineHeight: '1',
+        fontSize: reactionEffectSize, fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif',
+        transform: 'translate(-50%, -50%)', filter: 'drop-shadow(0 8px 16px rgb(0 0 0 / 18%))',
+    });
+    document.body.append(effect);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const duration = reduced ? 350 : reactionEffectDuration;
+    const animation = effect.animate(reduced ? [
+        { opacity: 0 }, { opacity: 1, offset: 0.2 }, { opacity: 1, offset: 0.7 }, { opacity: 0 },
+    ] : [
+        { opacity: 0, transform: 'translate(-50%, calc(-50% + 36px)) scale(0.35) rotate(-12deg)' },
+        { opacity: 1, transform: 'translate(-50%, calc(-50% - 16px)) scale(1.18) rotate(7deg)', offset: 0.3 },
+        { opacity: 1, transform: 'translate(-50%, calc(-50% + 5px)) scale(0.94) rotate(-3deg)', offset: 0.48 },
+        { opacity: 1, transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', offset: 0.64 },
+        { opacity: 0, transform: 'translate(-50%, calc(-50% - 48px)) scale(1.05) rotate(0deg)' },
+    ], { duration, easing: 'ease-out', fill: 'forwards' });
+    const cleanup = () => {
+        clearTimeout(timer);
+        animation.cancel();
+        effect.remove();
+        if (clearReactionEffect === cleanup) clearReactionEffect = undefined;
+    };
+    const timer = window.setTimeout(cleanup, duration + 100);
+    animation.onfinish = cleanup;
+    clearReactionEffect = cleanup;
+}
+document.addEventListener('astro:before-swap', () => clearReactionEffect?.());
 let visitor: string | undefined;
 let channel: BroadcastChannel | undefined;
 try { channel = new BroadcastChannel('sora-reactions-v1'); } catch { /* 複数タブ同期非対応 */ }
@@ -55,7 +96,7 @@ async function load(key: string, api: string, kind: Kind, id: string, force = fa
     catch (error) { if (s.version === version) s.error = error instanceof Error ? error.message : '通信できませんでした。'; }
     finally { if (s.version === version) { s.loading = false; notify(key); } }
 }
-async function toggle(key: string, api: string, kind: Kind, id: string, emoji: Emoji) {
+async function toggle(key: string, api: string, kind: Kind, id: string, emoji: Emoji, source: HTMLElement) {
     const s = state(key);
     if (s.pending || s.loading || !s.snapshot || s.error) return;
     const selected = !s.snapshot.selected.includes(emoji);
@@ -66,6 +107,9 @@ async function toggle(key: string, api: string, kind: Kind, id: string, emoji: E
         s.snapshot = result;
         s.message = selected ? 'リアクションを送りました。' : 'リアクションを取り消しました。';
         s.updated = Date.now();
+        // 保存成功時のみ表示。取り消し・別ページへの移動・曲変更後には出さない。
+        if (selected && result.selected.includes(emoji) && source.isConnected &&
+            source.dataset.contentId === id && !document.hidden) showReactionEffect(emoji);
         channel?.postMessage({ key });
     } catch (error) {
         // 成否不明でも件数を増やしたふりをしない。再取得してから再操作。
@@ -96,7 +140,7 @@ class SoraReactions extends HTMLElement {
             if (event.target.closest('[data-reaction-trigger]')) { this.opened ? this.close() : this.open(); return; }
             if (event.target.closest('.reaction-retry')) { this.refresh(true); return; }
             const button = event.target.closest<HTMLButtonElement>('[data-emoji]');
-            if (button && this.key) void toggle(this.key, this.api, this.kind, this.contentId, button.dataset.emoji as Emoji);
+            if (button && !button.disabled && this.key) void toggle(this.key, this.api, this.kind, this.contentId, button.dataset.emoji as Emoji, this);
         }, { signal });
         changes.addEventListener('change', e => { if ((e as CustomEvent).detail === this.key) this.draw(); }, { signal });
         document.addEventListener('pointerdown', e => { if (e.target instanceof Node && !this.contains(e.target)) this.close(); }, { signal });
@@ -203,4 +247,4 @@ window.addEventListener('storage', event => {
         const [api, kind, id] = JSON.parse(key); void load(key, api, kind, id, true);
     }
 });
-export { };
+export {};

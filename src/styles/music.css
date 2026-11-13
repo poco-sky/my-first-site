@@ -105,13 +105,6 @@ html[data-music-active="true"] #site-shell {
     cursor: pointer;
 }
 
-.music-filters button[aria-pressed="true"],
-.lyric-tabs button[aria-selected="true"] {
-    color: var(--page-bg);
-    background: var(--text);
-    border-color: var(--text);
-}
-
 .music-filters button:hover:not([aria-pressed="true"]),
 .lyric-tabs button:hover:not([aria-selected="true"]) {
     background: var(--surface-hover);

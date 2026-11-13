@@ -585,3 +585,17 @@ html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
         justify-self: end;
     }
 }
+
+@media (max-width: 700px) {
+    .music-bar.has-reactions .player-bar-actions .reaction-trigger {
+        /* マイナスで左、プラスで右へ移動 */
+        --reaction-button-x: -14px;
+
+        transform: translateX(var(--reaction-button-x));
+
+        /* 通常時・選択済み・開いている時・ホバー時も透明 */
+        border-color: transparent;
+        background: transparent;
+        box-shadow: none;
+    }
+}

@@ -19,17 +19,30 @@ function getThumbnail(post: (typeof posts)[number]) {
 ---
 
 <BaseLayout pageTitle="Blog"
-    ><nav class="tag-list blog-tags" aria-label="記事のタグ">
-        <a href="/blog/" class="is-selected" aria-current="page"> All </a>
-        {
-            tags.map((tag) => (
-                <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>
-            ))
-        }
-    </nav><ul class="post-list">
+    ><nav class="tag-list blog-tags" aria-label="記事のタグ" data-blog-filters>
+    <a
+        href="/blog/"
+        class="is-selected"
+        aria-current="true"
+        data-blog-filter=""
+    >
+        <span class="filter-label">All</span>
+    </a>
+
+    {
+        tags.map((tag) => (
+            <a
+                href={`/blog/?tag=${encodeURIComponent(tag)}`}
+                data-blog-filter={tag}
+            >
+                <span class="filter-label">{tag}</span>
+            </a>
+        ))
+    }
+</nav><ul class="post-list">
         {
             posts.map((post) => (
-                <li>
+                <li data-blog-tags={JSON.stringify(post.data.tags)}>
                     <a
                         href={`/posts/${post.id}/`}
                         class:list={{
@@ -76,6 +89,209 @@ function getThumbnail(post: (typeof posts)[number]) {
     </ul>
     <BlogScrollButtons />
 </BaseLayout>
+<script>
+    let filterController: AbortController | undefined;
+
+    function initializeBlogFilters() {
+        filterController?.abort();
+
+        const filters = document.querySelector<HTMLElement>(
+            "[data-blog-filters]",
+        );
+        if (!filters) return;
+
+        filterController = new AbortController();
+        const { signal } = filterController;
+
+        const links = Array.from(
+            filters.querySelectorAll<HTMLAnchorElement>("[data-blog-filter]"),
+        );
+
+        const posts = Array.from(
+            document.querySelectorAll<HTMLElement>(
+                "#main .post-list > li[data-blog-tags]",
+            ),
+        ).map((element) => ({
+            element,
+            tags: JSON.parse(element.dataset.blogTags || "[]") as string[],
+        }));
+
+        let selectedTag = "";
+
+        function applyFilter(tag: string, updateUrl: boolean) {
+    // アニメーションの長さ（ミリ秒）
+    const duration = 350;
+
+    // 初回表示・動きを減らす設定ではアニメーションしない
+    const animate =
+        updateUrl &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // 切り替え前の表示位置を記録
+    const previousPositions = new Map<HTMLElement, DOMRect>();
+
+    posts.forEach(({ element }) => {
+        if (!element.hidden) {
+            previousPositions.set(
+                element,
+                element.getBoundingClientRect(),
+            );
+        }
+
+        // 素早く切り替えた場合は、前の動きを止める
+        element.getAnimations().forEach((animation) => {
+            animation.cancel();
+        });
+    });
+
+    // 存在しないタグならAll
+    selectedTag = links.some(
+        (link) => link.dataset.blogFilter === tag,
+    )
+        ? tag
+        : "";
+
+    // 選択中のボタンを更新
+    links.forEach((link) => {
+        const selected = link.dataset.blogFilter === selectedTag;
+
+        link.classList.toggle("is-selected", selected);
+
+        if (selected) {
+            link.setAttribute("aria-current", "true");
+        } else {
+            link.removeAttribute("aria-current");
+        }
+    });
+
+    // 記事の表示・非表示を切り替える
+    posts.forEach(({ element, tags }) => {
+        element.hidden =
+            selectedTag !== "" && !tags.includes(selectedTag);
+    });
+
+    if (animate) {
+        // アニメーションを始める前に、全記事の移動先を計測
+        const movements = posts
+            .filter(({ element }) => !element.hidden)
+            .map(({ element }) => ({
+                element,
+                before: previousPositions.get(element),
+                after: element.getBoundingClientRect(),
+            }));
+
+        movements.forEach(({ element, before, after }) => {
+            if (before) {
+                // 残る記事：元の位置から新しい位置へ移動
+                const x = before.left - after.left;
+                const y = before.top - after.top;
+
+                if (Math.abs(x) < 1 && Math.abs(y) < 1) return;
+
+                element.animate(
+                    [
+                        {
+                            transform: `translate(${x}px, ${y}px)`,
+                        },
+                        {
+                            transform: "translate(0, 0)",
+                        },
+                    ],
+                    {
+                        duration,
+                        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                    },
+                );
+            } else {
+                // 新しく表示する記事：少し下からふわっと表示
+                element.animate(
+                    [
+                        {
+                            opacity: 0,
+                            transform: "translateY(14px)",
+                        },
+                        {
+                            opacity: 1,
+                            transform: "translateY(0)",
+                        },
+                    ],
+                    {
+                        duration,
+                        easing: "ease-out",
+                    },
+                );
+            }
+        });
+    }
+
+    if (updateUrl) {
+        const url = new URL(window.location.href);
+
+        if (selectedTag) {
+            url.searchParams.set("tag", selectedTag);
+        } else {
+            url.searchParams.delete("tag");
+        }
+
+        window.history.replaceState(
+            window.history.state,
+            "",
+            url,
+        );
+    }
+
+    document.dispatchEvent(new CustomEvent("blog:filter"));
+}
+
+        filters.addEventListener(
+            "click",
+            (event) => {
+                if (!(event.target instanceof Element)) return;
+
+                const link = event.target.closest<HTMLAnchorElement>(
+                    "[data-blog-filter]",
+                );
+
+                if (!link || !filters.contains(link)) return;
+
+                // Ctrl・Commandなどを使った別タブ表示は通常のリンクとして扱う
+                if (
+                    event.button !== 0 ||
+                    event.ctrlKey ||
+                    event.metaKey ||
+                    event.shiftKey ||
+                    event.altKey
+                ) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                const clickedTag = link.dataset.blogFilter || "";
+
+                // 選択中のタグをもう一度押すとAllへ
+                applyFilter(
+                    clickedTag === selectedTag ? "" : clickedTag,
+                    true,
+                );
+            },
+            { signal },
+        );
+
+        // 記事ページなどからタグ付きURLで来た場合にも対応
+        applyFilter(
+            new URL(window.location.href).searchParams.get("tag") || "",
+            false,
+        );
+    }
+
+    document.addEventListener("astro:page-load", initializeBlogFilters);
+    document.addEventListener("astro:before-swap", () => {
+        filterController?.abort();
+    });
+
+    initializeBlogFilters();
+</script>
 <style>
     .post-meta {
         display: flex;
@@ -99,4 +315,7 @@ function getThumbnail(post: (typeof posts)[number]) {
             font-size: 18px;
         }
     }
+    .post-list > li[hidden] {
+    display: none;
+}
 </style>

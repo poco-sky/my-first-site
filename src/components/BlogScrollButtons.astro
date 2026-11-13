@@ -16,7 +16,7 @@
                 <path d="m5 14 7-7 7 7"></path>
             </svg>
         </span>
-
+</button>
         <button
             type="button"
             class="blog-scroll-button blog-scroll-down"
@@ -54,8 +54,7 @@
 
                     if (!up || !down || !posts.length) return;
 
-                    const first = posts[0];
-                    const last = posts[posts.length - 1];
+                    
                     const controller = new AbortController();
                     const { signal } = controller;
 
@@ -63,6 +62,14 @@
                     const topSpace = 200;
 
                     const getPositions = () => {
+                        const visiblePosts = Array.from(posts).filter(
+        (post) => !post.closest("[hidden]"),
+    );
+
+    const first = visiblePosts[0];
+    const last = visiblePosts[visiblePosts.length - 1];
+
+    if (!first || !last) return null;
                         const root = document.documentElement;
                         const style = getComputedStyle(root);
 
@@ -101,15 +108,21 @@
                     };
 
                     const update = () => {
-                        const positions = getPositions();
+    const positions = getPositions();
 
-                        up.hidden = window.scrollY <= positions.top + 8;
-                        down.hidden = window.scrollY >= positions.bottom - 8;
-                    };
+    if (!positions) {
+        up.hidden = true;
+        down.hidden = true;
+        return;
+    }
+
+    up.hidden = window.scrollY <= positions.top + 8;
+    down.hidden = window.scrollY >= positions.bottom - 8;
+};
 
                     const move = (direction: "up" | "down") => {
                         const positions = getPositions();
-
+if (!positions) return;
                         window.scrollTo({
                             top:
                                 direction === "up"
@@ -145,6 +158,9 @@
                     window.addEventListener("resize", scheduleUpdate, {
                         signal,
                     });
+                    document.addEventListener("blog:filter", scheduleUpdate, {
+    signal,
+});
 
                     // 画像読み込みなどで記事の高さが変わった場合も再判定
                     const resizeObserver = new ResizeObserver(scheduleUpdate);
@@ -254,5 +270,5 @@
                 height: 20px;
             }
         </style>
-    </button></blog-scroll-buttons
+  </blog-scroll-buttons
 >
