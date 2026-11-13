@@ -106,7 +106,7 @@ class SiteNotifications extends HTMLElement {
             const unreadCount = keys.filter((key) => !seen.has(key)).length;
 
             const message =
-                unreadCount > 10
+                unreadCount >= 10
                     ? "10件以上の新しいお知らせがあります"
                     : `${unreadCount}件の新しいお知らせがあります`;
 
