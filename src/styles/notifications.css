@@ -268,3 +268,47 @@ site-notifications {
 .notice-heading-row {
     z-index: 2;
 }
+/* ベルの下に表示する、未確認のお知らせの吹き出し */
+.site-header .notice-unread-bubble {
+    position: fixed;
+    z-index: 33;
+
+    width: max-content;
+    max-width: calc(100vw - 24px);
+    padding: 10px 14px;
+
+    background: var(--page-bg);
+    color: var(--text);
+    border: 1px solid var(--text);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 12%);
+
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-shadow: none;
+
+    /* 下にあるボタンやリンクの操作を妨げない */
+    pointer-events: none;
+}
+
+.site-header .notice-unread-bubble[hidden] {
+    display: none;
+}
+
+/* ベルに向かって伸びる、吹き出しの先端 */
+.site-header .notice-unread-bubble::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: var(--notice-bubble-tail, 50%);
+
+    width: 10px;
+    height: 10px;
+    background: var(--page-bg);
+    border-top: 1px solid var(--text);
+    border-left: 1px solid var(--text);
+    transform: translateX(-50%) rotate(45deg);
+}

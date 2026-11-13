@@ -39,13 +39,24 @@ const notices: Notice[] = [
         kind: "blog" as const,
     })),
 ].sort((a, b) => b.date.localeCompare(a.date));
+// お知らせごとの識別情報。同じ日でも内容が違えば別のお知らせとして扱う
+const noticeKeys = notices.map((notice) =>
+    JSON.stringify([
+        notice.kind,
+        notice.date,
+        notice.href,
+        notice.text,
+        notice.emphasis ?? "",
+        notice.suffix ?? "",
+    ]),
+);
 const formatDate = (date: string) => {
     const [year, month, day] = date.split("-");
     return `${year}/${month}/${day}`;
 };
 ---
 
-<site-notifications>
+<site-notifications data-notice-keys={JSON.stringify(noticeKeys)}>
     <button
         type="button"
         class="notice-toggle"
@@ -69,6 +80,9 @@ const formatDate = (date: string) => {
             ></path>
         </svg>
     </button>
+    <div class="notice-unread-bubble" hidden>
+    新しいお知らせがあります
+</div>
     <section
         id="notice-panel"
         class="notice-panel"
