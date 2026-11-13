@@ -12,7 +12,7 @@ const slides =
     href={panel.href}
     aria-label={panel.linkLabel}
 >
-    <home-slideshow data-interval="6000">
+    <home-slideshow data-interval="5000">
         {
             slides.map((slide, index) => (
                 <img
@@ -59,7 +59,7 @@ const slides =
         inset: 0;
         opacity: 0;
         transition:
-            opacity 1.2s ease,
+            opacity 3.0s ease,
             transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
     }
 

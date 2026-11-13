@@ -165,6 +165,21 @@ class SiteNotifications extends HTMLElement {
             },
             { signal },
         );
+        bubble.addEventListener(
+            "click",
+            (event) => {
+                // 外側クリックの処理で即座に閉じるのを防ぐ
+                event.stopPropagation();
+
+                if (panel.hidden) {
+                    button.click();
+
+                    // 消える吹き出しからベルへフォーカスを移す
+                    button.focus({ preventScroll: true });
+                }
+            },
+            { signal },
+        );
 
         document.addEventListener(
             "keydown",

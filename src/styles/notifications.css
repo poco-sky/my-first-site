@@ -268,6 +268,7 @@ site-notifications {
 .notice-heading-row {
     z-index: 2;
 }
+
 /* ベルの下に表示する、未確認のお知らせの吹き出し */
 .site-header .notice-unread-bubble {
     position: fixed;
@@ -290,8 +291,10 @@ site-notifications {
     text-align: center;
     text-shadow: none;
 
-    /* 下にあるボタンやリンクの操作を妨げない */
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
+    margin: 0;
+    appearance: none;
 }
 
 .site-header .notice-unread-bubble[hidden] {

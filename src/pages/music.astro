@@ -5,7 +5,12 @@ import { tracks } from "../data/music";
 
 // tracksは追加日の古い順。ジャンルごとに01から番号を付ける。
 const genres = [
-    ...new Set(["洋楽", "Instrumental", ...tracks.map((track) => track.genre)]),
+    ...new Set([
+        "洋楽",
+        "Live audio",
+        "Instrumental",
+        ...tracks.map((track) => track.genre),
+    ]),
 ];
 const genreCounts: Record<string, number> = Object.fromEntries(
     genres.map((genre) => [genre, 0]),

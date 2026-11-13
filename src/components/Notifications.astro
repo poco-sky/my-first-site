@@ -26,7 +26,10 @@ const notices: Notice[] = [
     }),
     ...music.map((entry) => ({
         text: "MUSICに",
-        emphasis: `"${entry.data.title} (${entry.data.genre})"`,
+emphasis:
+    entry.data.genre === "Live audio"
+        ? `"${entry.data.title}"`
+        : `"${entry.data.title} (${entry.data.genre})"`,        
         href: `/music/?genre=${encodeURIComponent(entry.data.genre)}`,
         date: entry.data.addedAt.toISOString().slice(0, 10),
         kind: "music" as const,
@@ -80,9 +83,14 @@ const formatDate = (date: string) => {
             ></path>
         </svg>
     </button>
-    <div class="notice-unread-bubble" hidden>
+    <button
+    type="button"
+    class="notice-unread-bubble"
+    aria-controls="notice-panel"
+    hidden
+>
     新しいお知らせがあります
-</div>
+</button>
     <section
         id="notice-panel"
         class="notice-panel"
