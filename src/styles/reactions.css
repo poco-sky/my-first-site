@@ -602,6 +602,48 @@ html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
 /* PC：1/3曲ページを開いている間だけシークバーを短くする */
 @media (min-width: 701px) {
     html[data-music-panel="true"] .music-bar.has-reactions {
-        --desktop-seek-width: 18vw;
+        --desktop-seek-width: 15vw;
     }
+}
+/* 「再生を終える」：枠線と文字の太さだけ強調 */
+html .music-bar.has-reactions .player-bar-actions .player-close {
+    border: 1.5px solid #969696;
+    font-weight: 500;
+}
+
+/* 黒テーマ */
+html[data-theme="dark"]
+    .music-bar.has-reactions
+    .player-bar-actions
+    .player-close {
+    border-color: #888;
+}
+
+/* マウスを当てたときの枠線 */
+@media (hover: hover) {
+    html .music-bar.has-reactions .player-bar-actions .player-close:hover {
+        border-color: #666;
+    }
+
+    html[data-theme="dark"]
+        .music-bar.has-reactions
+        .player-bar-actions
+        .player-close:hover {
+        border-color: #aaa;
+    }
+}
+
+/* PC：曲タブのリアクションだけをシークバー側へ寄せる */
+@media (min-width: 701px) {
+    .music-bar.has-reactions
+        .player-bar-actions
+        sora-reactions[data-compact="true"] {
+        --reaction-offset-x: -24px;
+
+        position: relative;
+        left: var(--reaction-offset-x);
+    }
+}
+html .music-bar.has-reactions .player-bar-actions .player-close {
+    border-radius: 6px;
 }
