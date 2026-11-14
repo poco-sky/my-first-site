@@ -4,7 +4,7 @@ pubDate: 2026-11-11
 description: '無効なURLアドレス先でヤツが待ってます．'
 author: 'Sora'
 
-tags: ["アップデート"]
+tags: ["Update"]
 ---
 
 ## 実装した機能

@@ -6,7 +6,7 @@ author: 'Sora'
 image:
     url: '/images/blog.png'
     alt: 'ホーム画面のスクショ'
-tags: ["進捗報告"]
+tags: ["Update"]
 ---
 
 個人サイトなんかブログさえ機能していればいいという偏見の下で，ひたすらブログページの作成を進めていました．

@@ -4,7 +4,7 @@ pubDate: 2026-11-09
 description: 'ぜひ聞いてほしい！という曲をまとめました．'
 author: 'Sora'
 
-tags: ["アップデート"]
+tags: ["Update"]
 ---
 
 ## 実装した機能

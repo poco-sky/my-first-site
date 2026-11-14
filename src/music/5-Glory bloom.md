@@ -1,7 +1,7 @@
 ---
 title: 'Glory bloom'
 artist: 'Sora'
-genre: '洋楽'
+genre: 'Western music'
 addedAt: '2026-11-05'
 audio: '/music/Glory bloom.mp3'
 cover: '/images/music/Glory bloom.jpg'

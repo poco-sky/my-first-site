@@ -25,7 +25,7 @@ export const homePanels = [
         ],
     },
     { title: 'POCO DI TINI', description: 'オリジナルのファッションデザイン', image: '/images/fashion.png', alt: 'pcco-di-tini', href: '/fashion/', linkLabel: 'コレクションを見る', kind: 'fashion' },
-    { title: 'Music', description: '洋楽 & Instrumental', image: '/images/music.jpg', alt: '窓辺のレコードプレーヤー', href: '/music/', linkLabel: '音楽を聴く', kind: 'music' },
-    { title: 'Blog', description: 'サイトのアップデート内容や思い出など', image: '/images/blog.webp', alt: '光が差し込む机の上のノートとコーヒー', href: '/blog/', linkLabel: 'ブログを読む', kind: 'blog' },
+    { title: 'Music', description: 'Western music & Instrumental', image: '/images/music.jpg', alt: '窓辺のレコードプレーヤー', href: '/music/', linkLabel: '音楽を聴く', kind: 'music' },
+    { title: 'Blog', description: '思い出やサイトのアップデート内容など', image: '/images/blog.webp', alt: '光が差し込む机の上のノートとコーヒー', href: '/blog/', linkLabel: 'ブログを読む', kind: 'blog' },
 ];
 

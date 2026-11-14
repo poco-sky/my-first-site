@@ -1,7 +1,7 @@
 ---
 title: 'Feel the bliss'
 artist: 'Sora'
-genre: '洋楽'
+genre: 'Western music'
 addedAt: '2026-11-08'
 audio: '/music/Feel the bliss.mp3'
 cover: '/images/music/Feel the bliss.jpg'

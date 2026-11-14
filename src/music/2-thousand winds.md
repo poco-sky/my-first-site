@@ -1,7 +1,7 @@
 ---
 title: 'thousand winds'
 artist: 'Sora'
-genre: '洋楽'
+genre: 'Western music'
 addedAt: '2026-11-02'
 audio: '/music/thousand winds.mp3'
 cover: '/images/music/thousand winds.jpg'

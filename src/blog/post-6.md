@@ -6,7 +6,7 @@ author: 'Sora'
 image:
     url: '/images/music.png'
     alt: 'MUSIC画面のスクショ'
-tags: ["進捗報告"]
+tags: ["Update"]
 ---
 
 ついに前回からの目標である「MUSICページの完成」をようやくやり遂げました．

@@ -6,7 +6,7 @@ author: 'Sora'
 image:
     url: '/images/dag.jpg'
     alt: 'アヒル'
-tags: ["思い出"]
+tags: ["Memory"]
 ---
 
 今日は両親と甥とともに和歌山マリーナシティへ遊びに行ってきました．ここは，ジェットコースターやBBQ，逆バンジー(?)などが楽しめる施設です．

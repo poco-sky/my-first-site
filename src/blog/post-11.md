@@ -6,7 +6,7 @@ author: 'Sora'
 image:
     url: '/images/rec.png'
     alt: 'リアクションボタンのスクショ'
-tags: ["アップデート"]
+tags: ["Update"]
 ---
 
 ## 実装した機能

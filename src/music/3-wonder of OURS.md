@@ -1,7 +1,7 @@
 ---
 title: 'wonder of OURS'
 artist: 'Sora'
-genre: '洋楽'
+genre: 'Western music'
 addedAt: '2026-11-03'
 audio: '/music/wonder of OURS.mp3'
 cover: '/images/music/wonder of OURS.jpg'

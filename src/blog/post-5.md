@@ -6,7 +6,7 @@ author: 'Sora'
 image:
     url: '/images/propro.png'
     alt: 'プロフィール画面のスクショ'
-tags: ["進捗報告"]
+tags: ["Update"]
 ---
 
 前々回からの目標である「プロフィールページの完成」をようやくやり遂げました．

@@ -1,7 +1,7 @@
 ---
 title: 'your sky'
 artist: 'Sora'
-genre: '洋楽'
+genre: 'Western music'
 addedAt: '2026-11-01'
 audio: '/music/your sky.mp3'
 cover: '/images/music/your sky.jpg'

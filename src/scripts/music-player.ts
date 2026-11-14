@@ -15,7 +15,7 @@ class SoraMusicPlayer extends HTMLElement {
     private active: Track | null = null;
     private panelOpen = false;
     private language: 'original' | 'translation' = 'original';
-    private genre = '洋楽';
+    private genre = 'Western music';
     private sortOrder: 'oldest' | 'newest' = 'newest';
     private genreSortOrders = new Map<string, 'oldest' | 'newest'>();
     private request = 0;

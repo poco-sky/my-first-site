@@ -6,7 +6,7 @@ import { tracks } from "../data/music";
 // tracksは追加日の古い順。ジャンルごとに01から番号を付ける。
 const genres = [
     ...new Set([
-        "洋楽",
+        "Western music",
         "Live audio",
         "Instrumental",
         ...tracks.map((track) => track.genre),
@@ -34,7 +34,7 @@ for (const track of tracks) {
                 <button
                     type="button"
                     data-music-filter={genre}
-                    aria-pressed={genre === "洋楽"}
+                    aria-pressed={genre === "Western music"}
                 >
                     <span class="filter-label">{genre}</span>
                 </button>
@@ -116,7 +116,7 @@ for (const track of tracks) {
                         data-track-card={track.id}
                         data-track-genre={track.genre}
                         data-track-index={index}
-                        hidden={track.genre !== "洋楽"}
+                        hidden={track.genre !== "Western music"}
                     >
                         <button
                             type="button"
@@ -175,8 +175,8 @@ for (const track of tracks) {
                 id="music-count"
                 aria-live="polite"
             >
-                {genreCounts["洋楽"]} TRACK{
-                    genreCounts["洋楽"] === 1 ? "" : "S"
+                {genreCounts["Western music"]} TRACK{
+                    genreCounts["Western music"] === 1 ? "" : "S"
                 }
             </span>
         </div>
