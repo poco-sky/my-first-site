@@ -6,7 +6,19 @@ import BlogScrollButtons from "../components/BlogScrollButtons.astro";
 const posts = (await getCollection("blog")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
-const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+// 表示したい順番。順番を変える場合はここを編集
+const tagOrder = ["思い出", "つぶやき","アップデート", "進捗報告"];
+
+// 実際の記事に使われているタグ
+const existingTags = [...new Set(posts.flatMap((p) => p.data.tags))];
+
+const tags = [
+    // 指定した順に並べる（記事に存在するタグだけ表示）
+    ...tagOrder.filter((tag) => existingTags.includes(tag)),
+
+    // 新しいタグは自動で後ろに追加
+    ...existingTags.filter((tag) => !tagOrder.includes(tag)),
+];
 // 冒頭の画像 → 本文の最初の画像の順に取得
 function getThumbnail(post: (typeof posts)[number]) {
     return (

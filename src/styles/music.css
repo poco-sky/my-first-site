@@ -1158,3 +1158,64 @@ sora-music-player[data-playing="true"] .icon-pause {
         white-space: nowrap;
     }
 }
+/* 曲詳細内の再生操作：PCでは非表示 */
+.detail-mobile-controls {
+    display: none;
+}
+
+/* スマホだけ表示 */
+@media (max-width: 700px) {
+    .music-details .detail-mobile-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        margin-top: 16px;
+        margin-bottom: 20px;
+    }
+
+    .music-details .detail-mobile-controls .player-progress {
+        position: static;
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        transform: none;
+    }
+
+    .music-details .detail-mobile-controls .player-elapsed,
+    .music-details .detail-mobile-controls .player-duration {
+        display: inline-block;
+        flex: 0 0 34px;
+        width: 34px;
+        text-align: center;
+        font-size: 11px;
+    }
+
+    .music-details .detail-mobile-controls .player-seek {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .music-details .detail-mobile-controls .player-transport {
+        position: static;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        width: 100%;
+        margin: 0;
+        transform: none;
+    }
+
+    .music-details .detail-mobile-controls .player-icon-button {
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+    }
+
+    .music-details .detail-mobile-controls .player-toggle {
+        width: 54px;
+        height: 54px;
+        padding: 14px;
+    }
+}

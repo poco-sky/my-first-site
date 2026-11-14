@@ -1,7 +1,7 @@
 ---
 title: 'Music，Blogページに"リアクションボタン"を実装'
 pubDate: 2026-11-13
-description: ''
+description: 'このサイト内で一番動きのある演出です．'
 author: 'Sora'
 image:
     url: '/images/rec.png'

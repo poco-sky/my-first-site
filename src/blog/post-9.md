@@ -1,7 +1,7 @@
 ---
 title: 'PROFILEに"好きな楽曲紹介欄「Songs」"を実装'
 pubDate: 2026-11-09
-description: ''
+description: 'ぜひ聞いてほしい！という曲をまとめました．'
 author: 'Sora'
 
 tags: ["アップデート"]

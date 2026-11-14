@@ -1,7 +1,7 @@
 ---
 title: 'サイトオリジナルの"404 Not Found ページ"を実装'
 pubDate: 2026-11-11
-description: ''
+description: '無効なURLアドレス先でヤツが待ってます．'
 author: 'Sora'
 
 tags: ["アップデート"]

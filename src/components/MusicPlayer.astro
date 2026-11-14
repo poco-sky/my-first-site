@@ -108,6 +108,62 @@ import { tracks } from "../data/music";
                     <p class="detail-artist"></p>
                     <p class="detail-genre"></p>
                 </div>
+                <div class="detail-mobile-controls">
+    <!-- シークバー -->
+    <div class="player-progress">
+        <span class="player-elapsed">0:00</span>
+
+        <input
+            class="player-seek"
+            type="range"
+            min="0"
+            max="0"
+            step="0.1"
+            value="0"
+            aria-label="再生位置"
+            disabled
+        />
+
+        <span class="player-duration">0:00</span>
+    </div>
+
+    <!-- 前の曲・再生／停止・次の曲 -->
+    <div
+        class="player-transport"
+        role="group"
+        aria-label="曲の再生操作"
+    >
+        <button
+            type="button"
+            class="player-icon-button"
+            data-player-action="previous"
+            aria-label="前の曲へ"
+            disabled
+        >
+            <PlayerIcon name="previous" />
+        </button>
+
+        <button
+            type="button"
+            class="player-toggle player-icon-button"
+            data-player-action="toggle"
+            aria-label="再生"
+        >
+            <PlayerIcon name="play" class="icon-play" />
+            <PlayerIcon name="pause" class="icon-pause" />
+        </button>
+
+        <button
+            type="button"
+            class="player-icon-button"
+            data-player-action="next"
+            aria-label="次の曲へ"
+            disabled
+        >
+            <PlayerIcon name="next" />
+        </button>
+    </div>
+</div>
                 <Reactions kind="music" />
                 <div class="lyric-tabs" role="tablist" aria-label="歌詞の言語">
                     <button

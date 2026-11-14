@@ -86,10 +86,13 @@ class SoraMusicPlayer extends HTMLElement {
                 this.sortCards();
             }
         });
-        this.querySelector<HTMLInputElement>('.player-seek')!.addEventListener('input', event => {
-            if (!Number.isFinite(this.audio.duration)) return;
-            this.audio.currentTime = Number((event.target as HTMLInputElement).value);
-            this.drawProgress();
+        this.querySelectorAll<HTMLInputElement>(".player-seek").forEach((seek) => {
+            seek.addEventListener("input", () => {
+                if (!Number.isFinite(this.audio.duration)) return;
+
+                this.audio.currentTime = Number(seek.value);
+                this.drawProgress();
+            });
         });
         for (const type of ['play', 'playing', 'pause', 'ended', 'loadedmetadata', 'durationchange', 'seeking', 'seeked', 'timeupdate', 'emptied']) {
             this.audio.addEventListener(type, () => { this.updatePlayback(); });
@@ -477,10 +480,29 @@ class SoraMusicPlayer extends HTMLElement {
         const empty = document.querySelector<HTMLElement>('#music-empty'); if (empty) empty.hidden = count !== 0;
     }
     private updatePlayback() {
-        this.querySelector<HTMLButtonElement>('[data-player-action="previous"]')!.disabled = !this.active || this.queueIndex <= 0;
-        this.querySelector<HTMLButtonElement>('[data-player-action="next"]')!.disabled = !this.active || this.queueIndex >= this.queue.length - 1;
+        this.querySelectorAll<HTMLButtonElement>(
+            '[data-player-action="previous"]',
+        ).forEach((button) => {
+            button.disabled = !this.active || this.queueIndex <= 0;
+        });
+
+        this.querySelectorAll<HTMLButtonElement>(
+            '[data-player-action="next"]',
+        ).forEach((button) => {
+            button.disabled =
+                !this.active || this.queueIndex >= this.queue.length - 1;
+        });
+
         this.dataset.playing = String(!!this.active && this.playing);
-        this.querySelector('[data-player-action="toggle"]')!.setAttribute('aria-label', this.playing ? '一時停止' : '再生');
+
+        this.querySelectorAll<HTMLButtonElement>(
+            '[data-player-action="toggle"]',
+        ).forEach((button) => {
+            button.setAttribute(
+                "aria-label",
+                this.playing ? "一時停止" : "再生",
+            );
+        });
         const message = this.querySelector<HTMLElement>('.player-error')!;
         message.textContent = this.error; message.hidden = !this.error;
         document.querySelectorAll<HTMLElement>('[data-track-card]').forEach(card => {
@@ -503,12 +525,29 @@ class SoraMusicPlayer extends HTMLElement {
     private drawProgress() {
         const duration = Number.isFinite(this.audio.duration) ? this.audio.duration : 0;
         const time = this.active ? this.audio.currentTime : 0;
-        const seek = this.querySelector<HTMLInputElement>('.player-seek')!;
-        seek.disabled = !duration;
-        seek.max = String(duration); seek.value = String(time);
-        seek.style.setProperty('--progress', `${duration ? time / duration * 100 : 0}%`);
-        seek.setAttribute('aria-valuetext', `${formatTime(time)} / ${formatTime(duration)}`);
-        this.text('.player-elapsed', formatTime(time)); this.text('.player-duration', formatTime(duration));
+        this.querySelectorAll<HTMLInputElement>(".player-seek").forEach((seek) => {
+            seek.disabled = !duration;
+            seek.max = String(duration);
+            seek.value = String(time);
+
+            seek.style.setProperty(
+                "--progress",
+                `${duration ? (time / duration) * 100 : 0}%`,
+            );
+
+            seek.setAttribute(
+                "aria-valuetext",
+                `${formatTime(time)} / ${formatTime(duration)}`,
+            );
+        });
+
+        this.querySelectorAll(".player-elapsed").forEach((element) => {
+            element.textContent = formatTime(time);
+        });
+
+        this.querySelectorAll(".player-duration").forEach((element) => {
+            element.textContent = formatTime(duration);
+        });
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         document.querySelectorAll<HTMLElement>('[data-track-card]').forEach(card => {
             const image = card.querySelector<HTMLElement>('.record-image');
@@ -525,7 +564,7 @@ class SoraMusicPlayer extends HTMLElement {
             this.querySelector<HTMLButtonElement>(`[data-lyric="${this.language}"]`)!.focus();
         }
         if (event.key === 'Tab' && this.mobile.matches) {
-            const focusable = Array.from(this.panel.querySelectorAll<HTMLElement>('button:not(:disabled):not([tabindex="-1"]), [tabindex="0"]'));
+            const focusable = Array.from(this.panel.querySelectorAll<HTMLElement>('button:not(:disabled):not([tabindex="-1"]), input:not(:disabled):not([tabindex="-1"]), [tabindex="0"]'));
             const first = focusable[0], last = focusable[focusable.length - 1];
             if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
             else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
