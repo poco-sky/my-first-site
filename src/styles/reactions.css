@@ -599,3 +599,9 @@ html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
         box-shadow: none;
     }
 }
+/* PC：1/3曲ページを開いている間だけシークバーを短くする */
+@media (min-width: 701px) {
+    html[data-music-panel="true"] .music-bar.has-reactions {
+        --desktop-seek-width: 18vw;
+    }
+}
