@@ -647,3 +647,7 @@ html[data-theme="dark"]
 html .music-bar.has-reactions .player-bar-actions .player-close {
     border-radius: 6px;
 }
+.music-details .detail-copy sora-reactions[data-kind="music"] {
+    margin-top: 8px;     /* リアクションの上 */
+    margin-bottom: 0px;  /* リアクションの下 */
+}

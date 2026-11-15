@@ -41,7 +41,6 @@ The preachers talking all about love
 The artists living for a push and a shove
 Everyone here is in the zone
 Gathered around the table all alone 
-(or "as one")
 
 [Pre-Chorus]
 Tonight, yeah, you're the knight, it's your turn

@@ -1158,6 +1158,7 @@ sora-music-player[data-playing="true"] .icon-pause {
         white-space: nowrap;
     }
 }
+
 /* 曲詳細内の再生操作：PCでは非表示 */
 .detail-mobile-controls {
     display: none;
@@ -1217,5 +1218,46 @@ sora-music-player[data-playing="true"] .icon-pause {
         width: 54px;
         height: 54px;
         padding: 14px;
+    }
+}
+
+/* 歌詞切り替えボタンをNOW PLAYING行の下に残す */
+.music-details .lyric-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--page-bg);
+
+    /* 固定中のボタン上下の余白 */
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+/* 言語切り替え時のスクロール位置はJavaScriptで管理 */
+.music-details .detail-scroll {
+    overflow-anchor: none;
+}
+
+/* スクロール領域の上側の余白をなくす */
+.music-details .detail-scroll {
+    padding-top: 0;
+}
+
+/* 最初に表示するジャケットの上には、従来の余白を残す */
+.music-details .detail-cover {
+    margin-top: 24px;
+}
+
+/* 歌詞ボタンをスクロール領域の最上部に固定 */
+.music-details .lyric-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--page-bg);
+}
+
+@media (max-width: 700px) {
+    .music-details .detail-cover {
+        margin-top: 20px;
     }
 }

@@ -6,58 +6,58 @@ addedAt: '2026-11-07'
 audio: '/music/Noise or Disco？.mp3'
 cover: '/images/music/Noise or Disco？.jpg'
 ---
-[chorus]
+[Chorus]
 Noise or Disco?
 The mirror ball spins through the night,
 In a dress of blazing red, so bright.
 Tonight's our moment, just me and you 
 Noise or Disco?
 
-[verse1]
+[Verse1]
 Though the world around may fade,
 It's only your gaze that I heed.
 They call it a racket, a loud tirade,
 But our love's so loud, it's what we need.
 
-[verse2]
+[Verse2]
 In the haste of the changing time,
 The world's loud troubles disappear and hide.
 Though tasks and duties claim their prime,
 You are my focus, my dearest guide.
 
-[chorus]
+[Chorus]
 Noise or Disco?
 The mirror ball spins through the night,
 With crimson lips, a vibrant sight.
 Tonight's our moment, just me and you 
 Noise or Disco?
 
-[verse3]
+[Verse3]
 Even if hailstones were to pour,
 Or if the thunder loudly crashed,
 That sound becomes the disco floor,
 With you by my side, no worry is dashed.
 
-[verse4]
+[Verse4]
 Your fleeting beauty I can't miss,
 No time for anything less than true.
 Tonight, in this deep rhythmic bliss,
 Let's get a little closer, me and you.
 
-[chorus]
+[Chorus]
 Noise or Disco?
 We might get lost, it's true,
 But it's fine if we can't flee.
 Just to be here with you,
 Noise or Disco?
 
-[pre chorus]
+[Pre-chorus]
 Are you ready now? (Noise or Disco?)
 Is your feeling set? (Noise or Disco?)
 No need to rush, I vow (Noise or Disco?)
 This night has only just met 
 
-[final chorus]
+[Final-chorus]
 Noise or Disco?
 The mirror ball spins through the night,
 In a dress of blazing red, so bright.
@@ -79,7 +79,6 @@ Noise or Disco?
 君の眼差しだけ気にすればいい
 誰かはこの音を ただの騒音だと言うけど
 僕らの恋だって 負けないくらい騒がしい
-それくらいが ちょうどいい
 
 [Verse 2]
 移り変わる時代の忙しさに
@@ -101,8 +100,7 @@ Noise or Disco?
 君が踊ってくれるなら 問題はない
 
 [Verse 4]
-瞬間ごとに移るめく 君の美しさを
-僕はひとつだって見逃したくない
+移るめく君の美しさを 僕はひとつも見逃さない
 嘘や駆け引きに 費やす時間なんてない
 今夜はこのリズムに身を任せて
 もう少し 二人の距離を縮めよう
@@ -120,7 +118,7 @@ Noise or Disco?
 焦らなくてい（Noise or Disco?）
 この夜はまだ始まったばかり
 
-[Final Chorus]
+[Final-Chorus]
 Noise or Disco?
 ミラーボールが染める 煌びやかな夜に
 燃えるような真紅のドレスをまとった君

@@ -18,7 +18,7 @@ I see your small silhouette in the light.
 I just reach out my hand to feel your warmth,
 Wishing to touch you, breaking through the storm.
 
-[Chorus 1]
+[Chorus]
 You are too dazzling for me to deeply ponder,
 It feels like the sky, so blue, begins to taunt and wander.
 I could only stare at you,
@@ -36,7 +36,7 @@ A mundane future, nothing smaller.
 I only wish we could be side by side,
 Just the two of us, nowhere to hide.
 
-[Chorus 2]
+[Chorus]
 The sky is too blue for me to feel this ache,
 The bright sun seems to rush and gently shake.
 The words I crumpled in my hand,
@@ -70,7 +70,6 @@ Riding on the breeze, far out of sight.
 [Chorus]
 物思いをするには 君が眩しすぎるから
 青すぎる空さえ 僕をからかうようで
-
 ただ君を見つめていたんだ
 この想いの行方を見届けたかった
 
@@ -89,11 +88,10 @@ Riding on the breeze, far out of sight.
 [Chorus]
 恋煩いをするには 空が青すぎるから
 眩しい太陽が 僕を急かすようで
-
 握りつぶした言葉には
 好きとしか書いてなかった
 
-[Pre Chorus]
+[Pre-Chorus]
 散っていく花の命も
 きっとまた生まれ変わる
 何度同じ季節を迎えれば

@@ -45,7 +45,7 @@ I’ll touch your million dreams again.
 Past every breeze that dares to chase,
 I run I run to your embrace.
 
-[FInal Chorus]
+[FInal-Chorus]
 Riding on a thousand winds,
 I’ll see your million dreams again.
 When that moment comes, I pray,
@@ -71,8 +71,7 @@ Just cross this line with me again.
 千の風に乗って
 君の百万の夢に もう一度触れたい
 追い風さえ 追い越して
-僕は走る ただ走り続ける
-君の腕の中へ
+僕は走る ただ走り続ける 君の腕の中へ
 
 [Verse 3]
 愛でも 情熱でも どちらだって構わない
@@ -88,23 +87,20 @@ Just cross this line with me again.
 その瞬間が訪れたなら
 どうか あの日と同じ笑顔を見せて
 
-愛でもなく 運命でもなく
-理由なんて 何ひとついらない
+愛も 運命も 理由さえも 何ひとついらない
 ただもう一度 僕とこの境界を越えて
 
 [Bridge]
 千の風に乗って
 君の百万の夢に もう一度触れたい
 追い風さえ 追い越して
-僕は走る ただ走り続ける
-君の腕の中へ
+僕は走る ただ走り続ける 君の腕の中へ
 
-[Final Chorus]
+[Final-Chorus]
 千の風に乗って
 君の百万の夢に もう一度会いたい
 その瞬間が訪れたなら
 どうか あの日と同じ笑顔を見せて
 
-愛でもなく 運命でもなく
-理由なんて 何ひとついらない
+愛も 運命も 理由さえも 何ひとついらない
 ただもう一度 僕とこの境界を越えて

@@ -67,7 +67,7 @@ The ones who watch from that place below, you know
 They're on our side today, let's take a fling
 Let the bells of that old day ring
 
-[Final Chorus]
+[Final-Chorus]
 Step out on the street, we're the main event
 Everybody's turning heads, on us intent
 'Cause you're an angel, every single day
@@ -141,7 +141,7 @@ The 1975のあの曲で目を覚ます
 今日はみんな僕らの味方さ さあ飛び込もう
 あの日の鐘をもう一度鳴らそう
 
-[Final Chorus]
+[Final-Chorus]
 街へ飛び出せば 僕らが今夜の主役さ
 誰もが振り返る 視線はすべて僕ら
 君はいつだって天使だから

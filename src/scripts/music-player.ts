@@ -239,15 +239,90 @@ class SoraMusicPlayer extends HTMLElement {
     }
 
     private setLanguage(language: 'original' | 'translation') {
+        const scroll =
+            this.querySelector<HTMLElement>('.detail-scroll');
+        const content =
+            this.querySelector<HTMLElement>('#lyric-content');
+        const tabs =
+            this.querySelector<HTMLElement>('.lyric-tabs');
+
+        if (!scroll || !content || !tabs) return;
+
+        const previousTop = scroll.scrollTop;
+        const changingLanguage = this.language !== language;
+
+        // 歌詞の先頭が、固定された切り替えボタンの下に来る位置
+        const getLyricsStart = () => {
+            const contentTop =
+                content.getBoundingClientRect().top -
+                scroll.getBoundingClientRect().top -
+                scroll.clientTop +
+                scroll.scrollTop;
+
+            return Math.max(0, contentTop - tabs.offsetHeight);
+        };
+
+        const oldStart = getLyricsStart();
+        const oldMax = Math.max(
+            0,
+            scroll.scrollHeight - scroll.clientHeight,
+        );
+
+        // 歌詞部分をどこまで読み進めたか（0〜1）
+        const preserveProgress =
+            changingLanguage &&
+            previousTop > oldStart &&
+            oldMax > oldStart;
+
+        const progress = preserveProgress
+            ? Math.min(
+                1,
+                Math.max(
+                    0,
+                    (previousTop - oldStart) / (oldMax - oldStart),
+                ),
+            )
+            : 0;
+
         this.language = language;
-        const value = language === 'original' ? this.active?.lyrics : this.active?.translation;
-        const empty = this.active?.genre === 'Instrumental' ? 'この曲はInstrumentalです。' : '歌詞は準備中です。';
-        this.text('#lyric-content', value?.trim() || empty);
-        this.querySelector('#lyric-content')!.setAttribute('aria-labelledby', `lyric-${language}-tab`);
-        this.querySelectorAll<HTMLButtonElement>('[data-lyric]').forEach(button => {
-            const selected = button.dataset.lyric === language;
-            button.setAttribute('aria-selected', String(selected));
-            button.tabIndex = selected ? 0 : -1;
+
+        const value =
+            language === 'original'
+                ? this.active?.lyrics
+                : this.active?.translation;
+
+        const empty =
+            this.active?.genre === 'Instrumental'
+                ? 'この曲はInstrumentalです。'
+                : '歌詞は準備中です。';
+
+        content.textContent = value?.trim() || empty;
+        content.setAttribute(
+            'aria-labelledby',
+            `lyric-${language}-tab`,
+        );
+
+        this.querySelectorAll<HTMLButtonElement>('[data-lyric]')
+            .forEach((button) => {
+                const selected = button.dataset.lyric === language;
+                button.setAttribute('aria-selected', String(selected));
+                button.tabIndex = selected ? 0 : -1;
+            });
+
+        // 切り替え後の歌詞の長さに合わせて位置を復元
+        const newMax = Math.max(
+            0,
+            scroll.scrollHeight - scroll.clientHeight,
+        );
+        const newStart = Math.min(getLyricsStart(), newMax);
+
+        const nextTop = preserveProgress
+            ? newStart + progress * (newMax - newStart)
+            : previousTop;
+
+        scroll.scrollTo({
+            top: Math.max(0, Math.min(nextTop, newMax)),
+            behavior: 'instant',
         });
     }
     private setupPanelSwipe() {
