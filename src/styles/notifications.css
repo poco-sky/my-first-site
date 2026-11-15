@@ -315,3 +315,13 @@ site-notifications {
     border-left: 1px solid var(--text);
     transform: translateX(-50%) rotate(45deg);
 }
+
+/* PC：吹き出しが曲詳細パネルに重ならない幅に制限 */
+@media (min-width: 701px) {
+    html[data-music-panel="true"] .notice-unread-bubble {
+        box-sizing: border-box;
+        max-width: calc(100vw - var(--music-panel-width, 0px) - 24px);
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+}

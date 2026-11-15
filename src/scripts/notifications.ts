@@ -74,7 +74,20 @@ class SiteNotifications extends HTMLElement {
             if (!visible) return;
 
             const width = bubble.getBoundingClientRect().width;
-            const viewportWidth = document.documentElement.clientWidth;
+            const musicPanel =
+    document.querySelector<HTMLElement>("#music-details");
+
+const desktopPanelOpen =
+    window.matchMedia("(min-width: 701px)").matches &&
+    musicPanel !== null &&
+    !musicPanel.hidden;
+
+const viewportWidth = desktopPanelOpen
+    ? Math.min(
+          document.documentElement.clientWidth,
+          musicPanel.getBoundingClientRect().left,
+      )
+    : document.documentElement.clientWidth;
 
             // ベルの中央を基準に配置し、画面端からはみ出さないようにする
             const center = rect.left + rect.width / 2;
