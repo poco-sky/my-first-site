@@ -86,7 +86,6 @@ But when you walk, you're a New Star in this place!
 一緒にいた頃より 君のことを考えてる
 こんなにバカな僕だから
 最高の宝物を迎えに行くよ
-そう、君のことさ！
 
 [Verse 5]
 棚の一番下にある 安い酒でも買って
