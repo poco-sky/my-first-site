@@ -121,7 +121,7 @@ class SoraReactions extends HTMLElement {
     static observedAttributes = ['data-content-id'];
     private controller?: AbortController;
     private opened = false;
-    private mobile = window.matchMedia('(max-width: 700px)');
+    private mobile = window.matchMedia('(max-width: 1100px)');
     private observer?: ResizeObserver;
     private key = '';
     private get compact() { return this.dataset.compact === 'true'; }

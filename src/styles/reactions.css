@@ -651,3 +651,65 @@ html .music-bar.has-reactions .player-bar-actions .player-close {
     margin-top: 8px;     /* リアクションの上 */
     margin-bottom: 0px;  /* リアクションの下 */
 }
+/* 狭いPC：リアクションをスマホと同じ収納方式にする */
+@media (min-width: 701px) and (max-width: 1100px) {
+    /* 以前指定したリアクション全体の左移動を解除 */
+    .music-bar.has-reactions
+        .player-bar-actions
+        sora-reactions[data-compact="true"] {
+        left: -10;
+    }
+
+    /* 収納ボタンを表示。枠・背景は付けない */
+    .music-bar.has-reactions .player-bar-actions .reaction-trigger {
+        display: grid;
+        width: 30px;
+        height: 36px;
+        padding: 0;
+        border-color: transparent;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    /* 絵文字の候補を吹き出しとして表示 */
+    .music-bar.has-reactions .player-bar-actions .reaction-bubble {
+        position: fixed;
+        z-index: 80;
+        width: min(330px, calc(100vw - 20px));
+        box-sizing: border-box;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--page-bg);
+        color: var(--text);
+        box-shadow: 0 8px 30px #0003;
+    }
+
+    /* 吹き出しの先端 */
+    .music-bar.has-reactions
+        .player-bar-actions
+        .reaction-bubble::after {
+        display: block;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .reaction-caption {
+        display: block;
+    }
+
+    /* 吹き出し内に3種類を横並び */
+    .music-bar.has-reactions .player-bar-actions .reaction-options {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .reaction-option {
+        flex-direction: column;
+        min-width: 0;
+        min-height: 44px;
+        gap: 5px;
+        padding: 7px 2px;
+        border-radius: 12px;
+        font-size: 20px;
+    }
+}
