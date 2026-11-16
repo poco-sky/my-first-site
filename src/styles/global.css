@@ -1296,10 +1296,12 @@ html {
 html:not([data-theme="dark"]) .post-page .article-body {
     --body-text: #000000;
     color: #000000;
+    font-weight: 500;
 }
 
 /* 黒テーマ：ブログ記事の本文を白くする */
 html[data-theme="dark"] .post-page .article-body {
     --body-text: #ffffff;
     color: #ffffff;
+    font-weight: 500;
 }
