@@ -114,7 +114,7 @@ class SoraMusicPlayer extends HTMLElement {
         const track = this.tracks.find(item => item.id === id);
         if (!track) return;
         if (this.active?.id === id) { this.toggle(); return; }
-        this.continuousMode = false;
+        this.continuousMode = true;
         this.queue = this.tracks.filter(item => item.genre === track.genre).map(item => item.id);
         if (this.sortOrder === 'newest') this.queue.reverse();
         this.queueIndex = this.queue.indexOf(id);
