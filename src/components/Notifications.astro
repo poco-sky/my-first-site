@@ -57,6 +57,18 @@ const formatDate = (date: string) => {
     const [year, month, day] = date.split("-");
     return `${year}/${month}/${day}`;
 };
+const noticePageNames: Record<string, string> = {
+    BLOG: "Blog",
+    MUSIC: "Music",
+    FASHION: "Fashion",
+    PROFILE: "Profile",
+};
+
+const formatNoticeText = (text: string) =>
+    text.replace(
+        /^(BLOG|MUSIC|FASHION|PROFILE)(?=ページ|に)/,
+        (name) => noticePageNames[name],
+    );
 ---
 
 <site-notifications data-notice-keys={JSON.stringify(noticeKeys)}>
@@ -154,7 +166,7 @@ const formatDate = (date: string) => {
 
                                 <span class="notice-copy">
                                     <span class="notice-message">
-                                        {notice.text}
+                                        {formatNoticeText(notice.text)}
                                         {notice.emphasis && (
                                             <>
                                                 <strong>

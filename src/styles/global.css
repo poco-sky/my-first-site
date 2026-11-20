@@ -1305,3 +1305,7 @@ html[data-theme="dark"] .post-page .article-body {
     color: #ffffff;
     font-weight: 500;
 }
+/* ナビゲーションのフォント：PC・スマホ共通 */
+.site-header #main-menu a {
+    font-family: "Noto Sans JP", sans-serif;
+}

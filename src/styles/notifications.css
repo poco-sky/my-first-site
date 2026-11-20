@@ -244,14 +244,11 @@ site-notifications {
 }
 
 .notice-message {
+    display: block;
     font-size: 13px;
     line-height: 1.5;
-
-    /* 長い文章でも枠を広げず、最大2行に収める */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .notice-copy time {
@@ -324,4 +321,25 @@ site-notifications {
         white-space: normal;
         overflow-wrap: anywhere;
     }
+}
+
+/* お知らせ内のフォントをNoto Sans JPに統一 */
+.site-header .notice-panel,
+.site-header .notice-panel * {
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+/* 長い文章に合わせて、お知らせの高さを伸ばす */
+.site-header .notice-list a {
+    height: auto;
+    min-height: 84px;
+    overflow: visible;
+}
+
+/* 文章が長くてもアイコンは大きくしない */
+.site-header .notice-icon {
+    top: 50%;
+    bottom: auto;
+    height: 60px;
+    transform: translateY(-50%);
 }
