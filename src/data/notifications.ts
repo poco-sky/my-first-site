@@ -16,7 +16,7 @@ const favoriteDates = [
 ];
 
 export const notifications: Notice[] = favoriteDates.map(date => ({
-    text: 'PROFILEページに新たな',
+    text: 'Profileに新たな',
     emphasis: 'Favorites',
     suffix: 'を追加しました.',
     href: '/about/',
