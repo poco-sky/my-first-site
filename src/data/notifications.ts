@@ -13,6 +13,7 @@ const favoriteDates = [
     '2026-10-31', //野良猫
     '2026-11-09', //ハリネズミ
     '2026-11-20', //野良猫2
+    '2026-11-27', //野良猫2
 ];
 
 export const notifications: Notice[] = favoriteDates.map(date => ({

@@ -904,9 +904,9 @@ sora-music-player[data-playing="true"] .icon-pause {
         bottom: 0;
         height: 100dvh;
         padding-top: 0;
-        z-index: 1000;
+        z-index: 10000;
     }
-
+    
     /* 歌詞画面を開いている間だけヘッダーを隠す */
     html[data-music-panel="true"] .site-header {
         visibility: hidden;

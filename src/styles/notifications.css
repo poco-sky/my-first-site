@@ -343,3 +343,9 @@ site-notifications {
     height: 60px;
     transform: translateY(-50%);
 }
+/* スマホで1/3曲ページを開いている間は、お知らせ吹き出しを非表示 */
+@media (max-width: 700px) {
+    html[data-music-panel="true"] .notice-unread-bubble {
+        display: none !important;
+    }
+}
