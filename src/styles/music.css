@@ -1286,10 +1286,19 @@ sora-music-player[data-playing="true"] .icon-pause {
 }
 .music-search input::placeholder { color: var(--muted); opacity: 1; }
 .music-search input:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+@media (min-width: 701px) {
 .music-search button {
     position: absolute;
     right: 3px;
-    top: -1px;
+    top: -1px;}
+}
+@media (max-width: 700px) {
+.music-search button {
+    position: absolute;
+    right: 3px;
+    top: -2px;}
+}
+.music-search button {
     width: 26px;
     height: 28px;
     padding: 0;
