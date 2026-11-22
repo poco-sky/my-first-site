@@ -787,3 +787,9 @@ html .music-bar.has-reactions .player-bar-actions .player-close {
         /* ＋で右、－で左 */
     }
 }
+/* スマホ：曲タブ内の共有ボタンを非表示 */
+@media (max-width: 700px) {
+    .music-bar.has-reactions .player-bar-actions content-share {
+        display: none;
+    }
+}
