@@ -74,6 +74,10 @@ for (const track of tracks) {
                 </button>
             </div>
             <div class="music-view-actions">
+                <div class="music-search">
+                    <input type="text" data-music-search aria-label="曲名を検索" placeholder="曲名を検索" autocomplete="off" spellcheck="false" />
+                    <button type="button" data-music-search-clear aria-label="検索文字をすべて消す" hidden>×</button>
+                </div>
                 <button
                     type="button"
                     class="music-view-toggle"

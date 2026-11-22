@@ -1,0 +1,161 @@
+---
+interface Props {
+    title?: string;
+    path?: string;
+    label?: string;
+    music?: boolean;
+}
+const { title = "", path = "", label = "", music = false } = Astro.props;
+---
+
+<content-share
+    data-share-title={title}
+    data-share-path={path}
+    data-music-share={music || undefined}
+    class:list={{ "icon-share": music }}
+>
+    <button
+        type="button"
+        class="content-share-button"
+        aria-label={music ? "この曲を共有" : label}
+        title={music ? "この曲を共有" : undefined}
+        disabled={music}
+    >
+        {music ? (
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                aria-hidden="true"
+            >
+                <path
+                    d="M12 15V3m-4 4 4-4 4 4M5 12v8h14v-8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        ) : (
+            label
+        )}
+    </button>
+    <span class="share-status" role="status" aria-live="polite"></span>
+</content-share>
+<script>
+    class ContentShare extends HTMLElement {
+        private cleanup?: () => void;
+        connectedCallback() {
+            this.cleanup?.();
+            const button = this.querySelector<HTMLButtonElement>("button")!;
+            const status = this.querySelector<HTMLElement>(".share-status")!;
+            const controller = new AbortController();
+            let timer: ReturnType<typeof setTimeout>;
+            const report = (message: string) => {
+                clearTimeout(timer);
+                status.textContent = message;
+                timer = setTimeout(() => {
+                    status.textContent = "";
+                }, 3500);
+            };
+            button.addEventListener(
+                "click",
+                async () => {
+                    const path = this.dataset.sharePath;
+                    if (!path) return;
+                    const url = new URL(path, window.location.origin).href;
+                    const title = this.dataset.shareTitle || document.title;
+                    try {
+                        if (navigator.share) {
+                            await navigator.share({ title, url });
+                        } else {
+                            await navigator.clipboard.writeText(url);
+                            report("リンクをコピーしました");
+                        }
+                    } catch (error) {
+                        if (
+                            error instanceof DOMException &&
+                            error.name === "AbortError"
+                        )
+                            return;
+                        // 共有・クリップボードが利用できない環境でもリンクを取得できる。
+                        window.prompt(
+                            "このリンクをコピーして共有してください",
+                            url,
+                        );
+                    }
+                },
+                { signal: controller.signal },
+            );
+            this.cleanup = () => {
+                controller.abort();
+                clearTimeout(timer);
+            };
+        }
+        disconnectedCallback() {
+            this.cleanup?.();
+        }
+    }
+    if (!customElements.get("content-share"))
+        customElements.define("content-share", ContentShare);
+</script>
+<style>
+    content-share {
+        display: block;
+        position: relative;
+        margin: 18px 0;
+    }
+    .content-share-button {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        padding: 6px 0;
+        font: inherit;
+        font-size: 13px;
+        cursor: pointer;
+        text-underline-offset: 4px;
+    }
+    .content-share-button:hover {
+        text-decoration: underline;
+    }
+    .content-share-button:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 3px;
+    }
+    .icon-share {
+        display: inline-flex;
+        flex: 0 0 auto;
+        margin: 0;
+    }
+    .icon-share .content-share-button {
+        display: grid;
+        place-items: center;
+        width: var(--share-button-size, 32px);
+        height: 36px;
+        padding: 4px;
+        border-radius: 6px;
+    }
+    .icon-share .content-share-button:hover {
+        background: var(--surface-hover);
+    }
+    .content-share-button svg {
+        width: 21px;
+        height: 21px;
+    }
+    .share-status {
+        position: absolute;
+        z-index: 10;
+        bottom: calc(100% + 8px);
+        right: 0;
+        width: max-content;
+        max-width: 220px;
+        background: var(--page-bg);
+        color: var(--text);
+        border-radius: 6px;
+        box-shadow: 0 2px 12px #0002;
+        font-size: 11px;
+    }
+    .share-status:not(:empty) {
+        padding: 8px 10px;
+    }
+</style>

@@ -522,7 +522,7 @@ html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
     html .music-bar.has-reactions,
     html[data-music-panel="true"] .music-bar.has-reactions {
         /* シークバーの希望幅 */
-        --desktop-seek-width: 25vw;
+        --desktop-seek-width: 22vw;
 
         /* 左右の時間表示と、その間隔の分 */
         --bar-time-width: 84px;
@@ -589,8 +589,7 @@ html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
 @media (max-width: 700px) {
     .music-bar.has-reactions .player-bar-actions .reaction-trigger {
         /* マイナスで左、プラスで右へ移動 */
-        --reaction-button-x: -14px;
-
+        --reaction-button-x: -25px;
         transform: translateX(var(--reaction-button-x));
 
         /* 通常時・選択済み・開いている時・ホバー時も透明 */
@@ -599,12 +598,14 @@ html[data-music-panel="true"] .music-bar.has-reactions .player-progress {
         box-shadow: none;
     }
 }
+
 /* PC：1/3曲ページを開いている間だけシークバーを短くする */
 @media (min-width: 701px) {
     html[data-music-panel="true"] .music-bar.has-reactions {
-        --desktop-seek-width: 15vw;
+        --desktop-seek-width: 13vw;
     }
 }
+
 /* 「再生を終える」：枠線と文字の太さだけ強調 */
 html .music-bar.has-reactions .player-bar-actions .player-close {
     border: 1.5px solid #969696;
@@ -612,10 +613,7 @@ html .music-bar.has-reactions .player-bar-actions .player-close {
 }
 
 /* 黒テーマ */
-html[data-theme="dark"]
-    .music-bar.has-reactions
-    .player-bar-actions
-    .player-close {
+html[data-theme="dark"] .music-bar.has-reactions .player-bar-actions .player-close {
     border-color: #888;
 }
 
@@ -625,39 +623,38 @@ html[data-theme="dark"]
         border-color: #666;
     }
 
-    html[data-theme="dark"]
-        .music-bar.has-reactions
-        .player-bar-actions
-        .player-close:hover {
+    html[data-theme="dark"] .music-bar.has-reactions .player-bar-actions .player-close:hover {
         border-color: #aaa;
     }
 }
 
 /* PC：曲タブのリアクションだけをシークバー側へ寄せる */
-@media (min-width: 701px) {
-    .music-bar.has-reactions
-        .player-bar-actions
-        sora-reactions[data-compact="true"] {
+@media (min-width: 1101px) {
+    .music-bar.has-reactions .player-bar-actions sora-reactions[data-compact="true"] {
         --reaction-offset-x: -24px;
 
         position: relative;
         left: var(--reaction-offset-x);
     }
 }
+
 html .music-bar.has-reactions .player-bar-actions .player-close {
     border-radius: 6px;
 }
+
 .music-details .detail-copy sora-reactions[data-kind="music"] {
-    margin-top: 8px;     /* リアクションの上 */
-    margin-bottom: 0px;  /* リアクションの下 */
+    margin-top: 8px;
+    /* リアクションの上 */
+    margin-bottom: 0px;
+    /* リアクションの下 */
 }
+
 /* 狭いPC：リアクションをスマホと同じ収納方式にする */
 @media (min-width: 701px) and (max-width: 1100px) {
+
     /* 以前指定したリアクション全体の左移動を解除 */
-    .music-bar.has-reactions
-        .player-bar-actions
-        sora-reactions[data-compact="true"] {
-        left: -10;
+    .music-bar.has-reactions .player-bar-actions sora-reactions[data-compact="true"] {
+        left: -11px ;
     }
 
     /* 収納ボタンを表示。枠・背景は付けない */
@@ -686,9 +683,7 @@ html .music-bar.has-reactions .player-bar-actions .player-close {
     }
 
     /* 吹き出しの先端 */
-    .music-bar.has-reactions
-        .player-bar-actions
-        .reaction-bubble::after {
+    .music-bar.has-reactions .player-bar-actions .reaction-bubble::after {
         display: block;
     }
 
@@ -711,5 +706,84 @@ html .music-bar.has-reactions .player-bar-actions .player-close {
         padding: 7px 2px;
         border-radius: 12px;
         font-size: 20px;
+    }
+}
+
+/* 共有アイコンも終了ボタンと同じ行へ */
+.music-bar.has-reactions .player-bar-actions content-share {
+    flex: 0 0 auto;
+}
+
+@media (max-width: 700px) {
+    .music-bar.has-reactions .player-bar-actions {
+        gap: 2px;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .reaction-trigger {
+        width: 26px;
+        --reaction-button-x: -23px;
+    }
+    .music-bar.has-reactions .player-bar-actions content-share {
+        --share-button-size: 26px;
+        position: relative;
+        left: -18px; /* ＋で右、－で左 */
+    }
+
+    .music-bar.has-reactions .player-bar-actions .player-close {
+        padding-inline: 3px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    html .music-bar.has-reactions {
+        grid-template-columns: minmax(0, 1fr) 80px minmax(0, 1fr);
+        column-gap: 4px;
+        padding-inline: 8px;
+    }
+
+    html .music-bar.has-reactions>.player-transport {
+        width: 80px;
+        gap: 0;
+    }
+
+    html .music-bar.has-reactions>.player-transport .player-icon-button {
+        width: 24px;
+        padding: 4px;
+    }
+
+    html .music-bar.has-reactions>.player-transport .player-toggle {
+        width: 32px;
+        height: 32px;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .player-close {
+        font-size: 9px;
+    }
+
+    .music-bar.has-reactions .player-bar-actions content-share {
+        --share-button-size: 24px;
+    }
+
+    .music-bar.has-reactions .player-bar-actions .reaction-trigger {
+        width: 24px;
+    }
+}
+
+@media (min-width: 1101px) {
+
+    html .music-bar.has-reactions,
+    html[data-music-panel="true"] .music-bar.has-reactions {
+        /* 共有ボタンを追加しても、右側の操作がシークバーに重ならない余白 */
+        --bar-side-reserve: 300px;
+    }
+}
+
+/* 曲タブ：共有ボタンの位置調整 */
+@media (min-width: 701px) {
+    .music-bar.has-reactions .player-bar-actions content-share {
+        position: relative;
+        left: -12px;
+        /* ＋で右、－で左 */
     }
 }

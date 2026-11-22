@@ -1,3 +1,4 @@
+import { matchesMusicTitle, normalizeMusicSearch } from './music-search';
 import type { Track } from '../data/music';
 import { shuffledIds } from './music-queue';
 
@@ -18,6 +19,8 @@ class SoraMusicPlayer extends HTMLElement {
     private genre = 'Western music';
     private sortOrder: 'oldest' | 'newest' = 'newest';
     private genreSortOrders = new Map<string, 'oldest' | 'newest'>();
+    private searchQuery = '';
+    private sharedLinkPage: Element | null = null;
     private request = 0;
     private frame = 0;
     private mobile = window.matchMedia('(max-width: 700px)');
@@ -55,9 +58,14 @@ class SoraMusicPlayer extends HTMLElement {
         });
         document.addEventListener('click', event => {
             const target = (event.target as Element).closest<HTMLElement>(
-                '[data-track-play], [data-music-filter], [data-music-sort], [data-music-shuffle], [data-music-sequence]'
+                '[data-track-play], [data-music-filter], [data-music-sort], [data-music-shuffle], [data-music-sequence], [data-music-search-clear]'
             );
             if (!target) return;
+            if (target.hasAttribute('data-music-search-clear')) {
+                this.searchQuery = ''; this.filter();
+                document.querySelector<HTMLInputElement>('[data-music-search]')?.focus();
+                return;
+            }
             if (target.hasAttribute('data-music-shuffle')) this.startShuffle();
             if (target.hasAttribute('data-music-sequence')) this.startSequence();
             if (target.dataset.trackPlay) this.select(target.dataset.trackPlay);
@@ -69,6 +77,7 @@ class SoraMusicPlayer extends HTMLElement {
                     this.genreSortOrders.set(this.genre, this.sortOrder);
 
                     this.genre = nextGenre;
+this.searchQuery = ''; // ジャンル変更時に検索文字を削除
 
                     // 保存済みの並び順を復元。初めてなら新着順。
                     this.sortOrder =
@@ -85,6 +94,12 @@ class SoraMusicPlayer extends HTMLElement {
                 this.genreSortOrders.set(this.genre, this.sortOrder);
                 this.sortCards();
             }
+        });
+        document.addEventListener('input', event => {
+            const input = event.target;
+            if (!(input instanceof HTMLInputElement) || !input.matches('[data-music-search]')) return;
+            this.searchQuery = input.value;
+            this.filter();
         });
         this.querySelectorAll<HTMLInputElement>(".player-seek").forEach((seek) => {
             seek.addEventListener("input", () => {
@@ -115,7 +130,7 @@ class SoraMusicPlayer extends HTMLElement {
         if (!track) return;
         if (this.active?.id === id) { this.toggle(); return; }
         this.continuousMode = true;
-        this.queue = this.tracks.filter(item => item.genre === track.genre).map(item => item.id);
+        this.queue = this.tracks.filter(item => item.genre === track.genre && matchesMusicTitle(item.title, this.searchQuery)).map(item => item.id);
         if (this.sortOrder === 'newest') this.queue.reverse();
         this.queueIndex = this.queue.indexOf(id);
         this.startTrack(id);
@@ -138,7 +153,7 @@ class SoraMusicPlayer extends HTMLElement {
         this.startTrack(this.queue[0]);
     }
     private startShuffle() {
-        const ids = this.tracks.filter(track => track.genre === this.genre).map(track => track.id);
+        const ids = this.tracks.filter(track => track.genre === this.genre && matchesMusicTitle(track.title, this.searchQuery)).map(track => track.id);
         if (!ids.length) return;
         this.queue = shuffledIds(ids, this.lastShuffles.get(this.genre));
         this.lastShuffles.set(this.genre, [...this.queue]);
@@ -154,7 +169,7 @@ class SoraMusicPlayer extends HTMLElement {
         this.startTrack(this.queue[index]);
     }
 
-    private startTrack(id: string) {
+    private startTrack(id: string, autoplay = true) {
         const track = this.tracks.find(item => item.id === id);
         if (!track) return;
         ++this.request;
@@ -167,7 +182,7 @@ class SoraMusicPlayer extends HTMLElement {
         this.updateTrack();
         this.layout();
         this.updatePlayback();
-        this.play();
+        if (autoplay) this.play();
 
         // 曲の表示とレイアウトの更新後に、歌詞パネルを最上部へ戻す
         requestAnimationFrame(() => {
@@ -228,6 +243,12 @@ class SoraMusicPlayer extends HTMLElement {
             image.src = this.active.cover;
             image.alt = `${this.active.title}のジャケット`;
         }
+        const sharePath = `/music/?${new URLSearchParams({ track: this.active.id, genre: this.active.genre })}`;
+        this.querySelectorAll<HTMLElement>('content-share[data-music-share]').forEach(share => {
+            share.dataset.sharePath = sharePath;
+            share.dataset.shareTitle = `${this.active!.title} | IN THE SKY`;
+            share.querySelector<HTMLButtonElement>('button')!.disabled = false;
+        });
         this.text('.bar-title', this.active.title);
         this.text('.bar-artist', this.active.artist);
         this.text('#detail-title', this.active.title);
@@ -503,7 +524,8 @@ class SoraMusicPlayer extends HTMLElement {
             window.location.search,
         ).get('genre');
 
-        const isMusicPage = !!document.querySelector('.music-grid');
+        const grid = document.querySelector('.music-grid');
+        const isMusicPage = !!grid && grid !== this.sharedLinkPage;
 
         if (
             isMusicPage &&
@@ -520,6 +542,24 @@ class SoraMusicPlayer extends HTMLElement {
                 this.genreSortOrders.get(requestedGenre) ?? 'newest';
         }
 
+        if (grid && grid !== this.sharedLinkPage) {
+            this.sharedLinkPage = grid;
+            const id = new URLSearchParams(window.location.search).get('track');
+            const track = this.tracks.find(item => item.id === id);
+            if (track) {
+                this.genre = track.genre;
+                this.sortOrder = this.genreSortOrders.get(this.genre) ?? 'newest';
+                this.searchQuery = '';
+                if (this.active?.id !== track.id) {
+                    this.queue = this.tracks.filter(item => item.genre === track.genre).map(item => item.id);
+                    if (this.sortOrder === 'newest') this.queue.reverse();
+                    this.queueIndex = this.queue.indexOf(track.id);
+                    this.continuousMode = true;
+                    this.startTrack(track.id, false);
+                }
+                this.openPanel();
+            }
+        }
         this.layout();
         this.filter();
         this.sortCards();
@@ -543,7 +583,17 @@ class SoraMusicPlayer extends HTMLElement {
     private filter() {
         const cards = document.querySelectorAll<HTMLElement>('[data-track-card]');
         let count = 0;
-        cards.forEach(card => { card.hidden = card.dataset.trackGenre !== this.genre; if (!card.hidden) count++; });
+        cards.forEach(card => {
+            const track = this.tracks.find(item => item.id === card.dataset.trackCard);
+            card.hidden = card.dataset.trackGenre !== this.genre || !track || !matchesMusicTitle(track.title, this.searchQuery);
+            if (!card.hidden) count++;
+        });
+        const input = document.querySelector<HTMLInputElement>('[data-music-search]');
+        if (input && input.value !== this.searchQuery) input.value = this.searchQuery;
+        const clear = document.querySelector<HTMLButtonElement>('[data-music-search-clear]');
+        if (clear) clear.hidden = this.searchQuery.length === 0;
+        const sequence = document.querySelector<HTMLButtonElement>('[data-music-sequence]');
+        if (sequence) sequence.disabled = count === 0;
         document.querySelectorAll('[data-music-filter]').forEach(button => button.setAttribute('aria-pressed', String((button as HTMLElement).dataset.musicFilter === this.genre)));
         const label = document.querySelector('#music-count'); if (label) label.textContent = `${count} TRACK${count === 1 ? '' : 'S'}`;
         const shuffle = document.querySelector<HTMLButtonElement>('[data-music-shuffle]');
@@ -552,7 +602,7 @@ class SoraMusicPlayer extends HTMLElement {
             shuffle.setAttribute('aria-label', `$ランダム再生`);
             shuffle.title = `ランダム再生`;
         }
-        const empty = document.querySelector<HTMLElement>('#music-empty'); if (empty) empty.hidden = count !== 0;
+        const empty = document.querySelector<HTMLElement>('#music-empty'); if (empty) { empty.hidden = count !== 0; empty.textContent = normalizeMusicSearch(this.searchQuery) ? 'このジャンルに一致する曲名はありません。' : 'このジャンルの曲は、まだありません。'; }
     }
     private updatePlayback() {
         this.querySelectorAll<HTMLButtonElement>(

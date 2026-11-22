@@ -1261,3 +1261,55 @@ sora-music-player[data-playing="true"] .icon-pause {
         margin-top: 20px;
     }
 }
+/* 曲名検索：高さは既存のツールバーのボタン以内に収める */
+.music-search {
+    --music-search-width: 160px;
+    position: relative;
+    width: var(--music-search-width);
+    max-width: 100%;
+    min-width: 0;
+    flex: 0 1 var(--music-search-width);
+}
+.music-search input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 32px;
+    min-width: 0;
+    padding: 0 28px 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface-hover);
+    color: var(--text);
+    font: inherit;
+    font-size: 12px;
+}
+.music-search input::placeholder { color: var(--muted); opacity: 1; }
+.music-search input:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.music-search button {
+    position: absolute;
+    right: 3px;
+    top: -1px;
+    width: 26px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 18px;
+    cursor: pointer;
+}
+.music-search button[hidden] { display: none; }
+.music-details .detail-reaction-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.music-details .detail-copy .detail-reaction-row sora-reactions { flex: 1; min-width: 0; margin: 0; }
+.music-details .detail-reaction-row content-share { margin-left: auto; }
+@media (max-width: 700px) {
+    .music-library .music-search { grid-column: 3; grid-row: 2; justify-self: end; width: 100%; max-width: 160px; }
+    .music-search input { font-size: 16px; letter-spacing: -0.04em; padding-left: 9px; }
+    .music-search input::placeholder { font-size: 11px; letter-spacing: 0; }
+}
+@media (max-width: 380px) {
+    .music-library .music-toolbar { column-gap: 4px; }
+    .music-search input { padding-right: 23px; padding-left: 7px; }
+    .music-search button { width: 21px; }
+}
