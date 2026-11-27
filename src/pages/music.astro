@@ -28,19 +28,17 @@ for (const track of tracks) {
         <div class="music-intro"></div>
         <div class="music-toolbar">
             <div class="music-filters" role="group" aria-label="曲のジャンル">
-               <div class="music-genre-buttons">
-        {
-            genres.map((genre) => (
-                <button
-                    type="button"
-                    data-music-filter={genre}
-                    aria-pressed={genre === "Western music"}
-                >
-                    <span class="filter-label">{genre}</span>
-                </button>
-            ))
-        }
-    </div>
+                <div class="music-genre-buttons">
+                    {genres.map((genre) => (
+                        <button
+                            type="button"
+                            data-music-filter={genre}
+                            aria-pressed={genre === "Western music"}
+                        >
+                            <span class="filter-label">{genre}</span>
+                        </button>
+                    ))}
+                </div>
                 <button
                     type="button"
                     class="music-shuffle"
@@ -59,8 +57,7 @@ for (const track of tracks) {
                         stroke-linejoin="round"
                         aria-hidden="true"
                     >
-                        <path d="M3 7h18m-4-4 4 4-4 4M3 17h18m-4-4 4 4-4 4"
-                        ></path>
+                        <path d="M3 7h18m-4-4 4 4-4 4M3 17h18m-4-4 4 4-4 4"></path>
                     </svg>
                 </button>
                 <button
@@ -75,8 +72,22 @@ for (const track of tracks) {
             </div>
             <div class="music-view-actions">
                 <div class="music-search">
-                    <input type="text" data-music-search aria-label="曲名を検索" placeholder="曲名を検索" autocomplete="off" spellcheck="false" />
-                    <button type="button" data-music-search-clear aria-label="検索文字をすべて消す" hidden>×</button>
+                    <input
+                        type="text"
+                        data-music-search
+                        aria-label="曲名を検索"
+                        placeholder="曲名を検索"
+                        autocomplete="off"
+                        spellcheck="false"
+                    />
+                    <button
+                        type="button"
+                        data-music-search-clear
+                        aria-label="検索文字をすべて消す"
+                        hidden
+                    >
+                        ×
+                    </button>
                 </div>
                 <button
                     type="button"
@@ -113,75 +124,78 @@ for (const track of tracks) {
             </div>
         </div>
         <ul class="music-grid">
-            {
-                tracks.map((track, index) => (
-                    <li
-                        class="music-card"
-                        data-track-card={track.id}
-                        data-track-genre={track.genre}
-                        data-track-index={index}
-                        hidden={track.genre !== "Western music"}
+            {tracks.map((track, index) => (
+                <li
+                    class="music-card"
+                    data-track-card={track.id}
+                    data-track-genre={track.genre}
+                    data-track-index={index}
+                    hidden={track.genre !== "Western music"}
+                >
+                    <button
+                        type="button"
+                        class="record-button"
+                        data-track-play={track.id}
+                        aria-label={`${track.title}を再生`}
+                        aria-pressed="false"
                     >
-                        <button
-                            type="button"
-                            class="record-button"
-                            data-track-play={track.id}
-                            aria-label={`${track.title}を再生`}
-                            aria-pressed="false"
-                        >
-                            <span class="record-image">
-                                <img
-                                    src={track.cover}
-                                    alt={`${track.title}のジャケット`}
-                                    width="600"
-                                    height="600"
-                                    loading={index < 4 ? "eager" : "lazy"}
-                                />
-                            </span>
-                            <span class="record-action">
-                                <>
-                                    <PlayerIcon
-                                        name="play"
-                                        class="record-play"
-                                    />
-                                    <PlayerIcon
-                                        name="pause"
-                                        class="record-pause"
-                                    />
-                                </>
-                            </span>
-                        </button>
-                        <div class="music-card-copy">
+                        <span class="record-image">
+                            <img
+                                src={track.cover}
+                                alt={`${track.title}のジャケット`}
+                                width="600"
+                                height="600"
+                                loading={index < 4 ? "eager" : "lazy"}
+                            />
+                        </span>
+                        <span class="record-action">
                             <>
-                                <div>
-                                    <>
-                                        <h2>{track.title}</h2>
-                                        <p>
-                                            {track.artist} <span>·</span>{" "}
-                                            {track.genre}
-                                        </p>
-                                    </>
-                                </div>
-                                <span class="record-number">
-                                    {String(
-                                        trackNumbers.get(track.id),
-                                    ).padStart(2, "0")}
-                                </span>
+                                <PlayerIcon name="play" class="record-play" />
+                                <PlayerIcon name="pause" class="record-pause" />
                             </>
-                        </div>
-                    </li>
-                ))
-            }
+                        </span>
+                    </button>
+                    <div class="music-card-copy">
+                        <>
+                            <div>
+                                <>
+                                    <h2 class="record-title">
+                                        <span
+                                            class="record-meter"
+                                            aria-hidden="true"
+                                        >
+                                            <i></i>
+                                            <i></i>
+                                            <i></i>
+                                            <i></i>
+                                        </span>
+                                        <span>{track.title}</span>
+                                    </h2>
+                                    <p>
+                                        {track.artist} <span>·</span>{" "}
+                                        {track.genre}
+                                    </p>
+                                </>
+                            </div>
+                            <span class="record-number">
+                                {String(trackNumbers.get(track.id)).padStart(
+                                    2,
+                                    "0",
+                                )}
+                            </span>
+                        </>
+                    </div>
+                </li>
+            ))}
         </ul>
-        <p id="music-empty" hidden>このジャンルの曲は、まだありません。</p>
+        <p id="music-empty" hidden>
+            このジャンルの曲は、まだありません。
+        </p>
         <div class="music-collection-meta">
-            <span>Created by Sora</span><span
-                id="music-count"
-                aria-live="polite"
-            >
-                {genreCounts["Western music"]} TRACK{
-                    genreCounts["Western music"] === 1 ? "" : "S"
-                }
+            <span>Created by Sora</span>
+            <span id="music-count" aria-live="polite">
+                {genreCounts["Western music"]} TRACK
+                {genreCounts["Western music"] === 1 ? "" : "S"}
             </span>
         </div>
     </section>

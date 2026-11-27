@@ -171,7 +171,7 @@ sora-music-player [hidden] {
 }
 
 .is-current .record-button {
-    outline: 2px solid var(--music-accent);
+    outline: 2px solid #4c86c5;
     outline-offset: 7px;
 }
 
@@ -1321,4 +1321,71 @@ sora-music-player[data-playing="true"] .icon-pause {
     .music-library .music-toolbar { column-gap: 4px; }
     .music-search input { padding-right: 23px; padding-left: 7px; }
     .music-search button { width: 21px; }
+}
+/* 丸ジャケットの下にある曲タイトル */
+.record-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35em;
+    --playing-blue: #4c86c5;
+}
+
+.music-card.is-current .record-title {
+    color: var(--playing-blue);
+}
+
+/* 選択中の曲だけ、タイトルの左に4本のメーターを表示 */
+.record-meter {
+    display: none;
+    flex: none;
+    align-self: flex-start;
+    align-items: flex-end;
+    gap: 2px;
+    height: 0.85em;
+    margin-top: 0.25em;
+    color: var(--playing-blue);
+}
+
+.music-card.is-current .record-meter {
+    display: inline-flex;
+}
+
+.record-meter i {
+    width: 2px;
+    height: 100%;
+    border-radius: 1px;
+    background: currentColor;
+    transform-origin: bottom;
+    animation: record-meter-bounce 520ms ease-in-out infinite alternate;
+    animation-play-state: paused;
+}
+
+.record-meter i:nth-child(2) {
+    animation-duration: 365ms;
+    animation-delay: -270ms;
+}
+
+.record-meter i:nth-child(3) {
+    animation-duration: 620ms;
+    animation-delay: -480ms;
+}
+
+.record-meter i:nth-child(4) {
+    animation-duration: 440ms;
+    animation-delay: -150ms;
+}
+
+.music-card.is-playing .record-meter i {
+    animation-play-state: running;
+}
+
+@keyframes record-meter-bounce {
+    from { transform: scaleY(0.22); }
+    to   { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .music-card.is-playing .record-meter i {
+        animation-play-state: paused;
+    }
 }

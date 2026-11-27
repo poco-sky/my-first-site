@@ -1309,3 +1309,7 @@ html[data-theme="dark"] .post-page .article-body {
 .site-header #main-menu a {
     font-family: "Noto Sans JP", sans-serif;
 }
+/* サイト全体で、フォーカス時の輪郭を「Sora.」のドットと同じ青にする */
+:focus-visible {
+    outline-color: #4c86c5 !important;
+}
